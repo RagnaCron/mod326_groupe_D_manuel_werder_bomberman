@@ -23,13 +23,13 @@ public class Labyrinth extends JPanel implements GameConstants {
 	private void populateLabyrinth() {
 		for (int row = 0; row < GRID_SIZE; row++){
 			for (int col = 0; col < GRID_SIZE; col++) {
-				int x = (row * LABYRINTH_TILE_SIZE);
-				int y = (col * LABYRINTH_TILE_SIZE);
+				int y = (row * LABYRINTH_TILE_SIZE);
+				int x = (col * LABYRINTH_TILE_SIZE);
 				if ((col == 0 && row != GRID_SIZE - 1) || (col == GRID_SIZE - 1 && row != GRID_SIZE - 1)) {
 					labyrinth[row][col] = new Tile(UNDESTROYABLE_TILE_1, TILE_SIZE,
 							new Rectangle(x, y, LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE));
 				}
-				if ((row == 0 && col != 0 && col < GRID_SIZE - 1) || row == GRID_SIZE -1) {
+				if ((row == 0 && col != 0 && col < GRID_SIZE - 1) || row == GRID_SIZE - 1) {
 					labyrinth[row][col] = new Tile(UNDESTROYABLE_TILE_2, TILE_SIZE,
 							new Rectangle(x, y, LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE));
 				}
@@ -46,8 +46,8 @@ public class Labyrinth extends JPanel implements GameConstants {
 		super.paintComponent(g);
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
-				int x = (row * LABYRINTH_TILE_SIZE);
-				int y = (col * LABYRINTH_TILE_SIZE);
+				int y = (row * LABYRINTH_TILE_SIZE);
+				int x= (col * LABYRINTH_TILE_SIZE);
 				g.drawImage(labyrinth[row][col].getImage(), x, y, this);
 			}
 		}
