@@ -13,14 +13,17 @@ public class Bomberman extends JFrame implements GameConstants {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
 
-		// Set up the content pane.
+		setLabyrinth();
+
+		pack();
+		setVisible(true);
+	}
+
+	private void setLabyrinth() {
 		Labyrinth labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
 		setLayout(null);
 		add(labyrinth);
-
-		pack();
-		setVisible(true);
 	}
 
 }
