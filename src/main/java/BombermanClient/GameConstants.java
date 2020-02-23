@@ -29,4 +29,5 @@ public interface GameConstants {
 	String UNDESTROYABLE_TILE_1 = "src/main/resources/GameArt/Tiles/tile_undestroyable_1.png";
 	String UNDESTROYABLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_undestroyable_2.png";
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
+	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
 }

@@ -5,6 +5,8 @@ import BombermanClient.Labyrinth.Labyrinth;
 
 import javax.swing.*;
 
+// zetcode.com/tutorials/javagamestutorial/movingsprites/
+
 public class Bomberman extends JFrame implements GameConstants {
 
 	public Bomberman() {

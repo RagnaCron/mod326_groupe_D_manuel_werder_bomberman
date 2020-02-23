@@ -3,11 +3,9 @@ package BombermanClient.GameElements;
 import lombok.Getter;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.Arrays;
 
 @Getter
-public class Tile extends GameElement {
+public abstract class Tile extends GameElement {
 
 	private Image image;
 
@@ -15,16 +13,8 @@ public class Tile extends GameElement {
 		super();
 		setSize(size);
 		setBounds(position);
-		try {
-			image = loadImage(imagePath)
-					.getScaledInstance(getWidth(), getHeight(), 0);
-		} catch (IOException e) {
-			System.out.println(Arrays.toString(e.getStackTrace()));
-		}
-	}
-
-	public boolean isCollidingWith(Rectangle rect){
-		return this.getBounds().intersects(rect);
+		image = loadImage(imagePath)
+				.getScaledInstance(getWidth(), getHeight(), 0);
 	}
 
 	@Override
