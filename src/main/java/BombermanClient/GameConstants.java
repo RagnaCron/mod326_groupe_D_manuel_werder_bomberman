@@ -30,4 +30,17 @@ public interface GameConstants {
 	String INDESTRUCTIBLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_undestroyable_2.png";
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
 	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
+
+	Rectangle TEXT_INPUT_POSITION = new Rectangle(
+			(FRAME_WIDTH) / 6,
+			LABYRINTH_TILE_SIZE,
+			LABYRINTH_WIDTH / 2 + 64,
+			LABYRINTH_TILE_SIZE
+	);
+	Rectangle SING_IN_BUTTON_POSITION = new Rectangle(
+			FRAME_WIDTH / 2 + Y_OFFSET,
+			LABYRINTH_TILE_SIZE,
+			LABYRINTH_WIDTH / 4,
+			LABYRINTH_TILE_SIZE
+	);
 }
