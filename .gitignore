@@ -134,6 +134,3 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/java,maven,intellij
 /mod326_groupe_D_manuel_werder_bomberman.iml
-/src/main/java/ch13/
-/src/main/java/GameOfLifeSimulation/
-/src/main/java/minesweeper/
