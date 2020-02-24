@@ -9,7 +9,6 @@ public class Main {
 	private static final int PORT = 8765;
 
 	public static void main(String[] args) {
-//		int port = 8765;
 
 		try (ServerSocket server = new ServerSocket(PORT)) {
 			System.out.println("EchoServer auf " + PORT + " gestartet ...");

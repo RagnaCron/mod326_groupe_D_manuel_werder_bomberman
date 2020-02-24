@@ -30,6 +30,7 @@ public class BombermanServer extends Thread {
 				out.println(input);
 			}
 		} catch (IOException e) {
+			//noinspection ThrowablePrintedToSystemOut
 			System.err.println(e);
 		}
 	}
