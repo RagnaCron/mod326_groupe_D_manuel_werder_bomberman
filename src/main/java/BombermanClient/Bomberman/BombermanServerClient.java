@@ -12,10 +12,8 @@ public class BombermanServerClient {
 
 	void runClient() {
 		try (Socket socket = new Socket(HOST, PORT);
-		     BufferedReader in = new BufferedReader(
-				     new InputStreamReader(socket.getInputStream()));
-		     PrintWriter out = new PrintWriter(
-				     socket.getOutputStream(), true);
+		     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		     Scanner sc = new Scanner(System.in)) {
 
 			System.out.println(in.readLine());
