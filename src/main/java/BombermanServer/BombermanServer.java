@@ -26,10 +26,10 @@ public class BombermanServer extends Thread {
 
 			String input;
 			while ((input = in.readLine()) != null) {
+				System.out.println("Meldung vom Client: "+ input);
 				out.println(input);
 			}
 		} catch (IOException e) {
-			//noinspection ThrowablePrintedToSystemOut
 			System.err.println(e);
 		}
 	}

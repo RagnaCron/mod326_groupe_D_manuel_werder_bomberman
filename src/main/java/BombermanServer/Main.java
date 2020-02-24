@@ -16,6 +16,7 @@ public class Main {
 			while (true) {
 				Socket client = server.accept();
 				new BombermanServer(client).start();
+//				System.out.println(server.getInetAddress().toString());
 			}
 		} catch (IOException e) {
 			//noinspection ThrowablePrintedToSystemOut
