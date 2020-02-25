@@ -1,9 +1,10 @@
 package BombermanClient.UserInterface;
 
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class UserGameKeyboardInput extends UserKeyboardInput {
+public class UserGameKeyboardInput extends KeyAdapter {
 
 
 	@Override

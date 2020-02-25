@@ -3,22 +3,24 @@ package BombermanClient.Bomberman;
 import BombermanClient.GameConstants;
 import BombermanClient.Labyrinth.Labyrinth;
 import BombermanClient.UserInterface.UserGameKeyboardInput;
-import BombermanClient.UserInterface.UserKeyboardInput;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Bomberman extends JFrame implements GameConstants {
 
-	UserKeyboardInput keyboardInput = new UserKeyboardInput();
 
 	public Bomberman() {
 		super("Bomberman");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
-
-		addKeyListener(keyboardInput);
+		addWindowListener(new BombermanWindowListener());
+		addKeyListener(new BomermanKeyboardListener());
 
 		loadServerLogin();
 		loadServerLoggingTextArea();
@@ -31,11 +33,11 @@ public class Bomberman extends JFrame implements GameConstants {
 	private void loadServerLogin() {
 		JTextField textInput = new JTextField("");
 		textInput.setBounds(TEXT_INPUT_POSITION);
-		textInput.addKeyListener(keyboardInput);
+		textInput.addKeyListener(new BomermanKeyboardListener);
 		add(textInput);
 		JButton signInButton = new JButton("Sign In");
 		signInButton.setBounds(SING_IN_BUTTON_POSITION);
-		signInButton.addKeyListener(keyboardInput);
+		signInButton.addKeyListener(new BomermanKeyboardListener());
 		add(signInButton);
 	}
 
@@ -58,5 +60,34 @@ public class Bomberman extends JFrame implements GameConstants {
 		labyrinth.addKeyListener(new UserGameKeyboardInput());
 		setLayout(null);
 		add(labyrinth);
+	}
+
+
+	private static class BomermanKeyboardListener extends KeyAdapter {
+		private static BomermanKeyboardListener keyboardListener;
+		private BomermanKeyboardListener() {
+			super();
+		}
+		public synchronized static BomermanKeyboardListener CreateBombermanKeyboardListener() {
+			if (keyboardListener == null)
+				keyboardListener = new BomermanKeyboardListener();
+			return keyboardListener;
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				System.out.println("Exiting Bomberman Game...");
+				System.exit(0);
+			}
+		}
+	}
+
+	private static class BombermanWindowListener extends WindowAdapter {
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO: SEND MESSAGE TO SERVER
+			System.out.println("Closing Bomberman Game...");
+			System.exit(0);
+		}
 	}
 }
