@@ -20,7 +20,7 @@ public class Bomberman extends JFrame implements GameConstants {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
 		addWindowListener(new BombermanWindowListener());
-		addKeyListener(new BomermanKeyboardListener());
+		addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener());
 
 		loadServerLogin();
 		loadServerLoggingTextArea();
@@ -33,11 +33,11 @@ public class Bomberman extends JFrame implements GameConstants {
 	private void loadServerLogin() {
 		JTextField textInput = new JTextField("");
 		textInput.setBounds(TEXT_INPUT_POSITION);
-		textInput.addKeyListener(new BomermanKeyboardListener);
+		textInput.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener());
 		add(textInput);
 		JButton signInButton = new JButton("Sign In");
 		signInButton.setBounds(SING_IN_BUTTON_POSITION);
-		signInButton.addKeyListener(new BomermanKeyboardListener());
+		signInButton.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener());
 		add(signInButton);
 	}
 
@@ -51,6 +51,7 @@ public class Bomberman extends JFrame implements GameConstants {
 		JScrollPane pane  = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
+		pane.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener());
 		add(pane);
 	}
 
