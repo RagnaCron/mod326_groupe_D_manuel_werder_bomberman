@@ -43,4 +43,10 @@ public interface GameConstants {
 			LABYRINTH_WIDTH / 4,
 			LABYRINTH_TILE_SIZE
 	);
+	Rectangle SERVER_LOGGING_TEXTAREA_POSITION = new Rectangle(
+			FRAME_WIDTH / 6,
+			FRAME_HEIGHT / 2 + LABYRINTH_HEIGHT / 2 - 32,
+			LABYRINTH_WIDTH,
+			Y_OFFSET + 64
+	);
 }

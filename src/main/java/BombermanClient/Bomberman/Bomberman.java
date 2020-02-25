@@ -6,6 +6,7 @@ import BombermanClient.UserInterface.UserGameKeyboardInput;
 import BombermanClient.UserInterface.UserKeyboardInput;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -27,6 +28,7 @@ public class Bomberman extends JFrame implements GameConstants {
 		addKeyListener(keyboardInput);
 
 		loadServerLogin();
+		loadServerLoggingTextArea();
 		loadLabyrinth();
 
 		pack();
@@ -51,6 +53,7 @@ public class Bomberman extends JFrame implements GameConstants {
 			out.println(line);
 			System.out.println("Antwort vom Server:");
 			System.out.println(in.readLine());
+
 			repaint();
 
 		} catch (Exception e) {
@@ -68,6 +71,19 @@ public class Bomberman extends JFrame implements GameConstants {
 		signInButton.setBounds(SING_IN_BUTTON_POSITION);
 		signInButton.addKeyListener(keyboardInput);
 		add(signInButton);
+	}
+
+	private void loadServerLoggingTextArea() {
+		JTextArea area = new JTextArea(5, 49);
+		area.setWrapStyleWord(true);
+		area.setLineWrap(true);
+		area.setFont(new Font("DialogInput", Font.PLAIN, 18));
+		area.setEditable(false);
+		area.setTabSize(4);
+		JScrollPane pane  = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
+		add(pane);
 	}
 
 	private void loadLabyrinth() {
