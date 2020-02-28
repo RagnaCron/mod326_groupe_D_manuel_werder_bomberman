@@ -1,6 +1,5 @@
 package BombermanClientServerInterfaces;
 
-//@Getter
 public enum Code {
 	MOVE,
 	DROP_BOMB,
