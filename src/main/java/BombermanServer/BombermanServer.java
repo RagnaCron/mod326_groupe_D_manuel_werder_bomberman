@@ -14,6 +14,8 @@ public class BombermanServer extends Thread {
 		this.client = client;
 	}
 
+
+
 	@Override
 	public void run() {
 		try (BufferedReader in =
