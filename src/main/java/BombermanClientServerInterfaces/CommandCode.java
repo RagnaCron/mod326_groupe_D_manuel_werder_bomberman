@@ -1,6 +1,6 @@
 package BombermanClientServerInterfaces;
 
-public enum Code {
+public enum CommandCode {
 	MOVE,
 	DROP_BOMB,
 	BOMB_COLLISION,
