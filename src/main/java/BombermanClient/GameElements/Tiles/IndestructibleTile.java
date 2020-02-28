@@ -1,4 +1,6 @@
-package BombermanClient.GameElements;
+package BombermanClient.GameElements.Tiles;
+
+import BombermanClient.GameElements.Collide;
 
 import java.awt.*;
 

@@ -1,11 +1,14 @@
-package BombermanClient.GameElements;
+package BombermanClient.GameElements.Tiles;
+
+import BombermanClient.GameConstants;
+import BombermanClient.GameElements.Collide;
 
 import java.awt.*;
 
 public class DestructibleTile extends Tile implements Collide {
 
 	public DestructibleTile(Dimension size, Rectangle position) {
-		super(DESTROYABLE_TILE, size, position);
+		super(GameConstants.DESTROYABLE_TILE, size, position);
 	}
 
 	@Override

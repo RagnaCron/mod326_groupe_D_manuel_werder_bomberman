@@ -1,5 +1,6 @@
-package BombermanClient.GameElements;
+package BombermanClient.GameElements.Tiles;
 
+import BombermanClient.GameElements.GameElement;
 import lombok.Getter;
 
 import java.awt.*;

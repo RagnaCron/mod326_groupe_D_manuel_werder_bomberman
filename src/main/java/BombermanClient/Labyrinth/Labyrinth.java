@@ -1,9 +1,9 @@
 package BombermanClient.Labyrinth;
 
 import BombermanClient.GameConstants;
-import BombermanClient.GameElements.GrassTile;
-import BombermanClient.GameElements.IndestructibleTile;
-import BombermanClient.GameElements.Tile;
+import BombermanClient.GameElements.Tiles.GrassTile;
+import BombermanClient.GameElements.Tiles.IndestructibleTile;
+import BombermanClient.GameElements.Tiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;
