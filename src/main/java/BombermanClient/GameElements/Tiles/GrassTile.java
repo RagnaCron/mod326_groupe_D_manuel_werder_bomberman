@@ -5,9 +5,11 @@ import BombermanClient.GameConstants;
 import java.awt.*;
 
 public class GrassTile extends Tile {
-
-	public GrassTile(Dimension size, Rectangle position) {
-		super(GameConstants.GRASS_TILE, size, position);
+	public GrassTile(String imagePath, Dimension size , Rectangle position) {
+		super(imagePath, size, position);
 	}
 
+	public GrassTile(Dimension tileSize, Rectangle rectangle) {
+		this(GameConstants.GRASS_TILE, tileSize, rectangle);
+	}
 }

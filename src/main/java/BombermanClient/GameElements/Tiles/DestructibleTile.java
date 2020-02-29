@@ -7,8 +7,12 @@ import java.awt.*;
 
 public class DestructibleTile extends Tile implements Collide {
 
-	public DestructibleTile(Dimension size, Rectangle position) {
-		super(GameConstants.DESTROYABLE_TILE, size, position);
+	public DestructibleTile(String imagePath, Dimension size, Rectangle position) {
+		super(imagePath, size, position);
+	}
+
+	public GrassTile destroyTile() {
+		return new GrassTile(GameConstants.GRASS_TILE, getSize(), getBounds());
 	}
 
 	@Override
@@ -16,9 +20,7 @@ public class DestructibleTile extends Tile implements Collide {
 		return this.getBounds().intersects(rect);
 	}
 
-	public GrassTile destroyTile() {
-		return new GrassTile(getSize(), getBounds());
-	}
+
 
 }
 

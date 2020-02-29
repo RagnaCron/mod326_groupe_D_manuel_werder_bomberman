@@ -25,7 +25,7 @@ public interface GameConstants {
 			LABYRINTH_HEIGHT
 	);
 
-	Dimension TILE_SIZE = new Dimension(LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE);
+	Dimension TILE_DIMENSION = new Dimension(LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE);
 	String INDESTRUCTIBLE_TILE_1 = "src/main/resources/GameArt/Tiles/tile_undestroyable_1.png";
 	String INDESTRUCTIBLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_undestroyable_2.png";
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
