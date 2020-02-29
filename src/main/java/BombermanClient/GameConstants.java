@@ -26,10 +26,10 @@ public interface GameConstants {
 	);
 
 	Dimension TILE_DIMENSION = new Dimension(LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE);
-	String INDESTRUCTIBLE_TILE_1 = "src/main/resources/GameArt/Tiles/tile_undestroyable_1.png";
-	String INDESTRUCTIBLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_undestroyable_2.png";
+	String INDESTRUCTIBLE_TILE_1 = "src/main/resources/GameArt/Tiles/tile_indestructible_1.png";
+	String INDESTRUCTIBLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_indestructible_2.png";
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
-	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
+	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_destroyable.png";
 
 	Rectangle TEXT_INPUT_POSITION = new Rectangle(
 			(FRAME_WIDTH) / 6,
