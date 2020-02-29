@@ -1,4 +1,4 @@
-package BombermanClient.FuntionalInterfaces;
+package FuntionalInterfaces;
 
 import BombermanClient.GameElements.Tiles.Tile;
 

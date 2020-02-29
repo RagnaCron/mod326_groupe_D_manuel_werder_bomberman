@@ -1,7 +1,6 @@
 package BombermanClient.GameElements.Tiles;
 
-
-import BombermanClient.FuntionalInterfaces.FactoryFunction;
+import FuntionalInterfaces.FactoryFunction;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public interface TileFactory {
 	 */
 	static TileFactory factory(Consumer<Builder> consumer)
 	{
-		HashMap<TileType, FactoryFunction> map = new HashMap<>();
+		var map = new HashMap<TileType, FactoryFunction>();
 		consumer.accept(map::put);
 		return (name, path, size, position) -> map.get(name).execute(path, size, position);
 	}
