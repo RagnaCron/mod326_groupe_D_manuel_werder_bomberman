@@ -2,7 +2,6 @@ package BombermanServer;
 
 import BombermanClientServerInterfaces.JSONEncode;
 import BombermanClientServerInterfaces.Message;
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -38,7 +37,7 @@ public class BombermanServer extends Thread implements JSONEncode {
 			(new Thread(new ServerSocketListener(inputClient, inputQueue))).start();
 			(new Thread(new ServerSocketSender(outputClient, outputQueue))).start();
 
-			JSONArray array = JSONArray()
+//			JSONArray array = JSONArray()
 
 			while (true) {
 				if (!inputQueue.isEmpty())
