@@ -14,6 +14,9 @@ public final class Message {
 			case "drop_bomb":
 				CODE = CommandCode.DROP_BOMB;
 				break;
+			case "bomb_explode":
+				CODE = CommandCode.BOMB_EXPLODE;
+				break;
 			case "bomb_collision":
 				CODE = CommandCode.BOMB_COLLISION;
 				break;

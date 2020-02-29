@@ -1,6 +1,6 @@
-package BombermanClient.GameElements.Tiles;
+package BombermanClient.GameElements.Tiles.Factory;
 
-import FuntionalInterfaces.*;
+import BombermanClient.GameElements.Tiles.TileType;
 
 /**
  * Functional interface that allows adding builder with name to the factory.

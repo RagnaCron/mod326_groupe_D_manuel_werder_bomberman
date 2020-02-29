@@ -1,6 +1,7 @@
-package BombermanClient.GameElements.Tiles;
+package BombermanClient.GameElements.Tiles.Factory;
 
-import FuntionalInterfaces.*;
+import BombermanClient.GameElements.Tiles.Tile;
+import BombermanClient.GameElements.Tiles.TileType;
 
 import java.awt.*;
 import java.util.HashMap;

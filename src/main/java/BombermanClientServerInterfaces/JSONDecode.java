@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface JSONDecode {
-	default Message decode(JSONArray jarray) {
-		List<String> values = Arrays.asList(jarray.toString().split(" "));
+	default Message decode(JSONArray array) {
+		List<String> values = Arrays.asList(array.toString().split(" "));
 		return new Message(values);
 	}
 }

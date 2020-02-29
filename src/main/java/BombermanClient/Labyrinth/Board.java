@@ -2,6 +2,7 @@ package BombermanClient.Labyrinth;
 
 import BombermanClient.GameConstants;
 import BombermanClient.GameElements.Tiles.*;
+import BombermanClient.GameElements.Tiles.Factory.TileFactory;
 
 import java.awt.*;
 
