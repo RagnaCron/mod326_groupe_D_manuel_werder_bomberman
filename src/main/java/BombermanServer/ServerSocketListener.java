@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ServerSocketListener implements Runnable, JSONDecode {
+public class ServerSocketListener extends Thread implements JSONDecode {
 	private Socket client;
 	private ConcurrentLinkedQueue<Message> queue;
 
@@ -24,16 +24,22 @@ public class ServerSocketListener implements Runnable, JSONDecode {
 				     new BufferedReader(
 						     new InputStreamReader(client.getInputStream())))
 		{
+//			System.out.println("About to start " + Thread.currentThread().getName());
 			Message message;
 			String input;
-			while ((input = in.readLine()) != null) {
-				System.out.println("Message vom Client: "+ input);
-				message = decode(new JSONArray(input));
-				queue.add(message);
+			while (true) {
+				if (in.ready()) {
+					input = in.readLine();
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
+					message = decode(new JSONArray(input));
+					queue.add(message);
+				} else {
+					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+					sleep(1);
+				}
 			}
 		} catch (Exception exception) {
-			//noinspection ThrowablePrintedToSystemOut
-			System.err.println(exception);
+			exception.printStackTrace();
 		}
 	}
 }

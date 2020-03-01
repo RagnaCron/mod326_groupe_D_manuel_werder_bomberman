@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class EchoClient {
 
-	private static final int INPUT_PORT = 8764;
-	private static final int OUTPUT_PORT = 8768;
+	private static final int INPUT_PORT = 8768;
+	private static final int OUTPUT_PORT = 8764;
 
     public static void main(String[] args) {
         String host = "127.0.0.1";
@@ -26,16 +26,24 @@ public class EchoClient {
 
             System.out.println(in.readLine());
 
-	        JSONArray array = new JSONArray("[drop_bomb, hello, world!]");
+            String[] message = new String[]{"drop_bomb", "hello", "world!"};
+
+	        JSONArray array = new JSONArray(message);
 
             while (true) {
+                if (in.ready()) {
+                    System.out.println("Antwort vom Server:");
+                    System.out.println(in.readLine());
+                }
                 System.out.print("> ");
                 String line = sc.nextLine();
                 if (line.length() == 0)
                     break;
                 out.println(array);
-                System.out.println("Antwort vom Server:");
-                System.out.println(in.readLine());
+                if (in.ready()) {
+                    System.out.println("Antwort vom Server:");
+                    System.out.println(in.readLine());
+                }
             }
         } catch (Exception e) {
             System.err.println(e);

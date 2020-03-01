@@ -1,13 +1,11 @@
 package BombermanClientServerInterfaces;
 
-import java.util.List;
-
 public final class Message {
 	public final CommandCode CODE;
-	public final List<String> PARAMETERS;
+	public final String[] PARAMETERS;
 
-	public Message(List<String> values) {
-		switch (values.get(0)) {
+	public Message(String[] values) {
+		switch (values[0]) {
 			case "move":
 				CODE = CommandCode.MOVE;
 				break;
@@ -28,5 +26,10 @@ public final class Message {
 				break;
 		}
 		this.PARAMETERS = values;
+	}
+
+	public Message() {
+		this.CODE = CommandCode.ERROR_CODE;
+		this.PARAMETERS = new String[]{"Something went wrong!"};
 	}
 }

@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ServerSocketSender implements Runnable, JSONEncode {
+public class ServerSocketSender extends Thread implements JSONEncode {
 	private Socket client;
 	private ConcurrentLinkedQueue<Message> queue;
 
@@ -23,17 +23,19 @@ public class ServerSocketSender implements Runnable, JSONEncode {
 				     new PrintWriter(
 						     client.getOutputStream(), true))
 		{
-			out.println("Hello.");
+			out.println("Hello, world! Welcome to the Bomberman Server.");
 			while (true) {
-				if(!queue.isEmpty()) {
+				if (!queue.isEmpty()) {
 					Message message = queue.poll();
-					System.out.println("Message Clients: "+ message.toString());
-					out.println(encode(message));
+					out.println(encode(message).toString());
+				} else {
+					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+					sleep(1);
 				}
+
 			}
 		} catch (Exception exception) {
-			//noinspection ThrowablePrintedToSystemOut
-			System.err.println(exception);
+			exception.printStackTrace();
 		}
 	}
 }

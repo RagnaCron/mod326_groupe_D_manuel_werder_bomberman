@@ -2,11 +2,10 @@ package BombermanServer;
 
 import BombermanClientServerInterfaces.JSONEncode;
 import BombermanClientServerInterfaces.Message;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BombermanServer extends Thread implements JSONEncode {
@@ -21,48 +20,64 @@ public class BombermanServer extends Thread implements JSONEncode {
 //	private ServerSocket outputServer;
 
 	public BombermanServer() {
+		setName("BombermanServer Main Thread");
 		inputQueue = new ConcurrentLinkedQueue<>();
 		outputQueue = new ConcurrentLinkedQueue<>();
+		try (ServerSocket inputServer = new ServerSocket(INPUT_PORT);
+		     ServerSocket outputServer = new ServerSocket(OUTPUT_PORT))
+		{
+			Socket inputClient = inputServer.accept();
+			Socket outputClient = outputServer.accept();
+			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
+//			System.out.println("ServerSocketListener auf " + INPUT_PORT + " gestartet ...");
+			(new Thread(new ServerSocketSender(outputClient, outputQueue), "Output Thread")).start();
+//			System.out.println("ServerSocketSender auf " + INPUT_PORT + " gestartet ...");
+
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 
 	@Override
 	public void run() {
-		try (ServerSocket inputServer = new ServerSocket(INPUT_PORT);
-		     ServerSocket outputServer = new ServerSocket(OUTPUT_PORT))
-		{
-			System.out.println("BombermanServer auf " + INPUT_PORT + " gestartet ...");
-			Socket inputClient = inputServer.accept();
-			Socket outputClient = outputServer.accept();
-
-			(new Thread(new ServerSocketListener(inputClient, inputQueue))).start();
-			(new Thread(new ServerSocketSender(outputClient, outputQueue))).start();
-
-//			JSONArray array = JSONArray()
-
-			while (true) {
-				if (!inputQueue.isEmpty())
-					queryMessage(inputQueue.poll());
-//				System.out.println(server.getInetAddress().toString());
+		try {
+//			System.out.println("Hello, form the Bomberman Thread....");
+			 while (true) {
+				if (!inputQueue.isEmpty()) {
+//					System.out.format("%s\n", Thread.currentThread().getName());
+					Message message = inputQueue.poll();
+					if (message == null)
+						message = new Message();
+					queryMessage(message);
+				} else {
+					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+					sleep(1);
+				}
 			}
-		} catch (IOException e) {
-			//noinspection ThrowablePrintedToSystemOut
-			System.err.println(e);
+		} catch (Exception exception) {
+			System.out.println("Error in the Run Method of the main thread.....");
+			exception.printStackTrace();
 		}
 	}
 
-	private void queryMessage(Message message) {
+	private void queryMessage(@NotNull Message message) {
 		switch (message.CODE) {
 			case DROP_BOMB:
 				new Thread(() -> {
-					List<String> list = message.PARAMETERS;
-					list.set(0, "bomb_explode");
+					String[] array = message.PARAMETERS;
+					array[0] = "bomb_explode";
 					try {
-						wait(1991);
-						outputQueue.add(new Message(list));
-					} catch (InterruptedException e) {
+						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
+						sleep(1991);
+						outputQueue.add(new Message(array));
+						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
+						join();
+					} catch (Exception e) {
+						System.out.println("Error in the queryMessage Method.....");
 						e.printStackTrace();
 					}
-				}).start();
+				}, "Explode Bomb Thread").start();
+				break;
 			default:
 				outputQueue.add(message);
 		}

@@ -2,12 +2,12 @@ package BombermanClientServerInterfaces;
 
 import org.json.JSONArray;
 
-import java.util.Arrays;
-import java.util.List;
-
 public interface JSONDecode {
 	default Message decode(JSONArray array) {
-		List<String> values = Arrays.asList(array.toString().split(" "));
+		String[] values = new String[array.length()];
+		for (int i = 0; i < array.length(); i++) {
+			values[i] = array.get(i).toString();
+		}
 		return new Message(values);
 	}
 }

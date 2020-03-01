@@ -16,11 +16,9 @@ public class JsonExample {
         map.put("name", "jon doe");
         map.put("age", "22");
         map.put("city", "chicago");
-        JSONObject jo = new JSONObject(map);;
-
-//        JSONSt
-        
+        JSONObject jo = new JSONObject(map);
         System.out.println(jo);
+
 //        map = jo.toMap();
 //        System.out.println(map);
     }
