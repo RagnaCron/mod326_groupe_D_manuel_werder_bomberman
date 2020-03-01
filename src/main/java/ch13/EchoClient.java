@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class EchoClient {
@@ -42,11 +43,14 @@ public class EchoClient {
                 out.println(array);
                 if (in.ready()) {
                     System.out.println("Antwort vom Server:");
-                    System.out.println(in.readLine());
+                    String input = in.readLine();
+                    System.out.println(input);
+                    String[] arr = input.split(" ");
+                    System.out.println(Arrays.toString(arr));
                 }
             }
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 }

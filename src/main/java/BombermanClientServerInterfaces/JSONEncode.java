@@ -1,9 +1,7 @@
 package BombermanClientServerInterfaces;
 
-import org.json.JSONArray;
-
 public interface JSONEncode {
-	default JSONArray encode(Message message) {
-		return new JSONArray(message.PARAMETERS);
+	default CustomJSONArray encode(Message message) {
+		return new CustomJSONArray(message.PARAMETERS);
 	}
 }

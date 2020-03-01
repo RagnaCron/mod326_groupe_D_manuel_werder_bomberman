@@ -1,8 +1,8 @@
 package BombermanServer;
 
+import BombermanClientServerInterfaces.CustomJSONArray;
 import BombermanClientServerInterfaces.JSONDecode;
 import BombermanClientServerInterfaces.Message;
-import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,7 +32,7 @@ public class ServerSocketListener extends Thread implements JSONDecode {
 				if (in.ready()) {
 					input = in.readLine();
 //					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
-					message = decode(new JSONArray(input));
+					message = decode(new CustomJSONArray(input));
 					queue.add(message);
 				} else {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
