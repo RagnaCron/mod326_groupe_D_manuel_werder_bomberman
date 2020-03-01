@@ -16,7 +16,7 @@ public class ServerSocketSender extends Thread implements JSONEncode {
 		this.queue = queue;
 	}
 
-
+	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try (PrintWriter out =
@@ -32,7 +32,6 @@ public class ServerSocketSender extends Thread implements JSONEncode {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
-
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();

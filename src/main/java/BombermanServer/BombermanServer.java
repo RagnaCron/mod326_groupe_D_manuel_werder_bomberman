@@ -1,5 +1,6 @@
 package BombermanServer;
 
+import BombermanClientServerInterfaces.CommandCode;
 import BombermanClientServerInterfaces.JSONEncode;
 import BombermanClientServerInterfaces.Message;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@SuppressWarnings("AllWarnings")
 public class BombermanServer extends Thread implements JSONEncode {
 
 	private static final int INPUT_PORT = 8764;
@@ -32,12 +34,12 @@ public class BombermanServer extends Thread implements JSONEncode {
 //			System.out.println("ServerSocketListener auf " + INPUT_PORT + " gestartet ...");
 			(new Thread(new ServerSocketSender(outputClient, outputQueue), "Output Thread")).start();
 //			System.out.println("ServerSocketSender auf " + INPUT_PORT + " gestartet ...");
-
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try {
@@ -61,25 +63,23 @@ public class BombermanServer extends Thread implements JSONEncode {
 	}
 
 	private void queryMessage(@NotNull Message message) {
-		switch (message.CODE) {
-			case DROP_BOMB:
-				new Thread(() -> {
-					String[] array = message.PARAMETERS;
-					array[0] = "bomb_explode";
-					try {
-						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
-						sleep(1991);
-						outputQueue.add(new Message(array));
-						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
-						join();
-					} catch (Exception e) {
-						System.out.println("Error in the queryMessage Method.....");
-						e.printStackTrace();
-					}
-				}, "Explode Bomb Thread").start();
-				break;
-			default:
-				outputQueue.add(message);
+		if (message.CODE == CommandCode.DROP_BOMB) {
+			new Thread(() -> {
+				String[] array = message.PARAMETERS;
+				array[0] = "bomb_explode";
+				try {
+					System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
+					sleep(1991);
+					outputQueue.add(new Message(array));
+					System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
+					join();
+				} catch (Exception e) {
+					System.err.println("Error in the queryMessage Method.....");
+					e.printStackTrace();
+				}
+			}, "Explode Bomb Thread").start();
+		} else {
+			outputQueue.add(message);
 		}
 	}
 }
