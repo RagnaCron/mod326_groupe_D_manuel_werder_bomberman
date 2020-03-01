@@ -27,7 +27,7 @@ public class ServerSocketSender extends Thread implements JSONEncode {
 			while (true) {
 				if (!queue.isEmpty()) {
 					Message message = queue.poll();
-					out.println(encode(message).toJSONString());
+					out.println(encode(message));
 				} else {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);

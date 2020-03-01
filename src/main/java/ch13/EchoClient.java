@@ -1,12 +1,11 @@
 package ch13;
 
-import org.json.JSONArray;
+import BombermanClientServerInterfaces.CustomJSONArray;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class EchoClient {
@@ -29,7 +28,7 @@ public class EchoClient {
 
             String[] message = new String[]{"drop_bomb", "hello", "world!"};
 
-	        JSONArray array = new JSONArray(message);
+            CustomJSONArray array = new CustomJSONArray(message);
 
             while (true) {
                 if (in.ready()) {
@@ -45,8 +44,6 @@ public class EchoClient {
                     System.out.println("Antwort vom Server:");
                     String input = in.readLine();
                     System.out.println(input);
-                    String[] arr = input.split(" ");
-                    System.out.println(Arrays.toString(arr));
                 }
             }
         } catch (Exception e) {
