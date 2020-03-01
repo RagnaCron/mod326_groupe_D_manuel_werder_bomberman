@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@SuppressWarnings("all")
 public class ServerSocketListener extends Thread implements JSONDecode {
 	private Socket client;
 	private ConcurrentLinkedQueue<Message> queue;
@@ -18,7 +19,6 @@ public class ServerSocketListener extends Thread implements JSONDecode {
 		this.queue = queue;
 	}
 
-	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try (BufferedReader in =

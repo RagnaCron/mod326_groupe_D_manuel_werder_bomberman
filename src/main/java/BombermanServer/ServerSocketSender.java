@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@SuppressWarnings("all")
 public class ServerSocketSender extends Thread implements JSONEncode {
 	private Socket client;
 	private ConcurrentLinkedQueue<Message> queue;
@@ -16,7 +17,6 @@ public class ServerSocketSender extends Thread implements JSONEncode {
 		this.queue = queue;
 	}
 
-	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try (PrintWriter out =
