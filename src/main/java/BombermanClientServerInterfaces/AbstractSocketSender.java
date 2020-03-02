@@ -27,14 +27,15 @@ public class AbstractSocketSender extends Thread implements JSONEncode {
 	@Override
 	public void run() {
 		try {
-			out.println("Hello, world! Welcome to the Bomberman Server.");
+			Message m = new Message(new String[]{"Hello, world! Welcome to the Bomberman Server."});
+			out.println(encode(m));
 			while (true) {
 				if (!queue.isEmpty()) {
 					Message message = queue.poll();
 					out.println(encode(message));
 					sleep(0, 10000);
 				} else {
-					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}

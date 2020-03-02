@@ -20,12 +20,14 @@ public class ClientSocketListener extends AbstractSocketListener {
 			Message serverMessage;
 			while (true) {
 				if (in.ready()) {
+					String input = in.readLine();
+//					System.err.println(input);
 //					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
-					serverMessage = decode(new CustomJSONArray(in.readLine()));
+					serverMessage = decode(new CustomJSONArray(input));
 					queue.add(serverMessage);
 					sleep(0, 10000);
 				} else {
-					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}

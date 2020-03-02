@@ -3,6 +3,7 @@ package BombermanClient.Bomberman;
 import BombermanClient.GameConstants;
 import BombermanClient.Labyrinth.Labyrinth;
 import BombermanClient.UserInterface.UserGameKeyboardInput;
+import BombermanClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +11,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Bomberman extends JFrame implements GameConstants {
 
+	private ConcurrentLinkedQueue<Message> outputQueue = new ConcurrentLinkedQueue<>();
+
+	private ClientServerProxy serverConnection;
 
 	public Bomberman() {
 		super("Bomberman");
@@ -25,6 +30,7 @@ public class Bomberman extends JFrame implements GameConstants {
 		loadServerLogin();
 		loadServerLoggingTextArea();
 		loadLabyrinth();
+		connectToServer();
 
 		pack();
 		setVisible(true);
@@ -53,6 +59,12 @@ public class Bomberman extends JFrame implements GameConstants {
 		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
 		pane.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener());
 		add(pane);
+	}
+
+	private void connectToServer() {
+		serverConnection = new ClientServerProxy(outputQueue);
+//		serverConnection.addPropertyChangeListener();
+		serverConnection.execute();
 	}
 
 	private void loadLabyrinth() {

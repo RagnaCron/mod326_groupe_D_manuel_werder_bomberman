@@ -5,7 +5,9 @@ import BombermanClientServerInterfaces.Messaging.CustomJSONArray;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class EchoClient {
@@ -13,8 +15,8 @@ public class EchoClient {
 	private static final int INPUT_PORT = 8768;
 	private static final int OUTPUT_PORT = 8764;
 
-    public static void main(String[] args) {
-        String host = "127.0.0.1";
+    public static void main(String[] args) throws UnknownHostException {
+        String host = Inet4Address.getLocalHost().getHostAddress();
 
         try (Socket inputSocket = new Socket(host, INPUT_PORT);
              Socket outputSocket = new Socket(host, OUTPUT_PORT);

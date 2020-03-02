@@ -28,7 +28,7 @@ public class ServerSocketListener extends AbstractSocketListener {
 					queue.add(message);
 					sleep(0, 10000);
 				} else {
-					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}

@@ -22,7 +22,7 @@ public class ClientSocketSender extends AbstractSocketSender {
 					out.println(encode(m));
 					sleep(0, 10000);
 				} else {
-					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}

@@ -46,7 +46,7 @@ public class BombermanServer extends Thread implements JSONEncode {
 						message = new Message();
 					queryMessage(message);
 				} else {
-					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
+//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}
@@ -63,16 +63,16 @@ public class BombermanServer extends Thread implements JSONEncode {
 					String[] array = message.PARAMETERS;
 					array[0] = "bomb_explode";
 					try {
-						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
+//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
 						sleep(1991);
 						outputQueue.add(new Message(array));
-						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
+//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
 						join();
 					} catch (Exception e) {
 						System.out.println("Error in the queryMessage Method.....");
 						e.printStackTrace();
 					}
-				}, "Explode Bomb Thread").start();
+				}, "bomb_explode").start();
 				break;
 			default:
 				outputQueue.add(message);
