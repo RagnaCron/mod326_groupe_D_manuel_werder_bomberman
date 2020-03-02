@@ -1,4 +1,4 @@
-package BombermanClientServerInterfaces;
+package BombermanClientServerInterfaces.Messaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;

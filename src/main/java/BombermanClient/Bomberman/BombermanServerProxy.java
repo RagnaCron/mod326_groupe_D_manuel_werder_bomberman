@@ -6,16 +6,16 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class BombermanServerProxy {
+public class BombermanServerProxy implements Runnable {
 	private static final String HOST = "127.0.0.1";
-	private static final int PORT = 8765;
+	private static final int INPUT_PORT = 8768;
+	private static final int OUTPUT_PORT = 8764;
 
-	public void runClient() {
-		try (Socket socket = new Socket(HOST, PORT);
-		     BufferedReader in = new BufferedReader(
-				     new InputStreamReader(socket.getInputStream()));
-		     PrintWriter out = new PrintWriter(
-				     socket.getOutputStream(), true);
+	@Override
+	public void run() {
+		try (Socket socket = new Socket(HOST, INPUT_PORT);
+		     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		     Scanner sc = new Scanner(System.in)) {
 
 			System.out.println(in.readLine());

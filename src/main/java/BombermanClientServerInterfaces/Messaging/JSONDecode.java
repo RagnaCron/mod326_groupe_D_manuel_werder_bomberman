@@ -1,4 +1,4 @@
-package BombermanClientServerInterfaces;
+package BombermanClientServerInterfaces.Messaging;
 
 public interface JSONDecode {
 	default Message decode(CustomJSONArray array) {

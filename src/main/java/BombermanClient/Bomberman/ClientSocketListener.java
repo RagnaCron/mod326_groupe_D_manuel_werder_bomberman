@@ -1,4 +1,4 @@
-package BombermanServer;
+package BombermanClient.Bomberman;
 
 import BombermanClientServerInterfaces.AbstractSocketListener;
 import BombermanClientServerInterfaces.Messaging.CustomJSONArray;
@@ -7,9 +7,9 @@ import BombermanClientServerInterfaces.Messaging.Message;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ServerSocketListener extends AbstractSocketListener {
+public class ClientSocketListener extends AbstractSocketListener {
 
-	public ServerSocketListener(Socket client, ConcurrentLinkedQueue<Message> queue) {
+	public ClientSocketListener(Socket client, ConcurrentLinkedQueue<Message> queue) {
 		super(client, queue);
 	}
 
@@ -17,15 +17,12 @@ public class ServerSocketListener extends AbstractSocketListener {
 	@Override
 	public void run() {
 		try {
-//			System.out.println("About to start " + Thread.currentThread().getName());
-			Message message;
-			String input;
+			Message serverMessage;
 			while (true) {
 				if (in.ready()) {
-					input = in.readLine();
 //					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
-					message = decode(new CustomJSONArray(input));
-					queue.add(message);
+					serverMessage = decode(new CustomJSONArray(in.readLine()));
+					queue.add(serverMessage);
 					sleep(0, 10000);
 				} else {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");

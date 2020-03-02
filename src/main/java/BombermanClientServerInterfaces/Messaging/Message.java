@@ -1,4 +1,4 @@
-package BombermanClientServerInterfaces;
+package BombermanClientServerInterfaces.Messaging;
 
 public final class Message {
 	public final CommandCode CODE;

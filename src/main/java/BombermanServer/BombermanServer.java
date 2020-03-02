@@ -1,7 +1,7 @@
 package BombermanServer;
 
-import BombermanClientServerInterfaces.JSONEncode;
-import BombermanClientServerInterfaces.Message;
+import BombermanClientServerInterfaces.Messaging.JSONEncode;
+import BombermanClientServerInterfaces.Messaging.Message;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.ServerSocket;

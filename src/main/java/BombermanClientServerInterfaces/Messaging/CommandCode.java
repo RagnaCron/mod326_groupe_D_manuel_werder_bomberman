@@ -1,4 +1,4 @@
-package BombermanClientServerInterfaces;
+package BombermanClientServerInterfaces.Messaging;
 
 public enum CommandCode {
 	MOVE,

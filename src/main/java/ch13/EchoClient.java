@@ -1,6 +1,6 @@
 package ch13;
 
-import BombermanClientServerInterfaces.CustomJSONArray;
+import BombermanClientServerInterfaces.Messaging.CustomJSONArray;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
