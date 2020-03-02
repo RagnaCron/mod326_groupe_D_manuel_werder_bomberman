@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @SuppressWarnings("all")
@@ -15,6 +16,8 @@ public class BombermanServer extends Thread implements JSONEncode {
 	private static final int OUTPUT_PORT = 8768;
 	private ConcurrentLinkedQueue<Message> inputQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
+
+	private HashMap<String, String> players = new HashMap<>(8);
 
 	public BombermanServer() {
 		setName("BombermanServer Main Thread");
@@ -74,6 +77,10 @@ public class BombermanServer extends Thread implements JSONEncode {
 					}
 				}, "bomb_explode").start();
 				break;
+			case PLAYER_LOGIN:
+
+				break;
+
 			default:
 				outputQueue.add(message);
 		}
