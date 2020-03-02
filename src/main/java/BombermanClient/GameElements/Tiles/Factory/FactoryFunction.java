@@ -6,5 +6,5 @@ import java.awt.*;
 
 @FunctionalInterface
 public interface FactoryFunction {
-	Tile execute(String path, Dimension size, Rectangle position);
+	Tile execute(String imagePath, Dimension size, Rectangle position);
 }
