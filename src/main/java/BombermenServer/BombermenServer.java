@@ -17,6 +17,8 @@ public class BombermenServer extends Thread implements JSONEncode {
 	private static final int OUTPUT_PORT = 8768;
 	private ConcurrentLinkedQueue<Message> inputQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
+	private ServerSocket inputServer;
+	private ServerSocket outputServer;
 
 	private HashMap<String, String> players = new HashMap<>(8);
 
@@ -24,12 +26,14 @@ public class BombermenServer extends Thread implements JSONEncode {
 		setName("BombermenServer Main Thread");
 		inputQueue = new ConcurrentLinkedQueue<>();
 		outputQueue = new ConcurrentLinkedQueue<>();
-		try (ServerSocket inputServer = new ServerSocket(INPUT_PORT);
-		     ServerSocket outputServer = new ServerSocket(OUTPUT_PORT))
+		try
 		{
+			inputServer = new ServerSocket(INPUT_PORT);
+			outputServer = new ServerSocket(OUTPUT_PORT);
 //			inputServer.setReuseAddress(true);
 //			outputServer.setReuseAddress(true);
 //			outputServer.setOption(true, StandardSocketOptions.SO_BROADCAST);
+
 			Socket inputClient = inputServer.accept();
 			Socket outputClient = outputServer.accept();
 			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
@@ -46,6 +50,7 @@ public class BombermenServer extends Thread implements JSONEncode {
 		try {
 //			System.out.println("Hello, form the Bombermen Thread....");
 			 while (true) {
+
 				if (!inputQueue.isEmpty()) {
 //					System.out.format("%s\n", Thread.currentThread().getName());
 					Message message = inputQueue.poll();
@@ -54,7 +59,8 @@ public class BombermenServer extends Thread implements JSONEncode {
 //					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
-			}
+			 }
+
 		} catch (Exception exception) {
 			System.out.println("Error in the Run Method of the main thread.....");
 			exception.printStackTrace();
