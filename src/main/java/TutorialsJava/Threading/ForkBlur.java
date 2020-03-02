@@ -1,4 +1,4 @@
-package TutorialsJava;
+package TutorialsJava.Threading;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,6 +15,7 @@ import java.util.concurrent.RecursiveAction;
  * This is not the recommended way to blur images; it is only intended to
  * illustrate the use of the Fork/Join framework.
  */
+@SuppressWarnings("all")
 public class ForkBlur extends RecursiveAction {
 
 	private int[] mSource;

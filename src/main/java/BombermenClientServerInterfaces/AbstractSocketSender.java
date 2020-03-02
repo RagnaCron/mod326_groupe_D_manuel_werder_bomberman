@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class AbstractSocketSender extends Thread implements JSONEncode {
+public abstract class AbstractSocketSender extends Thread implements JSONEncode {
 	protected Socket client;
 	protected ConcurrentLinkedQueue<Message> queue;
 	protected PrintWriter out;

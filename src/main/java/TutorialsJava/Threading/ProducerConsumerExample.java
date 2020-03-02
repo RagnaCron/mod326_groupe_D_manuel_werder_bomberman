@@ -1,4 +1,4 @@
-package TutorialsJava;
+package TutorialsJava.Threading;
 
 
 import java.util.Random;

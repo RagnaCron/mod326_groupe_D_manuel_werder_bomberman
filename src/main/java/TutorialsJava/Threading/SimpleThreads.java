@@ -1,4 +1,4 @@
-package TutorialsJava;
+package TutorialsJava.Threading;
 
 
 public class SimpleThreads {
