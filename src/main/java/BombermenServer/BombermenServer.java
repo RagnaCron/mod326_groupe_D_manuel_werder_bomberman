@@ -1,5 +1,6 @@
 package BombermenServer;
 
+import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.JSONEncode;
 import BombermenClientServerInterfaces.Messaging.Message;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +27,9 @@ public class BombermenServer extends Thread implements JSONEncode {
 		try (ServerSocket inputServer = new ServerSocket(INPUT_PORT);
 		     ServerSocket outputServer = new ServerSocket(OUTPUT_PORT))
 		{
+//			inputServer.setReuseAddress(true);
+//			outputServer.setReuseAddress(true);
+//			outputServer.setOption(true, StandardSocketOptions.SO_BROADCAST);
 			Socket inputClient = inputServer.accept();
 			Socket outputClient = outputServer.accept();
 			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
@@ -58,15 +62,16 @@ public class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private void queryMessage(@NotNull Message message) {
-		switch (message.CODE) {
+		Message m = message;
+		switch (m.CODE) {
 			case DROP_BOMB:
 				new Thread(() -> {
-					String[] array = message.PARAMETERS;
-					array[0] = "bomb_explode";
+					m.PARAMETERS[0] = "bomb_explode";
+					m.CODE = CommandCode.BOMB_EXPLODE;
 					try {
 //						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
 						sleep(1991);
-						outputQueue.add(new Message(array));
+						outputQueue.add(m);
 //						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
 						join();
 					} catch (Exception e) {
@@ -76,6 +81,10 @@ public class BombermenServer extends Thread implements JSONEncode {
 				}, "bomb_explode").start();
 				break;
 			case PLAYER_LOGIN:
+
+				break;
+
+			case PLAYER_EXIT:
 
 				break;
 

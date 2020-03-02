@@ -15,19 +15,24 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 
 	private ConcurrentLinkedQueue<Message> inputQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
-//	private Labyrinth labyrinth;
+
 
 	private Socket inputSocket;
 	private Socket outputSocket;
 
-	public ClientServerProxy(ConcurrentLinkedQueue<Message> outputQueue
-	                         )
+//	private Labyrinth labyrinth;
+	private JTextArea textArea;
+
+	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
+	                         ConcurrentLinkedQueue<Message> outputQueue,
+	                         JTextArea textArea)
 	{
-		this.inputQueue = new ConcurrentLinkedQueue<>();
+		this.inputQueue = inputQueue;
 		this.outputQueue = outputQueue;
 //		this.labyrinth = labyrinth;
+		this.textArea = textArea;
 		try {
-			String host = Inet4Address.getLocalHost().getHostAddress();
+			String host = Inet4Address.getLocalHost().getHostName();
 			inputSocket = new Socket(host, INPUT_PORT);
 			outputSocket = new Socket(host, OUTPUT_PORT);
 		} catch (Exception exception) {
@@ -43,27 +48,30 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 		while (!isCancelled()) {
 			if(!inputQueue.isEmpty()) {
 				message = inputQueue.poll();
-//				System.err.format("Ready to process Messages... %s%n", message.PARAMETERS[0]);
+				System.err.format("Ready to process Messages... %s%n", message.PARAMETERS[0]);
 //				publish(message);
-//				switch (message.CODE){
-//					case MOVE:
-//						break;
-//					case DROP_BOMB:
-//						break;
-//					case BOMB_COLLISION:
-//						break;
-//					case BOMB_EXPLODE:
-//						break;
-//					case SERVER_LOGGING_MESSAGES:
-//						break;
-//					case PLAYER_LOGIN:
-//
-//						break;
-//					case LOAD_LABYRINTH:
-//						break;
-//					case ERROR_CODE:
-//						break;
-//				}
+				switch (message.CODE){
+					case MOVE:
+						break;
+					case DROP_BOMB:
+						break;
+					case BOMB_COLLISION:
+						break;
+					case BOMB_EXPLODE:
+						break;
+					case SERVER_LOGGING_MESSAGES:
+						break;
+					case PLAYER_LOGIN:
+						break;
+					case PLAYER_EXIT:
+						break;
+					case PLAYER_LOGIN_ERROR:
+						break;
+					case LOAD_LABYRINTH:
+						break;
+					case ERROR_CODE:
+						break;
+				}
 				try {
 					wait(0, 10000);
 				} catch (InterruptedException ignored) {}

@@ -18,8 +18,10 @@ import static java.lang.Thread.sleep;
 
 public class Bombermen extends JFrame implements GameConstants {
 
-	private JTextField textInput;
+	private JTextField textField;
+	private JTextArea textArea;
 
+	private ConcurrentLinkedQueue<Message> inputQueue = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Message> outputQueue = new ConcurrentLinkedQueue<>();
 
 	private ClientServerProxy serverConnection;
@@ -29,8 +31,8 @@ public class Bombermen extends JFrame implements GameConstants {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
-		addWindowListener(new BombermanWindowListener(outputQueue));
-		addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener(outputQueue));
+		addWindowListener(new BombermenWindowListener(outputQueue));
+		addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
 
 		loadServerLogin();
 		loadServerLoggingTextArea();
@@ -43,32 +45,32 @@ public class Bombermen extends JFrame implements GameConstants {
 	}
 
 	private void loadServerLogin() {
-		textInput = new JTextField("Your Player Name");
-		textInput.setBounds(TEXT_INPUT_POSITION);
-		textInput.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener(outputQueue));
-		add(textInput);
+		textField = new JTextField("Your Player Name");
+		textField.setBounds(TEXT_INPUT_POSITION);
+		textField.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
+		add(textField);
 		JButton signInButton = new JButton("Sign In");
 		signInButton.setBounds(SING_IN_BUTTON_POSITION);
-		signInButton.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener(outputQueue));
+		signInButton.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
 		add(signInButton);
 	}
 
 	private void loadServerLoggingTextArea() {
-		JTextArea area = new JTextArea(5, 49);
-		area.setWrapStyleWord(true);
-		area.setLineWrap(true);
-		area.setFont(new Font("DialogInput", Font.PLAIN, 18));
-		area.setEditable(false);
-		area.setTabSize(4);
-		JScrollPane pane  = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		textArea = new JTextArea(5, 49);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		textArea.setFont(new Font("DialogInput", Font.PLAIN, 18));
+		textArea.setEditable(false);
+		textArea.setTabSize(4);
+		JScrollPane pane  = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
-		pane.addKeyListener(BomermanKeyboardListener.CreateBombermanKeyboardListener(outputQueue));
+		pane.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
 		add(pane);
 	}
 
 	private void connectToServer() {
-		serverConnection = new ClientServerProxy(outputQueue);
+		serverConnection = new ClientServerProxy(inputQueue, outputQueue, textArea);
 //		serverConnection.addPropertyChangeListener();
 		serverConnection.execute();
 	}
@@ -82,15 +84,15 @@ public class Bombermen extends JFrame implements GameConstants {
 	}
 
 
-	private static class BomermanKeyboardListener extends KeyAdapter {
-		private static BomermanKeyboardListener keyboardListener;
+	private static class BombermenKeyboardListener extends KeyAdapter {
+		private static BombermenKeyboardListener keyboardListener;
 		private static ConcurrentLinkedQueue<Message> queue;
-		private BomermanKeyboardListener() {
+		private BombermenKeyboardListener() {
 			super();
 		}
-		public synchronized static BomermanKeyboardListener CreateBombermanKeyboardListener(ConcurrentLinkedQueue<Message> outputQueue) {
+		public synchronized static BombermenKeyboardListener CreateBombermenKeyboardListener(ConcurrentLinkedQueue<Message> outputQueue) {
 			if (keyboardListener == null) {
-				keyboardListener = new BomermanKeyboardListener();
+				keyboardListener = new BombermenKeyboardListener();
 				queue = outputQueue;
 			}
 			return keyboardListener;
@@ -98,28 +100,27 @@ public class Bombermen extends JFrame implements GameConstants {
 		@Override
 		public void keyPressed(KeyEvent event) {
 			if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				queue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID saveGamePoints".split(" ")));
-			    GoodbeyPlayer();
+				queue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
+			    GoodbyePlayer();
 			}
 		}
 	}
 
-	private static class BombermanWindowListener extends WindowAdapter {
+	private static class BombermenWindowListener extends WindowAdapter {
 		private ConcurrentLinkedQueue<Message> outputQueue;
 
-		public BombermanWindowListener(ConcurrentLinkedQueue<Message> outputQueue) {
+		public BombermenWindowListener(ConcurrentLinkedQueue<Message> outputQueue) {
 			this.outputQueue = outputQueue;
 		}
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			// TODO: SEND MESSAGE TO SERVER
-			outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID saveGamePoints".split(" ")));
-			GoodbeyPlayer();
+			outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
+			GoodbyePlayer();
 		}
 	}
 
-	private static void GoodbeyPlayer() {
+	private static void GoodbyePlayer() {
 		new Thread(() -> {
 			try {
 				sleep(5000);
