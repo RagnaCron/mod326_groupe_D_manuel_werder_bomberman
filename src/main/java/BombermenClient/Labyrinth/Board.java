@@ -9,7 +9,6 @@ import java.awt.*;
 public class Board implements GameConstants {
 	private Tile[][] board = new Tile[GRID_SIZE][GRID_SIZE];
 
-
 	public Board(String[][] labyrinthFile){
 		TileFactory factory = TileFactory.factory(builder -> {
 			// Shows an Error that is not one! to test. first Compile and then run the game...
