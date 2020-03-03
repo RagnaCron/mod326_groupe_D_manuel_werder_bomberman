@@ -1,4 +1,4 @@
-package BombermenClient.Bombermen;
+package BombermenClient.Bombermen.ClientCommunication;
 
 import BombermenClientServerInterfaces.AbstractSocketListener;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;

@@ -1,6 +1,6 @@
 package BombermenClient.Labyrinth;
 
-import BombermenClient.GameConstants;
+import BombermenClient.Bombermen.GameConstants;
 import BombermenClient.GameElements.Tiles.*;
 import BombermenClient.GameElements.Tiles.Factory.TileFactory;
 

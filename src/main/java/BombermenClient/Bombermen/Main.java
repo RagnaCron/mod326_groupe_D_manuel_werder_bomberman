@@ -1,6 +1,4 @@
-package BombermenClient;
-
-import BombermenClient.Bombermen.Bombermen;
+package BombermenClient.Bombermen;
 
 public class Main {
 	public static void main(String[] args) {

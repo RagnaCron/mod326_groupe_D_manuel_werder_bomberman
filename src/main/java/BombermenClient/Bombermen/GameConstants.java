@@ -1,4 +1,4 @@
-package BombermenClient;
+package BombermenClient.Bombermen;
 
 import java.awt.*;
 

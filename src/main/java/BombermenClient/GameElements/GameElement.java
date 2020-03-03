@@ -1,7 +1,7 @@
 package BombermenClient.GameElements;
 
 
-import BombermenClient.GameConstants;
+import BombermenClient.Bombermen.GameConstants;
 
 import javax.swing.*;
 import java.awt.*;

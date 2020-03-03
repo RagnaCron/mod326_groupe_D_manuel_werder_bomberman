@@ -1,4 +1,4 @@
-package BombermenClient.Bombermen;
+package BombermenClient.Bombermen.ClientCommunication;
 
 import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.Message;

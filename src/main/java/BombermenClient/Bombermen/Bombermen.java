@@ -1,6 +1,6 @@
 package BombermenClient.Bombermen;
 
-import BombermenClient.GameConstants;
+import BombermenClient.Bombermen.ClientCommunication.ClientServerProxy;
 import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.UserGameKeyboardInput;
 import BombermenClientServerInterfaces.Messaging.CommandCode;

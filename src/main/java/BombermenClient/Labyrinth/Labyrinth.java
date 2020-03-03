@@ -1,6 +1,6 @@
 package BombermenClient.Labyrinth;
 
-import BombermenClient.GameConstants;
+import BombermenClient.Bombermen.GameConstants;
 
 import javax.swing.*;
 import java.awt.*;
