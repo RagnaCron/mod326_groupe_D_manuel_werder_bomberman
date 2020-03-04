@@ -1,6 +1,7 @@
 package BombermenServer;
 
 import BombermenClientServerInterfaces.AbstractSocketListener;
+import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.Message;
 
@@ -13,7 +14,6 @@ public class ServerSocketListener extends AbstractSocketListener {
 		super(client, queue);
 	}
 
-	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try {
@@ -26,14 +26,18 @@ public class ServerSocketListener extends AbstractSocketListener {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
 					message = decode(new CustomJSONArray(input));
 					queue.add(message);
+					if (message.CODE == CommandCode.PLAYER_EXIT)
+						break;
 					sleep(0, 10000);
 				} else {
 //					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1);
 				}
 			}
+			client.close();
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		System.out.format("%s: %s%n", Thread.currentThread().getName(), "Closing this Thread.");
 	}
 }

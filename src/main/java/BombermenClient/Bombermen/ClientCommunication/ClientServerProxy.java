@@ -17,7 +17,7 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 	private ConcurrentLinkedQueue<Message> outputQueue;
 
 
-	private Socket inputSocket;
+//	private Socket inputSocket;
 	private Socket outputSocket;
 
 //	private Labyrinth labyrinth;
@@ -33,8 +33,9 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 		this.textArea = textArea;
 		try {
 			String host = Inet4Address.getLocalHost().getHostName();
-			inputSocket = new Socket(host, INPUT_PORT);
+//			inputSocket = new Socket(host, INPUT_PORT);
 			outputSocket = new Socket(host, OUTPUT_PORT);
+
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -42,7 +43,8 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 
 	@Override
 	protected Message doInBackground() {
-		(new Thread(new ClientSocketListener(inputSocket, inputQueue), "Client Input Thread")).start();
+//		(new Thread(new ClientSocketListener(inputSocket, inputQueue), "Client Input Thread")).start();
+		(new Thread(new ClientMulticastUDPListener(INPUT_PORT, inputQueue), "Client Input Thread")).start();
 		(new Thread(new ClientSocketSender(outputSocket, outputQueue), "Client Output Thread")).start();
 		Message message;
 		while (!isCancelled()) {
