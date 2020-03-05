@@ -9,13 +9,13 @@ import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class MulticastUDPSender extends Thread implements JSONEncode {
+public class ServerMulticastUDPSender extends Thread implements JSONEncode {
 
 	private final InetAddress GROUP;
 	private final int PORT;
 	private ConcurrentLinkedQueue<Message> queue;
 
-	public MulticastUDPSender(InetAddress group, int port, ConcurrentLinkedQueue<Message> queue) {
+	public ServerMulticastUDPSender(InetAddress group, int port, ConcurrentLinkedQueue<Message> queue) {
 		this.GROUP = group;
 		this.PORT = port;
 		this.queue = queue;

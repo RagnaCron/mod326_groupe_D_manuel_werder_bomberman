@@ -55,7 +55,7 @@ public class BombermenServer extends Thread implements JSONEncode {
 //			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
 //			System.out.println("ServerSocketListener auf " + INPUT_PORT + " gestartet ...");
 //			(new Thread(new ServerSocketSender(outputClient, outputQueue), "Output Thread")).start();
-			(new Thread((new MulticastUDPSender(group, OUTPUT_PORT, outputQueue)), "Output Thread")).start();
+			(new Thread((new ServerMulticastUDPSender(group, OUTPUT_PORT, outputQueue)), "Output Thread")).start();
 //			System.out.println("ServerSocketSender auf " + INPUT_PORT + " gestartet ...");
 //			System.out.println("Hello, form the Bombermen Thread....");
 //			outputQueue.add(new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."}));
