@@ -1,4 +1,4 @@
-package minesweeper;
+package ExamplesAndFoundations.minesweeper;
 
 public interface Constants {
 

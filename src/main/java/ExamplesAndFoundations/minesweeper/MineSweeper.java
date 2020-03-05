@@ -1,4 +1,4 @@
-package minesweeper;
+package ExamplesAndFoundations.minesweeper;
 
 import javax.swing.*;
 import java.awt.*;

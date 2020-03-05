@@ -1,4 +1,4 @@
-package TutorialsJava.Threading;
+package ExamplesAndFoundations.TutorialsJava.Threading;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package GameOfLifeSimulation;
+package ExamplesAndFoundations.GameOfLifeSimulation;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package ch13;
+package ExamplesAndFoundations.ch13;
 
 import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;

@@ -1,7 +1,7 @@
-package TutorialsJava.KnockKnock;
+package ExamplesAndFoundations.TutorialsJava.Multicast;
 
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,48 +33,44 @@ package TutorialsJava.KnockKnock;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
-public class KnockKnockClient {
-	public static void main(String[] args) throws IOException {
+public class MulticastServerThread extends QuoteServerThread {
 
-		if (args.length != 2) {
-			System.err.println(
-					"Usage: java EchoClient <host name> <port number>");
-			System.exit(1);
-		}
+	private long FIVE_SECONDS = 5000;
 
-		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
+	public MulticastServerThread() throws IOException {
+		super("MulticastServerThread");
+	}
 
-		try (
-				Socket kkSocket = new Socket(hostName, portNumber);
-				PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(kkSocket.getInputStream()));
-		) {
-			BufferedReader stdIn =
-					new BufferedReader(new InputStreamReader(System.in));
-			String fromServer;
-			String fromUser;
+	public void run() {
+		while (moreQuotes) {
+			try {
+				byte[] buf = new byte[256];
 
-			while ((fromServer = in.readLine()) != null) {
-				System.out.println("Server: " + fromServer);
-				if (fromServer.equals("Bye."))
-					break;
+				// construct quote
+				String dString = null;
+				if (in == null)
+					dString = new Date().toString();
+				else
+					dString = getNextQuote();
+				buf = dString.getBytes();
 
-				fromUser = stdIn.readLine();
-				if (fromUser != null) {
-					System.out.println("Client: " + fromUser);
-					out.println(fromUser);
-				}
+				// send it
+				InetAddress group = InetAddress.getByName("230.0.0.1");
+				DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 4446);
+				socket.send(packet);
+
+				// sleep for a while
+				try {
+					sleep((long)(Math.random() * FIVE_SECONDS));
+				} catch (InterruptedException e) { }
+			} catch (IOException e) {
+				e.printStackTrace();
+				moreQuotes = false;
 			}
-		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host " + hostName);
-			System.exit(1);
-		} catch (IOException e) {
-			System.err.println("Couldn't get I/O for the connection to " +
-					hostName);
-			System.exit(1);
 		}
+		socket.close();
 	}
 }
+

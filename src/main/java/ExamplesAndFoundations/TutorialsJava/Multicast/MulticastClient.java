@@ -1,7 +1,7 @@
-package TutorialsJava.KnockKnock;
+package ExamplesAndFoundations.TutorialsJava.Multicast;
 
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,45 +31,34 @@ package TutorialsJava.KnockKnock;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 
-public class KnockKnockServer {
+public class MulticastClient {
+
 	public static void main(String[] args) throws IOException {
 
-		if (args.length != 1) {
-			System.err.println("Usage: java KnockKnockServer <port number>");
-			System.exit(1);
+		MulticastSocket socket = new MulticastSocket(4446);
+		InetAddress address = InetAddress.getByName("230.0.0.1");
+		socket.joinGroup(address);
+
+		DatagramPacket packet;
+
+		// get a few quotes
+		for (int i = 0; i < 5; i++) {
+
+			byte[] buf = new byte[256];
+			packet = new DatagramPacket(buf, buf.length);
+			socket.receive(packet);
+
+			String received = new String(packet.getData(), 0, packet.getLength());
+			System.out.println("Quote of the Moment: " + received);
 		}
 
-		int portNumber = Integer.parseInt(args[0]);
-
-		try (
-				ServerSocket serverSocket = new ServerSocket(portNumber);
-				Socket clientSocket = serverSocket.accept();
-				PrintWriter out =
-						new PrintWriter(clientSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(clientSocket.getInputStream()));
-		) {
-
-			String inputLine, outputLine;
-
-			// Initiate conversation with client
-			KnockKnockProtocol kkp = new KnockKnockProtocol();
-			outputLine = kkp.processInput(null);
-			out.println(outputLine);
-
-			while ((inputLine = in.readLine()) != null) {
-				outputLine = kkp.processInput(inputLine);
-				out.println(outputLine);
-				if (outputLine.equals("Bye."))
-					break;
-			}
-		} catch (IOException e) {
-			System.out.println("Exception caught when trying to listen on port "
-					+ portNumber + " or listening for a connection");
-			System.out.println(e.getMessage());
-		}
+		socket.leaveGroup(address);
+		socket.close();
 	}
+
 }
