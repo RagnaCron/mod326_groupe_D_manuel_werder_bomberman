@@ -1,6 +1,7 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
 import BombermenClient.UserInterface.BombermenJTextArea;
+import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
@@ -47,10 +48,12 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 		(new Thread(new ClientMulticastUDPListener(INPUT_PORT, inputQueue), "Client Input Thread")).start();
 		(new Thread(new ClientSocketSender(outputSocket, outputQueue), "Client Output Thread")).start();
 		Message message;
-		while (!isCancelled()) {
+		boolean isRunning = true;
+		while (isRunning) {
 			if(!inputQueue.isEmpty()) {
 				message = inputQueue.poll();
 				System.err.format("Ready to process Messages... %s%n", message.readFirst());
+				CustomJSONArray array = message.getParameters();
 //				publish(message);
 				switch (message.getCode()){
 					case MOVE:
@@ -66,12 +69,15 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 //					case PLAYER_LOGIN:
 //						break;
 					case PLAYER_LOGIN_SUCCESS:
-						System.out.println(message.getParameters().toJSONString());
+						array.remove(0);
+						textArea.appendSuccess(array.toJSONString());
 						break;
 					case PLAYER_LOGIN_ERROR:
-						System.out.println(message.getParameters().toJSONString());
+						array.remove(0);
+						textArea.appendError(array.toJSONString());
 						break;
 					case PLAYER_EXIT:
+						isRunning = false;
 						break;
 					case LOAD_LABYRINTH:
 						break;
