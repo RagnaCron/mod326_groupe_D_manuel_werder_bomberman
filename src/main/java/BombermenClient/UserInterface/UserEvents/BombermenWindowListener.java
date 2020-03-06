@@ -18,7 +18,7 @@ public final class BombermenWindowListener extends WindowAdapter {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
+		outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID saveGamePoints"));
 		GoodbyePlayer();
 	}
 }
