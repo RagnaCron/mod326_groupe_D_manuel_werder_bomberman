@@ -2,23 +2,22 @@ package BombermenClient.Bombermen;
 
 import BombermenClient.Bombermen.ClientCommunication.ClientServerProxy;
 import BombermenClient.Labyrinth.Labyrinth;
-import BombermenClient.UserInterface.UserGameKeyboardInput;
-import BombermenClientServerInterfaces.Messaging.CommandCode;
+import BombermenClient.UserInterface.BombermenJButton;
+import BombermenClient.UserInterface.BombermenJTextField;
+import BombermenClient.UserInterface.BombermenWindowListener;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static java.lang.Thread.sleep;
 
 public class Bombermen extends JFrame implements GameConstants {
 
-	private JTextField textField;
+	private BombermenJTextField textField;
+	private BombermenJButton signInButton;
+	private String userName = "";
 	private JTextArea textArea;
 
 	private ConcurrentLinkedQueue<Message> inputQueue = new ConcurrentLinkedQueue<>();
@@ -32,7 +31,6 @@ public class Bombermen extends JFrame implements GameConstants {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
 		addWindowListener(new BombermenWindowListener(outputQueue));
-		addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
 
 		loadServerLogin();
 		loadServerLoggingTextArea();
@@ -45,13 +43,10 @@ public class Bombermen extends JFrame implements GameConstants {
 	}
 
 	private void loadServerLogin() {
-		textField = new JTextField("Your Player Name");
-		textField.setBounds(TEXT_INPUT_POSITION);
-		textField.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
+		textField = new BombermenJTextField(outputQueue);
 		add(textField);
-		JButton signInButton = new JButton("Sign In");
-		signInButton.setBounds(SING_IN_BUTTON_POSITION);
-		signInButton.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
+
+		signInButton = new BombermenJButton(outputQueue, textField);
 		add(signInButton);
 	}
 
@@ -65,7 +60,6 @@ public class Bombermen extends JFrame implements GameConstants {
 		JScrollPane pane  = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
-		pane.addKeyListener(BombermenKeyboardListener.CreateBombermenKeyboardListener(outputQueue));
 		add(pane);
 	}
 
@@ -78,52 +72,17 @@ public class Bombermen extends JFrame implements GameConstants {
 	private void loadLabyrinth() {
 		Labyrinth labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
-		labyrinth.addKeyListener(new UserGameKeyboardInput());
+//		labyrinth.addKeyListener(new UserGameKeyboardInput());
 		setLayout(null);
 		add(labyrinth);
 	}
 
 
-	private static class BombermenKeyboardListener extends KeyAdapter {
-		private static BombermenKeyboardListener keyboardListener;
-		private static ConcurrentLinkedQueue<Message> queue;
-		private BombermenKeyboardListener() {
-			super();
-		}
-		public synchronized static BombermenKeyboardListener CreateBombermenKeyboardListener(ConcurrentLinkedQueue<Message> outputQueue) {
-			if (keyboardListener == null) {
-				keyboardListener = new BombermenKeyboardListener();
-				queue = outputQueue;
-			}
-			return keyboardListener;
-		}
-		@Override
-		public void keyPressed(KeyEvent event) {
-			if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				queue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
-			    GoodbyePlayer();
-			}
-		}
-	}
 
-	private static class BombermenWindowListener extends WindowAdapter {
-		private ConcurrentLinkedQueue<Message> outputQueue;
-
-		public BombermenWindowListener(ConcurrentLinkedQueue<Message> outputQueue) {
-			this.outputQueue = outputQueue;
-		}
-
-		@Override
-		public void windowClosing(WindowEvent e) {
-			outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
-			GoodbyePlayer();
-		}
-	}
-
-	private static void GoodbyePlayer() {
+	public static void GoodbyePlayer() {
 		new Thread(() -> {
 			try {
-				sleep(5000);
+				sleep(2500);
 				System.exit(0);
 			} catch (Exception ignored) {}
 		}).start();

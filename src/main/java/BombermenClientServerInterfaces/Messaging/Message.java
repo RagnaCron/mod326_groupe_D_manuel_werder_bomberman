@@ -44,4 +44,8 @@ public final class Message {
 		this.CODE = code;
 		this.PARAMETERS = message;
 	}
+
+	public Message(CommandCode code, String message) {
+		this(code, message.split(" "));
+	}
 }
