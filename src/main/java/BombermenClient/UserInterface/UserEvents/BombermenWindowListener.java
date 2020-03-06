@@ -1,4 +1,4 @@
-package BombermenClient.UserInterface;
+package BombermenClient.UserInterface.UserEvents;
 
 import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.Message;

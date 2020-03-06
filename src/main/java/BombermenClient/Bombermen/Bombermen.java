@@ -5,7 +5,7 @@ import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.BombermenJButton;
 import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClient.UserInterface.BombermenJTextField;
-import BombermenClient.UserInterface.BombermenWindowListener;
+import BombermenClient.UserInterface.UserEvents.BombermenWindowListener;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
