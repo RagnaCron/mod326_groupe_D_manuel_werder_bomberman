@@ -11,6 +11,7 @@ public final class BombermenJTextField extends JTextField implements GameConstan
 //	private ConcurrentLinkedQueue<Message> outputQueue;
 
 	public BombermenJTextField(ConcurrentLinkedQueue<Message> outputQueue) {
+		super();
 //		this.outputQueue = outputQueue;
 		setBounds(TEXT_INPUT_POSITION);
 		setActionCommand("input");

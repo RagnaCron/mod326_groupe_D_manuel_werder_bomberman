@@ -3,22 +3,22 @@ package BombermenClient.Bombermen;
 import BombermenClient.Bombermen.ClientCommunication.ClientServerProxy;
 import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.BombermenJButton;
+import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClient.UserInterface.BombermenJTextField;
 import BombermenClient.UserInterface.BombermenWindowListener;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static java.lang.Thread.sleep;
 
-public class Bombermen extends JFrame implements GameConstants {
+public final class Bombermen extends JFrame implements GameConstants {
 
 	private BombermenJTextField textField;
 	private BombermenJButton signInButton;
 	private String userName = "";
-	private JTextArea textArea;
+	private BombermenJTextArea textArea;
 
 	private ConcurrentLinkedQueue<Message> inputQueue = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Message> outputQueue = new ConcurrentLinkedQueue<>();
@@ -45,19 +45,15 @@ public class Bombermen extends JFrame implements GameConstants {
 	private void loadServerLogin() {
 		textField = new BombermenJTextField(outputQueue);
 		add(textField);
-
 		signInButton = new BombermenJButton(outputQueue, textField);
 		add(signInButton);
 	}
 
 	private void loadServerLoggingTextArea() {
-		textArea = new JTextArea(5, 49);
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
-		textArea.setFont(new Font("DialogInput", Font.PLAIN, 18));
-		textArea.setEditable(false);
-		textArea.setTabSize(4);
-		JScrollPane pane  = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		textArea = new BombermenJTextArea();
+		JScrollPane pane  = new JScrollPane(
+				textArea,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pane.setBounds(SERVER_LOGGING_TEXTAREA_POSITION);
 		add(pane);
