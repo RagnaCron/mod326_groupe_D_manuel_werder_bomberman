@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>BombermenServer.BombermenServer</OriginalElement>
+  <nodes>
+    <node x="300.5020661157025" y="208.0">BombermenServer.ServerMulticastUDPSender</node>
+    <node x="205.59090909090907" y="287.0">BombermenServer.BombermenServer</node>
+    <node x="238.86363636363635" y="0.0">java.lang.Thread</node>
+    <node x="46.0" y="208.0">BombermenServer.ServerSocketListener</node>
+    <node x="468.0020661157025" y="129.0">BombermenClientServerInterfaces.Messaging.JSONEncode</node>
+    <node x="543.3770661157025" y="208.0">BombermenClientServerInterfaces.AbstractSocketSender</node>
+    <node x="550.3770661157025" y="287.0">BombermenServer.ServerSocketSender</node>
+    <node x="39.0" y="129.0">BombermenClientServerInterfaces.AbstractSocketListener</node>
+    <node x="0.0" y="0.0">BombermenClientServerInterfaces.Messaging.JSONDecode</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="BombermenClientServerInterfaces.AbstractSocketSender" target="BombermenClientServerInterfaces.Messaging.JSONEncode">
+      <point x="-70.5" y="-14.5" />
+      <point x="566.8770661157025" y="183.0" />
+      <point x="550.6020661157024" y="183.0" />
+      <point x="23.599999999999994" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.BombermenServer" target="BombermenServer.ServerMulticastUDPSender">
+      <point x="38.25" y="-14.5" />
+      <point x="320.34090909090907" y="257.0" />
+      <point x="408.5020661157025" y="257.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.BombermenServer" target="BombermenServer.ServerSocketListener">
+      <point x="-63.75" y="-14.5" />
+      <point x="218.34090909090907" y="267.0" />
+      <point x="140.0" y="267.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClientServerInterfaces.AbstractSocketListener" target="java.lang.Thread">
+      <point x="50.5" y="-14.5" />
+      <point x="190.5" y="79.0" />
+      <point x="259.31818181818176" y="79.0" />
+      <point x="-24.54545454545456" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.BombermenServer" target="BombermenClientServerInterfaces.Messaging.JSONEncode">
+      <point x="63.75" y="-14.5" />
+      <point x="345.84090909090907" y="267.0" />
+      <point x="527.0020661157025" y="267.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.ServerSocketSender" target="BombermenClientServerInterfaces.AbstractSocketSender">
+      <point x="43.5" y="-14.5" />
+      <point x="680.8770661157025" y="267.0" />
+      <point x="684.3770661157025" y="267.0" />
+      <point x="47.0" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.ServerMulticastUDPSender" target="BombermenClientServerInterfaces.Messaging.JSONEncode">
+      <point x="81.0" y="-14.5" />
+      <point x="489.5020661157025" y="183.0" />
+      <point x="503.4020661157025" y="183.0" />
+      <point x="-23.599999999999994" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.ServerSocketListener" target="BombermenClientServerInterfaces.Messaging.JSONDecode">
+      <point x="-70.5" y="-14.5" />
+      <point x="69.5" y="183.0" />
+      <point x="28.5" y="183.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.ServerMulticastUDPSender" target="java.lang.Thread">
+      <point x="-81.0" y="-14.5" />
+      <point x="327.5020661157025" y="183.0" />
+      <point x="348.6342975206611" y="183.0" />
+      <point x="348.6342975206611" y="109.0" />
+      <point x="300.22727272727275" y="109.0" />
+      <point x="16.363636363636374" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.BombermenServer" target="java.lang.Thread">
+      <point x="-38.25" y="-14.5" />
+      <point x="243.84090909090907" y="257.0" />
+      <point x="268.0020661157025" y="257.0" />
+      <point x="268.0020661157025" y="99.0" />
+      <point x="275.68181818181813" y="99.0" />
+      <point x="-8.181818181818187" y="14.5" />
+    </edge>
+    <edge source="BombermenClientServerInterfaces.AbstractSocketListener" target="BombermenClientServerInterfaces.Messaging.JSONDecode">
+      <point x="-50.5" y="-14.5" />
+      <point x="29.5" y="14.5" />
+    </edge>
+    <edge source="BombermenServer.ServerSocketListener" target="BombermenClientServerInterfaces.AbstractSocketListener">
+      <point x="-23.5" y="-14.5" />
+      <point x="116.5" y="183.0" />
+      <point x="89.5" y="183.0" />
+      <point x="-50.5" y="14.5" />
+    </edge>
+    <edge source="java.lang.Thread" target="java.lang.Thread">
+      <point x="-40.90909090909091" y="14.5" />
+      <point x="242.95454545454544" y="49.0" />
+      <point x="218.86363636363635" y="49.0" />
+      <point x="218.86363636363635" y="21.75" />
+      <point x="-45.0" y="7.25" />
+    </edge>
+    <edge source="BombermenServer.ServerSocketListener" target="java.lang.Thread">
+      <point x="70.5" y="-14.5" />
+      <point x="210.5" y="183.0" />
+      <point x="257.4090909090909" y="183.0" />
+      <point x="257.4090909090909" y="89.0" />
+      <point x="267.5" y="89.0" />
+      <point x="-16.363636363636374" y="14.5" />
+    </edge>
+    <edge source="BombermenClientServerInterfaces.AbstractSocketSender" target="java.lang.Thread">
+      <point x="70.5" y="-14.5" />
+      <point x="707.8770661157025" y="183.0" />
+      <point x="676.4359504132232" y="183.0" />
+      <point x="676.4359504132232" y="79.0" />
+      <point x="324.77272727272725" y="79.0" />
+      <point x="40.909090909090935" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.4000000000000001" x="375.42857142857144" y="177.6428571428571" />
+  <SelectedNodes>
+    <node>BombermenServer.ServerMulticastUDPSender</node>
+    <node>BombermenServer.BombermenServer</node>
+    <node>BombermenServer.ServerSocketListener</node>
+    <node>BombermenClientServerInterfaces.Messaging.JSONEncode</node>
+    <node>BombermenClientServerInterfaces.AbstractSocketSender</node>
+    <node>BombermenClientServerInterfaces.AbstractSocketListener</node>
+    <node>BombermenServer.ServerSocketSender</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

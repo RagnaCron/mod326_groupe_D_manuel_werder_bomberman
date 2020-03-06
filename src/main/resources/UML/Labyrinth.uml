@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>BombermenClient.Labyrinth.Labyrinth</OriginalElement>
+  <nodes>
+    <node x="387.20776515151516" y="188.0">BombermenClient.GameElements.Bomb.Bomb</node>
+    <node x="161.72234848484848" y="277.0">BombermenClient.Labyrinth.Board</node>
+    <node x="291.20776515151516" y="188.0">BombermenClient.GameElements.Tiles.Tile</node>
+    <node x="126.9723484848485" y="356.0">BombermenClient.Labyrinth.Labyrinth</node>
+    <node x="57.20776515151516" y="188.0">BombermenClient.GameElements.Tiles.TileType</node>
+    <node x="0.0" y="0.0">BombermenClient.Bombermen.GameConstants</node>
+    <node x="267.98314393939404" y="109.0">BombermenClient.GameElements.GameElement</node>
+    <node x="181.20776515151516" y="188.0">BombermenClient.GameElements.Player.Player</node>
+    <node x="354.48939393939395" y="0.0">javax.swing.JPanel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="BombermenClient.GameElements.GameElement" target="javax.swing.JPanel">
+      <point x="31.25" y="-14.5" />
+      <point x="361.73314393939404" y="89.0" />
+      <point x="399.48939393939395" y="89.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Board" target="BombermenClient.GameElements.Tiles.Tile">
+      <point x="20.75" y="-14.5" />
+      <point x="223.9723484848485" y="247.0" />
+      <point x="329.20776515151516" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Labyrinth" target="javax.swing.JPanel">
+      <point x="44.400000000000006" y="-14.5" />
+      <point x="226.8723484848485" y="336.0" />
+      <point x="473.70776515151516" y="336.0" />
+      <point x="473.70776515151516" y="89.0" />
+      <point x="429.48939393939395" y="89.0" />
+      <point x="30.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Board" target="BombermenClient.GameElements.Tiles.TileType">
+      <point x="-6.916666666666686" y="-14.5" />
+      <point x="196.3056818181818" y="237.0" />
+      <point x="109.20776515151516" y="237.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.GameElements.Player.Player" target="BombermenClient.GameElements.GameElement">
+      <point x="0.0" y="-14.5" />
+      <point x="226.20776515151516" y="163.0" />
+      <point x="283.60814393939404" y="163.0" />
+      <point x="-46.875" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Labyrinth" target="BombermenClient.Labyrinth.Board">
+      <point x="22.19999999999999" y="-14.5" />
+      <point x="204.6723484848485" y="326.0" />
+      <point x="223.9723484848485" y="326.0" />
+      <point x="20.75" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Labyrinth" target="BombermenClient.Bombermen.GameConstants">
+      <point x="-44.400000000000034" y="-14.5" />
+      <point x="138.07234848484848" y="336.0" />
+      <point x="11.774810606060669" y="336.0" />
+      <point x="11.774810606060669" y="89.0" />
+      <point x="13.900000000000006" y="89.0" />
+      <point x="-55.599999999999994" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Board" target="BombermenClient.Bombermen.GameConstants">
+      <point x="-20.75" y="-14.5" />
+      <point x="182.47234848484848" y="247.0" />
+      <point x="46.70776515151516" y="247.0" />
+      <point x="46.70776515151516" y="89.0" />
+      <point x="97.3" y="89.0" />
+      <point x="27.799999999999997" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.GameElements.GameElement" target="BombermenClient.Bombermen.GameConstants">
+      <point x="-31.25" y="-14.5" />
+      <point x="299.23314393939404" y="89.0" />
+      <point x="125.1" y="89.0" />
+      <point x="55.599999999999994" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.GameElements.Bomb.Bomb" target="BombermenClient.GameElements.GameElement">
+      <point x="0.0" y="-14.5" />
+      <point x="425.20776515151516" y="163.0" />
+      <point x="377.35814393939404" y="163.0" />
+      <point x="46.875" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.GameElements.Tiles.Tile" target="BombermenClient.GameElements.GameElement">
+      <point x="19.0" y="-14.5" />
+      <point x="348.20776515151516" y="163.0" />
+      <point x="346.10814393939404" y="163.0" />
+      <point x="15.625" y="14.5" />
+    </edge>
+    <edge source="javax.swing.JPanel" target="javax.swing.JPanel">
+      <point x="-30.0" y="14.5" />
+      <point x="369.48939393939395" y="49.0" />
+      <point x="334.48939393939395" y="49.0" />
+      <point x="334.48939393939395" y="14.5" />
+      <point x="-45.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="401.5" y="256.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
