@@ -63,11 +63,15 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 						break;
 					case SERVER_LOGGING_MESSAGES:
 						break;
-					case PLAYER_LOGIN:
-						break;
-					case PLAYER_EXIT:
+//					case PLAYER_LOGIN:
+//						break;
+					case PLAYER_LOGIN_SUCCESS:
+						System.out.println(message.PARAMETERS.toString());
 						break;
 					case PLAYER_LOGIN_ERROR:
+						System.out.println(message.PARAMETERS.toString());
+						break;
+					case PLAYER_EXIT:
 						break;
 					case LOAD_LABYRINTH:
 						break;
@@ -91,28 +95,4 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 //		}
 //	}
 
-	//	@Override
-//	public void runasdf() {
-//		try (Socket inputSocket = new Socket(HOST, INPUT_PORT);
-//		     Socket outputSocket = new Socket(HOST, OUTPUT_PORT);
-//		     BufferedReader in = new BufferedReader(new InputStreamReader(inputSocket.getInputStream()));
-//		     PrintWriter out = new PrintWriter(outputSocket.getOutputStream(), true);
-//		     Scanner sc = new Scanner(System.in))
-//		{
-//			System.out.println(in.readLine());
-//
-//			while (true) {
-//				System.out.print("> ");
-//				String line = sc.nextLine();
-//				if (line.length() == 0)
-//					break;
-//				out.println(line);
-//				System.out.println("Antwort vom Server:");
-//				System.out.println(in.readLine());
-//			}
-//		} catch (Exception e) {
-//			//noinspection ThrowablePrintedToSystemOut
-//			System.err.println(e);
-//		}
-//	}
 }

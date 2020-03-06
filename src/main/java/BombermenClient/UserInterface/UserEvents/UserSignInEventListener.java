@@ -20,8 +20,7 @@ public final class UserSignInEventListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals("input")) {
-			outputQueue.add(new Message(CommandCode.PLAYER_LOGIN, textField.getText().trim()));
-		}
+		System.out.println("Ready to send message for login in....");
+		outputQueue.add(new Message(CommandCode.PLAYER_LOGIN, "player_login " + textField.getText().trim()));
 	}
 }

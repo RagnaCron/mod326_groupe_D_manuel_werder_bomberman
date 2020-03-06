@@ -30,6 +30,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
+		setLayout(null);
 		addWindowListener(new BombermenWindowListener(outputQueue));
 
 		loadServerLogin();
@@ -69,7 +70,6 @@ public final class Bombermen extends JFrame implements GameConstants {
 		Labyrinth labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
 //		labyrinth.addKeyListener(new UserGameKeyboardInput());
-		setLayout(null);
 		add(labyrinth);
 	}
 

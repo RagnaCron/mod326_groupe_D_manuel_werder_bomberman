@@ -1,5 +1,8 @@
 package BombermenClientServerInterfaces.Messaging;
 
+import java.util.Arrays;
+
+// TODO: REFACTOR MESSAGE TO USE CUSTOMJASONARRAY.....
 public final class Message {
 	public CommandCode CODE;
 	public String[] PARAMETERS;
@@ -47,5 +50,13 @@ public final class Message {
 
 	public Message(CommandCode code, String message) {
 		this(code, message.split(" "));
+	}
+
+	@Override
+	public String toString() {
+		return "Message{" +
+				"CODE=" + CODE +
+				", PARAMETERS=" + Arrays.toString(PARAMETERS) +
+				'}';
 	}
 }

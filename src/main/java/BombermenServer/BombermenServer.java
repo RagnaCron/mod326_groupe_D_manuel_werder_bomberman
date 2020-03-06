@@ -8,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @SuppressWarnings("all")
@@ -21,7 +22,7 @@ public class BombermenServer extends Thread implements JSONEncode {
 	private ServerSocket inputServer;
 	private ServerSocket outputServer;
 
-	private ConcurrentHashMap<String, String> players = new ConcurrentHashMap<>(8);
+	private Set<String> playerNames = new HashSet<>();
 
 	public BombermenServer() {
 		setName("BombermenServer Main Thread");
@@ -39,17 +40,7 @@ public class BombermenServer extends Thread implements JSONEncode {
 //			outputServer.setReuseAddress(true);
 //			outputServer.setOption(true, StandardSocketOptions.SO_BROADCAST);
 
-			new Thread(() -> {
-				while (true) {
-					try {
-//						sleep(1);
-						Socket inputClient = inputServer.accept();
-						(new Thread(new ServerSocketListener(inputClient, inputQueue))).start();
-					} catch (Exception exception) {
-						exception.printStackTrace();
-					}
-				}
-			}, "Accept new User input Thread").start();
+			acceptNewPlayers();
 
 //			Socket outputClient = outputServer.accept();
 //			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
@@ -77,10 +68,11 @@ public class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private void queryMessage(@NotNull Message message) {
-		Message m = message;
-		switch (m.CODE) {
+
+		switch (message.CODE) {
 			case DROP_BOMB:
 				new Thread(() -> {
+					Message m = message;
 					m.PARAMETERS[0] = "bomb_explode";
 					m.CODE = CommandCode.BOMB_EXPLODE;
 					try {
@@ -96,7 +88,16 @@ public class BombermenServer extends Thread implements JSONEncode {
 				}, "bomb_explode").start();
 				break;
 			case PLAYER_LOGIN:
-
+				String name = message.PARAMETERS[1];
+				Message m;
+				if (playerNames.add(name)) {
+					m = new Message(CommandCode.PLAYER_LOGIN_SUCCESS,
+							"player_login_success Welcome " + message.PARAMETERS[1] + "!");
+				} else {
+					m = new Message(CommandCode.PLAYER_LOGIN_ERROR,
+							new String[]{"player_login_error", "Player name is taken: " + name});
+				}
+				outputQueue.add(m);
 				break;
 
 			case PLAYER_EXIT:
@@ -106,5 +107,19 @@ public class BombermenServer extends Thread implements JSONEncode {
 			default:
 				outputQueue.add(message);
 		}
+	}
+
+	private void acceptNewPlayers() {
+		new Thread(() -> {
+			while (true) {
+				try {
+//						sleep(1);
+					Socket inputClient = inputServer.accept();
+					(new Thread(new ServerSocketListener(inputClient, inputQueue))).start();
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+			}
+		}, "Accept new User input Thread").start();
 	}
 }
