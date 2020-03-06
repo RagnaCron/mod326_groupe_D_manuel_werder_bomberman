@@ -69,12 +69,12 @@ public class BombermenServer extends Thread implements JSONEncode {
 
 	private void queryMessage(@NotNull Message message) {
 
-		switch (message.CODE) {
+		switch (message.getCode()) {
 			case DROP_BOMB:
 				new Thread(() -> {
 					Message m = message;
-					m.PARAMETERS[0] = "bomb_explode";
-					m.CODE = CommandCode.BOMB_EXPLODE;
+					m.setValue(0, "bomb_explode");
+					m.setCode(CommandCode.BOMB_EXPLODE);
 					try {
 //						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
 						sleep(1991);
@@ -88,14 +88,12 @@ public class BombermenServer extends Thread implements JSONEncode {
 				}, "bomb_explode").start();
 				break;
 			case PLAYER_LOGIN:
-				String name = message.PARAMETERS[1];
+				String name = message.getValue(1);
 				Message m;
 				if (playerNames.add(name)) {
-					m = new Message(CommandCode.PLAYER_LOGIN_SUCCESS,
-							"player_login_success Welcome " + message.PARAMETERS[1] + "!");
+					m = new Message(new String[]{"player_login_success", "Welcome " + name + "!"});
 				} else {
-					m = new Message(CommandCode.PLAYER_LOGIN_ERROR,
-							new String[]{"player_login_error", "Player name is taken: " + name});
+					m = new Message(new String[]{"player_login_error", "Player name is taken: " + name});
 				}
 				outputQueue.add(m);
 				break;

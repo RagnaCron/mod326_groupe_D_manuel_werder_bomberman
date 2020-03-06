@@ -1,6 +1,5 @@
 package ExamplesAndFoundations.ch13;
 
-import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.JSONEncode;
 import BombermenClientServerInterfaces.Messaging.Message;
@@ -24,7 +23,7 @@ public class JsonExample implements JSONEncode {
         System.out.println(jo);
 
         JsonExample example = new JsonExample();
-        CustomJSONArray array = example.encode(new Message(CommandCode.ERROR_CODE, new String[]{"error_code", "goodbye"}));
+        CustomJSONArray array = example.encode(new Message(new String[]{"error_code", "goodbye"}));
         System.out.println(array);
         System.out.println(array.toJSONString());
         System.out.println(new CustomJSONArray(array.toString()));

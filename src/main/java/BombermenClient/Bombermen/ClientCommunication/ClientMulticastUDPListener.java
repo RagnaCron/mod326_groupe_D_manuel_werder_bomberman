@@ -47,7 +47,7 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 					System.out.println(received);
 
 					serverMessage = decode(new CustomJSONArray(received));
-					if (serverMessage.CODE == CommandCode.PLAYER_EXIT) // TODO: ADD PLAYER NAME TO CONFIRM
+					if (serverMessage.getCode() == CommandCode.PLAYER_EXIT) // TODO: ADD PLAYER NAME TO CONFIRM
 						isRunning = false;
 
 					queue.add(serverMessage);

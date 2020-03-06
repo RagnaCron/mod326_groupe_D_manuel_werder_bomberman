@@ -1,6 +1,5 @@
 package BombermenClient.UserInterface.UserEvents;
 
-import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import java.awt.event.WindowAdapter;
@@ -18,7 +17,7 @@ public final class BombermenWindowListener extends WindowAdapter {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		outputQueue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID saveGamePoints"));
+		outputQueue.add(new Message("player_exit playerID saveGamePoints"));
 		GoodbyePlayer();
 	}
 }

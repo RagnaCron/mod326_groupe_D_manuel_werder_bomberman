@@ -1,7 +1,6 @@
 package BombermenClient.UserInterface.UserEvents;
 
 import BombermenClient.UserInterface.BombermenJTextField;
-import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import java.awt.event.ActionEvent;
@@ -21,6 +20,6 @@ public final class UserSignInEventListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		System.out.println("Ready to send message for login in....");
-		outputQueue.add(new Message(CommandCode.PLAYER_LOGIN, "player_login " + textField.getText().trim()));
+		outputQueue.add(new Message("player_login " + textField.getText().trim()));
 	}
 }

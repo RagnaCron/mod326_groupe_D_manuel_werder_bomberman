@@ -1,62 +1,75 @@
 package BombermenClientServerInterfaces.Messaging;
 
-import java.util.Arrays;
+import lombok.Getter;
+import lombok.Setter;
 
-// TODO: REFACTOR MESSAGE TO USE CUSTOMJASONARRAY.....
+@Getter @Setter
 public final class Message {
-	public CommandCode CODE;
-	public String[] PARAMETERS;
+	private CommandCode code;
+	private CustomJSONArray parameters;
 
-	public Message(String[] values) {
-		switch (values[0]) {
+	public Message(CustomJSONArray array) {
+		this.parameters = array;
+		switch (array.getString(0)){
 			case "move":
-				CODE = CommandCode.MOVE;
+				code = CommandCode.MOVE;
 				break;
 			case "drop_bomb":
-				CODE = CommandCode.DROP_BOMB;
+				code = CommandCode.DROP_BOMB;
 				break;
 			case "bomb_explode":
-				CODE = CommandCode.BOMB_EXPLODE;
+				code = CommandCode.BOMB_EXPLODE;
 				break;
 			case "bomb_collision":
-				CODE = CommandCode.BOMB_COLLISION;
+				code = CommandCode.BOMB_COLLISION;
 				break;
 			case "logging":
-				CODE = CommandCode.SERVER_LOGGING_MESSAGES;
+				code = CommandCode.SERVER_LOGGING_MESSAGES;
 				break;
 			case "player_login":
-				CODE = CommandCode.PLAYER_LOGIN;
+				code = CommandCode.PLAYER_LOGIN;
+				break;
+			case "player_login_success":
+				code = CommandCode.PLAYER_LOGIN_SUCCESS;
 				break;
 			case "player_login_error":
-				CODE = CommandCode.PLAYER_LOGIN_ERROR;
-				break;
-			case "load_labyrinth":
-				CODE = CommandCode.LOAD_LABYRINTH;
+				code = CommandCode.PLAYER_LOGIN_ERROR;
 				break;
 			case "player_exit":
-				CODE = CommandCode.PLAYER_EXIT;
+				code = CommandCode.PLAYER_EXIT;
+				break;
+			case "load_labyrinth":
+				code = CommandCode.LOAD_LABYRINTH;
 				break;
 			case "error_code":
 			default:
-				CODE = CommandCode.ERROR_CODE;
+				code = CommandCode.ERROR_CODE;
 		}
-		this.PARAMETERS = values;
 	}
 
-	public Message(CommandCode code, String[] message) {
-		this.CODE = code;
-		this.PARAMETERS = message;
+	public Message(String[] array) {
+		this(new CustomJSONArray(array));
 	}
 
-	public Message(CommandCode code, String message) {
-		this(code, message.split(" "));
+	public Message(String message) {
+		this(message.split(" "));
 	}
 
-	@Override
-	public String toString() {
-		return "Message{" +
-				"CODE=" + CODE +
-				", PARAMETERS=" + Arrays.toString(PARAMETERS) +
-				'}';
+	public String readFirst() {
+		return parameters.getString(0);
 	}
+
+	public boolean setValue(int index, String value) {
+		try {
+			parameters.put(index, value);
+			return true;
+		} catch (Exception ignored) {
+			return false;
+		}
+	}
+
+	public String getValue(int index) {
+		return parameters.getString(index);
+	}
+
 }

@@ -26,7 +26,7 @@ public class ServerSocketListener extends AbstractSocketListener {
 					System.out.format("%s: %s%n", Thread.currentThread().getName(), input);
 					message = decode(new CustomJSONArray(input));
 					queue.add(message);
-					if (message.CODE == CommandCode.PLAYER_EXIT)
+					if (message.getCode() == CommandCode.PLAYER_EXIT)
 						break;
 					sleep(0, 10000);
 				} else {

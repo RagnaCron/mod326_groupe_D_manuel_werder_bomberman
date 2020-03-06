@@ -1,6 +1,5 @@
 package BombermenClient.UserInterface.UserEvents;
 
-import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import java.awt.event.KeyAdapter;
@@ -25,7 +24,7 @@ public final class BombermenKeyboardListener extends KeyAdapter {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			queue.add(new Message(CommandCode.PLAYER_EXIT, "player_exit playerID socketID saveGamePoints".split(" ")));
+			queue.add(new Message("player_exit playerID saveGamePoints"));
 			GoodbyePlayer();
 		}
 	}

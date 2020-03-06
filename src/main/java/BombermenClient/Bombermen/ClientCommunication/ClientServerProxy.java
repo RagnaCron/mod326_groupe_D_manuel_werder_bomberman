@@ -1,6 +1,6 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
-import BombermenClientServerInterfaces.Messaging.CommandCode;
+import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
@@ -21,11 +21,11 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 	private Socket outputSocket;
 
 //	private Labyrinth labyrinth;
-	private JTextArea textArea;
+	private BombermenJTextArea textArea;
 
 	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
 	                         ConcurrentLinkedQueue<Message> outputQueue,
-	                         JTextArea textArea)
+	                         BombermenJTextArea textArea)
 	{
 		this.inputQueue = inputQueue;
 		this.outputQueue = outputQueue;
@@ -50,9 +50,9 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 		while (!isCancelled()) {
 			if(!inputQueue.isEmpty()) {
 				message = inputQueue.poll();
-				System.err.format("Ready to process Messages... %s%n", message.PARAMETERS[0]);
+				System.err.format("Ready to process Messages... %s%n", message.readFirst());
 //				publish(message);
-				switch (message.CODE){
+				switch (message.getCode()){
 					case MOVE:
 						break;
 					case DROP_BOMB:
@@ -66,10 +66,10 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 //					case PLAYER_LOGIN:
 //						break;
 					case PLAYER_LOGIN_SUCCESS:
-						System.out.println(message.PARAMETERS.toString());
+						System.out.println(message.getParameters().toJSONString());
 						break;
 					case PLAYER_LOGIN_ERROR:
-						System.out.println(message.PARAMETERS.toString());
+						System.out.println(message.getParameters().toJSONString());
 						break;
 					case PLAYER_EXIT:
 						break;
@@ -83,9 +83,7 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 				} catch (InterruptedException ignored) {}
 			}
 		}
-		return new Message(
-				CommandCode.ERROR_CODE,
-				new String[]{"error_code", "Restart the game...you lost the server connection!"});
+		return new Message(new String[]{"error_code", "Restart the game...you lost the server connection!"});
 	}
 
 //	@Override

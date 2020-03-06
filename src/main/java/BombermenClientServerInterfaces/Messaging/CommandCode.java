@@ -3,8 +3,8 @@ package BombermenClientServerInterfaces.Messaging;
 public enum CommandCode {
 	MOVE,
 	DROP_BOMB,
-	BOMB_COLLISION,
 	BOMB_EXPLODE,
+	BOMB_COLLISION,
 	SERVER_LOGGING_MESSAGES,
 	PLAYER_LOGIN,
 	PLAYER_LOGIN_SUCCESS,
