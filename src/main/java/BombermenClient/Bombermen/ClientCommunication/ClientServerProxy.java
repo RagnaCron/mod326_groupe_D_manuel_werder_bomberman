@@ -57,11 +57,8 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 //				publish(message);
 				switch (message.getCode()){
 					case MOVE:
-						break;
 					case DROP_BOMB:
-						break;
 					case BOMB_COLLISION:
-						break;
 					case BOMB_EXPLODE:
 						break;
 					case SERVER_LOGGING_MESSAGES:
@@ -85,7 +82,7 @@ public class ClientServerProxy extends SwingWorker<Message, Message> {
 						break;
 				}
 				try {
-					wait(0, 10000);
+					wait(0, 1000);
 				} catch (InterruptedException ignored) {}
 			}
 		}

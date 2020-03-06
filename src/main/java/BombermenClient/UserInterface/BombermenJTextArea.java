@@ -15,18 +15,18 @@ public final class BombermenJTextArea extends JTextArea {
 	}
 
 	@Override
-	public void append(String str) {
-		setCaretColor(Color.BLACK);
-		super.append(str);
+	public void append(String message) {
+		setForeground(Color.BLACK);
+		super.append(message);
 	}
 
 	public void appendSuccess(String message) {
-		setCaretColor(Color.GREEN);
-		append(message);
+		setForeground(Color.GREEN);
+		super.append(message);
 	}
 
 	public void appendError(String message) {
-		setCaretColor(Color.RED);
-		append(message);
+		setForeground(Color.RED);
+		super.append(message);
 	}
 }
