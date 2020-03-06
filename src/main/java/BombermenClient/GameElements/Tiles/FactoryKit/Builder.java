@@ -1,4 +1,4 @@
-package BombermenClient.GameElements.Tiles.Factory;
+package BombermenClient.GameElements.Tiles.FactoryKit;
 
 import BombermenClient.GameElements.Tiles.TileType;
 

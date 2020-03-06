@@ -2,15 +2,16 @@ package BombermenClient.Labyrinth;
 
 import BombermenClient.Bombermen.GameConstants;
 import BombermenClient.GameElements.Tiles.*;
-import BombermenClient.GameElements.Tiles.Factory.TileFactory;
+import BombermenClient.GameElements.Tiles.FactoryKit.TileFactory;
 
 import java.awt.*;
 
 public class Board implements GameConstants {
 	private Tile[][] board = new Tile[GRID_SIZE][GRID_SIZE];
+	private TileFactory factory;
 
 	public Board(String[][] labyrinthFile){
-		TileFactory factory = TileFactory.factory(builder -> {
+		factory = TileFactory.factory(builder -> {
 			// Shows an Error that is not one! to test. first Compile and then run the game...
 			builder.add(TileType.GRASS_TILE, GrassTile::new);
 			builder.add(TileType.DESTRUCTIBLE_TILE, DestructibleTile::new);

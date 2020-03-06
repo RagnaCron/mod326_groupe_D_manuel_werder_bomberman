@@ -1,4 +1,4 @@
-package BombermenClient.GameElements.Tiles.Factory;
+package BombermenClient.GameElements.Tiles.FactoryKit;
 
 import BombermenClient.GameElements.Tiles.Tile;
 import BombermenClient.GameElements.Tiles.TileType;
@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 /**
+ * https://github.com/iluwatar/java-design-patterns/tree/master/factory-kit
+ *
  * Functional interface, an example of the factory-kit design pattern.
  * <br>Instance created locally gives an opportunity to strictly define
  * which objects types the instance of a factory will be able to create.
@@ -34,7 +36,7 @@ public interface TileFactory {
 	{
 		var map = new HashMap<TileType, FactoryFunction>();
 		consumer.accept(map::put);
-		return (name, path, size, position) -> map.get(name).execute(path, size, position);
+		return (type, path, size, position) -> map.get(type).execute(path, size, position);
 	}
 
 }
