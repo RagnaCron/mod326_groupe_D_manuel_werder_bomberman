@@ -30,6 +30,7 @@ public interface GameConstants {
 	String INDESTRUCTIBLE_TILE_2 = "src/main/resources/GameArt/Tiles/tile_indestructible_2.png";
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
 	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_destroyable.png";
+	String EMPTY_TILE = "src/main/resources/GameArt/Tiles/tile_empty.png";
 
 	Rectangle TEXT_INPUT_POSITION = new Rectangle(
 			(FRAME_WIDTH) / 6,
