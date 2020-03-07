@@ -69,7 +69,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 	}
 
 	private void connectToServer() {
-		serverConnection = new ClientServerProxy(inputQueue, outputQueue, textArea);
+		serverConnection = new ClientServerProxy(inputQueue, outputQueue, textArea, textField, signInButton);
 //		serverConnection.addPropertyChangeListener(event -> {
 //			System.err.format("Hello form the PropertyChangeListener: %s%n", event.getPropertyName());
 //		});
@@ -89,7 +89,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 		new Thread(() -> {
 			try {
 				inputQueue.add(new Message("player_exit"));
-				sleep(2800);
+				sleep(2300);
 				System.exit(0);
 			} catch (Exception ignored) {}
 		}).start();

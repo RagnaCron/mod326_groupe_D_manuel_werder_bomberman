@@ -1,10 +1,12 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
 import BombermenClient.UserInterface.BombermenJTextArea;
+import BombermenClient.UserInterface.BombermenJTextField;
 import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.Message;
 
+import javax.swing.*;
 import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -20,16 +22,22 @@ public class ClientServerProxy extends Thread {
 
 //	private Labyrinth labyrinth;
 	private BombermenJTextArea textArea;
+	private BombermenJTextField textField;
+	private JButton button;
 	private String playerName = "";
 
 	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
 	                         ConcurrentLinkedQueue<Message> outputQueue,
-	                         BombermenJTextArea textArea)
+	                         BombermenJTextArea textArea,
+	                         BombermenJTextField textField,
+	                         JButton button)
 	{
 		this.inputQueue = inputQueue;
 		this.outputQueue = outputQueue;
 //		this.labyrinth = labyrinth;
 		this.textArea = textArea;
+		this.textField = textField;
+		this.button = button;
 
 		try {
 			String host = Inet4Address.getLocalHost().getHostName();
@@ -60,8 +68,7 @@ public class ClientServerProxy extends Thread {
 						case BOMB_EXPLODE:
 							break;
 						case PLAYER_LOGIN_SUCCESS:
-							playerName = message.getPlayerName();
-							append(message);
+							loginSuccess(message);
 							break;
 						case PLAYER_LOGIN_ERROR:
 							append(message);
@@ -84,6 +91,14 @@ public class ClientServerProxy extends Thread {
 			outputSocket.close();
 			join();
 		} catch (Exception ignored) {}
+	}
+
+	private void loginSuccess(Message message) {
+		playerName = message.getPlayerName();
+		append(message);
+//		textField.setVisible(false);
+		button.setVisible(false);
+		textField.setEditable(false);
 	}
 
 	private boolean isMyGoodbye(Message message) {
