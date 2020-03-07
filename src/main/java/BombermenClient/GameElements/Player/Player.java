@@ -2,8 +2,8 @@ package BombermenClient.GameElements.Player;
 
 import BombermenClient.GameElements.Collide;
 import BombermenClient.GameElements.GameElement;
+import lombok.Getter;
 
-import javax.swing.*;
 import java.awt.*;
 
 import static java.lang.Thread.sleep;
@@ -13,15 +13,18 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 	private Direction facingDirection;
 	private Moving moving = null;
 	private final PlayerVersion version;
+	@Getter
+	private Image image;
 
-	private ImageIcon[] movingUp;
-	private ImageIcon[] movingRight;
-	private ImageIcon[] movingDown;
-	private ImageIcon[] movingLeft;
+	private Image[] movingUp;
+	private Image[] movingRight;
+	private Image[] movingDown;
+	private Image[] movingLeft;
 
 	private Thread animation;
 
 	public Player(PlayerVersion version, Direction facingDirection, Dimension size, Rectangle position) {
+		super();
 		this.version = version;
 		this.facingDirection = facingDirection;
 
@@ -34,6 +37,13 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 
 	public Player(PlayerVersion version, Direction facingDirection, Rectangle position) {
 		this(version, facingDirection, PLAYER_DIMENSION , position);
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+//		Graphics2D graphics2D = (Graphics2D) g;
+//		graphics2D.drawImage();
 	}
 
 	public void moving(int direction, int x, int y) {
@@ -64,9 +74,9 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 
 	}
 
-	private void display(Direction direction, ImageIcon image, Rectangle rect) {
+	private void display(Direction direction, Image image, Rectangle rect) {
 		animation = new Thread(() -> {
-			setIcon(image);
+//			image = (image);
 			setBounds(rect);
 			repaint(rect);
 			try {
@@ -76,7 +86,6 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 			}
 		});
 		animation.start();
-
 	}
 
 //	public void setFacingDirection(int direction) {
@@ -91,16 +100,16 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 	private void setInitialDirection(Direction direction) {
 		switch (direction) {
 			case FACING_UP:
-				setIcon(movingUp[0]);
+				image = movingUp[0];
 				break;
 			case FACING_RIGHT:
-				setIcon(movingRight[0]);
+				image = movingRight[0];
 				break;
 			case FACING_DOWN:
-				setIcon(movingDown[0]);
+				image = movingDown[0];
 				break;
 			case FACING_LEFT:
-				setIcon(movingLeft[0]);
+				image = movingLeft[0];
 				break;
 		}
 	}
@@ -108,107 +117,107 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 	private void loadPlayer(PlayerVersion version) {
 		switch (version) {
 			case GRAY:
-				movingUp = new ImageIcon[] {
-						new ImageIcon(loadImage(GRAY_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingUp = new Image[] {
+						loadImage(GRAY_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingRight = new ImageIcon[] {
-						new ImageIcon(loadImage(GRAY_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingRight = new Image[] {
+						loadImage(GRAY_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingDown = new ImageIcon[] {
-						new ImageIcon(loadImage(GRAY_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingDown = new Image[] {
+						loadImage(GRAY_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingLeft = new ImageIcon[] {
-						new ImageIcon(loadImage(GRAY_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GRAY_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingLeft = new Image[] {
+						loadImage(GRAY_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GRAY_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
 				break;
 			case GREEN:
-				movingUp = new ImageIcon[] {
-						new ImageIcon(loadImage(GREEN_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingUp = new Image[] {
+						loadImage(GREEN_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingRight = new ImageIcon[] {
-						new ImageIcon(loadImage(GREEN_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingRight = new Image[] {
+						loadImage(GREEN_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingDown = new ImageIcon[] {
-						new ImageIcon(loadImage(GREEN_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingDown = new Image[] {
+						loadImage(GREEN_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingLeft = new ImageIcon[] {
-						new ImageIcon(loadImage(GREEN_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(GREEN_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingLeft = new Image[] {
+						loadImage(GREEN_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(GREEN_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
 				break;
 			case PURPLE:
-				movingUp = new ImageIcon[] {
-						new ImageIcon(loadImage(PURPLE_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingUp = new Image[] {
+						loadImage(PURPLE_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingRight = new ImageIcon[] {
-						new ImageIcon(loadImage(PURPLE_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingRight = new Image[] {
+						loadImage(PURPLE_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingDown = new ImageIcon[] {
-						new ImageIcon(loadImage(PURPLE_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingDown = new Image[] {
+						loadImage(PURPLE_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingLeft = new ImageIcon[] {
-						new ImageIcon(loadImage(PURPLE_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(PURPLE_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingLeft = new Image[] {
+						loadImage(PURPLE_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(PURPLE_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
 				break;
 			case YELLOW:
-				movingUp = new ImageIcon[] {
-						new ImageIcon(loadImage(YELLOW_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingUp = new Image[] {
+						loadImage(YELLOW_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_UP_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_UP).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_UP_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingRight = new ImageIcon[] {
-						new ImageIcon(loadImage(YELLOW_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingRight = new Image[] {
+						loadImage(YELLOW_PLAYER_RIGHT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_RIGHT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_RIGHT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_RIGHT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingDown = new ImageIcon[] {
-						new ImageIcon(loadImage(YELLOW_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingDown = new Image[] {
+						loadImage(YELLOW_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_DOWN_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_DOWN).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_DOWN_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
-				movingLeft = new ImageIcon[] {
-						new ImageIcon(loadImage(YELLOW_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)),
-						new ImageIcon(loadImage(YELLOW_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0))
+				movingLeft = new Image[] {
+						loadImage(YELLOW_PLAYER_LEFT).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_LEFT_W_1).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_LEFT_W_2).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0),
+						loadImage(YELLOW_PLAYER_LEFT_W_3).getScaledInstance(PLAYER_SIZE, PLAYER_SIZE, 0)
 				};
 				break;
 		}
@@ -247,7 +256,7 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 		}
 	}
 
-	private enum Direction {
+	public enum Direction {
 		FACING_UP,
 		FACING_RIGHT,
 		FACING_DOWN,

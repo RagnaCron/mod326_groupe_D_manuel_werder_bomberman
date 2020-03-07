@@ -8,6 +8,13 @@ public interface PlayerConstants extends GameConstants {
 	int PLAYER_SIZE = 28;
 	Dimension PLAYER_DIMENSION = new Dimension(PLAYER_SIZE, PLAYER_SIZE);
 
+	Rectangle RIGHT_UPPER_CORNER_POSITION = new Rectangle(
+			(FRAME_WIDTH - LABYRINTH_WIDTH) / 6 - 8,
+			(FRAME_HEIGHT - LABYRINTH_HEIGHT - Y_OFFSET) / 6 - 8,
+			PLAYER_SIZE,
+			PLAYER_SIZE
+	);
+
 	String GRAY_PLAYER_UP =         "src/main/resources/GameArt/GrayPlayer/player_gr_up.png";
 	String GRAY_PLAYER_UP_W_1 =     "src/main/resources/GameArt/GrayPlayer/player_gr_up_w_1.png";
 	String GRAY_PLAYER_UP_W_2 =     "src/main/resources/GameArt/GrayPlayer/player_gr_up_w_2.png";

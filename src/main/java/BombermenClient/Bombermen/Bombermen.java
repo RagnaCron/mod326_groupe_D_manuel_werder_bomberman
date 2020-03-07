@@ -31,7 +31,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 		super("Bombermen");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setPreferredSize(BOMBERMAN_FRAME_SIZE);
+		setPreferredSize(BOMBERMEN_FRAME_SIZE);
 		setLayout(null);
 //		addWindowListener(new BombermenWindowListener());
 		addWindowListener(new WindowAdapter() {
