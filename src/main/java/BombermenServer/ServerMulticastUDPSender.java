@@ -34,10 +34,8 @@ public class ServerMulticastUDPSender extends Thread implements JSONEncode {
 						packet = new DatagramPacket(buffer, buffer.length, GROUP, PORT);
 						socket.send(packet);
 						System.out.println(new String(packet.getData(), 0, packet.getLength()));
-						sleep(0, 10000);
-					} else {
-						sleep(0, 500000);
 					}
+						sleep(0, 1000);
 				}
 			} catch (Exception exception) {
 				exception.printStackTrace();

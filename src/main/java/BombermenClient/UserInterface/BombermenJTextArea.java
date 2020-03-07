@@ -12,12 +12,13 @@ public final class BombermenJTextArea extends JTextArea {
 		setFont(new Font("DialogInput", Font.PLAIN, 16));
 		setEditable(false);
 		setTabSize(4);
+
 	}
 
 	@Override
 	public void append(String message) {
-		setForeground(Color.BLACK);
 		super.append(message);
+		setCaretPosition(getDocument().getLength() -1);
 	}
 
 	public void appendSuccess(String message) {

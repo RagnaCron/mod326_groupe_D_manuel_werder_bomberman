@@ -19,6 +19,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 	private BombermenJButton signInButton;
 	private String userName = "";
 	private BombermenJTextArea textArea;
+	private Labyrinth labyrinth;
 
 	private ConcurrentLinkedQueue<Message> inputQueue = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Message> outputQueue = new ConcurrentLinkedQueue<>();
@@ -62,12 +63,14 @@ public final class Bombermen extends JFrame implements GameConstants {
 
 	private void connectToServer() {
 		serverConnection = new ClientServerProxy(inputQueue, outputQueue, textArea);
-//		serverConnection.addPropertyChangeListener();
-		serverConnection.execute();
+//		serverConnection.addPropertyChangeListener(event -> {
+//			System.err.format("Hello form the PropertyChangeListener: %s%n", event.getPropertyName());
+//		});
+		serverConnection.start();
 	}
 
 	private void loadLabyrinth() {
-		Labyrinth labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
+		labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
 //		labyrinth.addKeyListener(new UserGameKeyboardInput());
 		add(labyrinth);

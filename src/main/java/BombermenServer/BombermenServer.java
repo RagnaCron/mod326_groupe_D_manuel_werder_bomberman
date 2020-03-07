@@ -35,20 +35,12 @@ public class BombermenServer extends Thread implements JSONEncode {
 		try {
 			inputServer = new ServerSocket(INPUT_PORT);
 			InetAddress group = InetAddress.getByName("230.0.0.1");
-//			outputServer = new ServerSocket(OUTPUT_PORT);
-//			inputServer.setReuseAddress(true);
-//			outputServer.setReuseAddress(true);
-//			outputServer.setOption(true, StandardSocketOptions.SO_BROADCAST);
 
 			acceptNewPlayers();
 
-//			Socket outputClient = outputServer.accept();
-//			(new Thread(new ServerSocketListener(inputClient, inputQueue), "Listener Thread")).start();
-//			System.out.println("ServerSocketListener auf " + INPUT_PORT + " gestartet ...");
-//			(new Thread(new ServerSocketSender(outputClient, outputQueue), "Output Thread")).start();
 			(new Thread((new ServerMulticastUDPSender(group, OUTPUT_PORT, outputQueue)), "Output Thread")).start();
-//			System.out.println("ServerSocketSender auf " + INPUT_PORT + " gestartet ...");
-//			System.out.println("Hello, form the Bombermen Thread....");
+
+			System.out.println("Hello, form the Bombermen Thread....");
 //			outputQueue.add(new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."}));
 			 while (true) {
 //				 outputQueue.add(new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."}));
@@ -68,7 +60,6 @@ public class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private void queryMessage(@NotNull Message message) {
-
 		switch (message.getCode()) {
 			case DROP_BOMB:
 				new Thread(() -> {
@@ -100,7 +91,7 @@ public class BombermenServer extends Thread implements JSONEncode {
 
 			case PLAYER_EXIT:
 
-//				break;
+				break;
 
 			default:
 				outputQueue.add(message);

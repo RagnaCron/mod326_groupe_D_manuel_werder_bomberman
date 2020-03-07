@@ -3,6 +3,7 @@ package ExamplesAndFoundations.ch13;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.JSONEncode;
 import BombermenClientServerInterfaces.Messaging.Message;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -31,6 +32,9 @@ public class JsonExample implements JSONEncode {
 
         array = new CustomJSONArray(array.toString());
         System.out.println(array);
+        JSONArray arr = new JSONArray(array.toString());
+        arr.put(1, "playerName");
+        System.out.println(arr);
 
 //        map = jo.toMap();
 //        System.out.println(map);
