@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public abstract class GameElement extends JPanel implements GameConstants {
-	protected Image loadImage(String path){
+public abstract class GameElement extends JLabel implements GameConstants {
+	protected Image loadImage(String path) {
 		return new ImageIcon(path).getImage();
 	}
 }

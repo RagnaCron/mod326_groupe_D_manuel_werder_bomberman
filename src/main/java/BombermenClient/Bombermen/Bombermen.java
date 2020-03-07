@@ -69,7 +69,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 	}
 
 	private void connectToServer() {
-		serverConnection = new ClientServerProxy(inputQueue, outputQueue, textArea, textField, signInButton);
+		serverConnection = new ClientServerProxy(inputQueue, outputQueue, labyrinth, textArea, textField, signInButton);
 //		serverConnection.addPropertyChangeListener(event -> {
 //			System.err.format("Hello form the PropertyChangeListener: %s%n", event.getPropertyName());
 //		});

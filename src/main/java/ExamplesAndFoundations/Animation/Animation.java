@@ -87,10 +87,10 @@ public class Animation extends JFrame{
 				// method.
 				while(true){
 					//Display several images in succession.
-					display(1,500);
-					display(0,500);
-					display(2,500);
-					display(0,500);
+					display(1,300);
+					display(0,300);
+					display(2,300);
+					display(0,300);
 				}//end while loop
 			}catch(Exception ex){
 				if(ex instanceof InterruptedException){
@@ -113,16 +113,17 @@ public class Animation extends JFrame{
 				throws InterruptedException{
 			//Select and display an image.
 			label.setIcon(images[image]);
+			label.setBounds(getX(), getY(), getWidth() + 10, getHeight() + 10);
 			label.repaint();
 			//Check interrupt status.  If interrupted
 			// while not asleep, force animation to
 			// terminate.
-			if(Thread.currentThread().interrupted())
+			if(interrupted())
 				throw(new InterruptedException());
 			//Delay specified number of msec.
 			//Terminate animation automatically if
 			// interrupted while asleep.
-			Thread.currentThread().sleep(delay);
+			sleep(delay);
 		}//end display method
 		//-----------------------------------------//
 	}//end inner class named Animate
