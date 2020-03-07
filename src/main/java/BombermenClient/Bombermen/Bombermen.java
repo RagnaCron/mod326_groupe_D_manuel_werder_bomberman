@@ -5,10 +5,11 @@ import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.BombermenJButton;
 import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClient.UserInterface.BombermenJTextField;
-import BombermenClient.UserInterface.UserEvents.BombermenWindowListener;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static java.lang.Thread.sleep;
@@ -17,7 +18,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 
 	private BombermenJTextField textField;
 	private BombermenJButton signInButton;
-	private String userName = "";
+	private String playerName = "";
 	private BombermenJTextArea textArea;
 	private Labyrinth labyrinth;
 
@@ -32,8 +33,14 @@ public final class Bombermen extends JFrame implements GameConstants {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMAN_FRAME_SIZE);
 		setLayout(null);
-		addWindowListener(new BombermenWindowListener(outputQueue));
-
+//		addWindowListener(new BombermenWindowListener());
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				goodbyePlayer();
+			}
+		});
 		loadServerLogin();
 		loadServerLoggingTextArea();
 		loadLabyrinth();
@@ -78,10 +85,11 @@ public final class Bombermen extends JFrame implements GameConstants {
 
 
 
-	public static void GoodbyePlayer() {
+	public void goodbyePlayer() {
 		new Thread(() -> {
 			try {
-				sleep(2500);
+				inputQueue.add(new Message("player_exit"));
+				sleep(2800);
 				System.exit(0);
 			} catch (Exception ignored) {}
 		}).start();

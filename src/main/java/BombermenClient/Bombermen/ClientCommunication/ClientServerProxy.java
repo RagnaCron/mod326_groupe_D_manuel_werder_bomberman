@@ -1,6 +1,7 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
 import BombermenClient.UserInterface.BombermenJTextArea;
+import BombermenClientServerInterfaces.Messaging.CommandCode;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
 import BombermenClientServerInterfaces.Messaging.Message;
 
@@ -19,6 +20,7 @@ public class ClientServerProxy extends Thread {
 
 //	private Labyrinth labyrinth;
 	private BombermenJTextArea textArea;
+	private String playerName = "";
 
 	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
 	                         ConcurrentLinkedQueue<Message> outputQueue,
@@ -57,16 +59,19 @@ public class ClientServerProxy extends Thread {
 						case BOMB_COLLISION:
 						case BOMB_EXPLODE:
 							break;
-						case SERVER_LOGGING_MESSAGES:
-							break;
-//					case PLAYER_LOGIN:
-//						break;
 						case PLAYER_LOGIN_SUCCESS:
+							playerName = message.getPlayerName();
+							append(message);
+							break;
 						case PLAYER_LOGIN_ERROR:
 							append(message);
 							break;
 						case PLAYER_EXIT:
-							isRunning = false;
+							message.getParameters().put(1, playerName);
+							outputQueue.add(message);
+							break;
+						case PLAYER_GOODBYE:
+							isRunning = isMyGoodbye(message);
 							break;
 						case LOAD_LABYRINTH:
 							break;
@@ -76,10 +81,20 @@ public class ClientServerProxy extends Thread {
 					sleep(0, 1000);
 				}
 			}
+			outputSocket.close();
+			join();
 		} catch (Exception ignored) {}
 	}
 
+	private boolean isMyGoodbye(Message message) {
+		message.removeName();
+		append(message);
+		return !message.getPlayerName().equals(playerName);
+	}
+
 	private void append(Message message) {
+		if (message.getCode() == CommandCode.PLAYER_LOGIN_SUCCESS)
+			message.removeName();
 		textArea.append(parse(message.getParameters()));
 	}
 

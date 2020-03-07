@@ -59,43 +59,59 @@ public class BombermenServer extends Thread implements JSONEncode {
 		}
 	}
 
-	private void queryMessage(@NotNull Message message) {
+	private void queryMessage(Message message) {
+		String name = "";
 		switch (message.getCode()) {
 			case DROP_BOMB:
-				new Thread(() -> {
-					Message m = message;
-					m.setValue(0, "bomb_explode");
-					m.setCode(CommandCode.BOMB_EXPLODE);
-					try {
-//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
-						sleep(1991);
-						outputQueue.add(m);
-//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
-						join();
-					} catch (Exception e) {
-						System.out.println("Error in the queryMessage Method.....");
-						e.printStackTrace();
-					}
-				}, "bomb_explode").start();
+				dropBomb(message);
 				break;
 			case PLAYER_LOGIN:
-				String name = message.getValue(1);
-				Message m;
-				if (playerNames.add(name)) {
-					m = new Message(new String[]{"player_login_success", "Welcome " + name + "!"});
-				} else {
-					m = new Message(new String[]{"player_login_error", "Player name is taken: " + name});
-				}
-				outputQueue.add(m);
+				name = message.getPlayerName();
+				outputQueue.add(loginMessage(message, name));
 				break;
-
 			case PLAYER_EXIT:
-
+				name = message.getPlayerName();
+				outputQueue.add(playerExitMessage(message, name));
 				break;
-
 			default:
 				outputQueue.add(message);
 		}
+	}
+
+	private Message playerExitMessage(Message message, String name) {
+		if (playerNames.remove(name))
+			message =  new Message(new String[]{"player_goodbye", name, "Goodbye " + name + "!"});
+		return message;
+	}
+
+	@NotNull
+	private Message loginMessage(Message message, String name) {
+		if (playerNames.add(name)) {
+			message = new Message(new String[]{"player_login_success", name, "Welcome " + name + "!"});
+		} else {
+			message = new Message(new String[]{"player_login_error", "Player name is taken: " + name});
+		}
+		return message;
+	}
+
+	private void dropBomb(Message message) {
+		Message finalMessage = message;
+		new Thread(() -> {
+			Message m = finalMessage;
+			m.setValue(0, "bomb_explode");
+			m.setCode(CommandCode.BOMB_EXPLODE);
+			try {
+//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
+				sleep(1991);
+				outputQueue.add(m);
+//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
+				join();
+			} catch (Exception e) {
+				System.out.println("Error in the queryMessage Method.....");
+				e.printStackTrace();
+			}
+		}, "bomb_explode").start();
+		return;
 	}
 
 	private void acceptNewPlayers() {

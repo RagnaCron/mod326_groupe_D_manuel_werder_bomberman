@@ -23,9 +23,6 @@ public final class Message {
 			case "bomb_collision":
 				code = CommandCode.BOMB_COLLISION;
 				break;
-			case "logging":
-				code = CommandCode.SERVER_LOGGING_MESSAGES;
-				break;
 			case "player_login":
 				code = CommandCode.PLAYER_LOGIN;
 				break;
@@ -38,12 +35,15 @@ public final class Message {
 			case "player_exit":
 				code = CommandCode.PLAYER_EXIT;
 				break;
+			case "player_goodbye":
+				code = CommandCode.PLAYER_GOODBYE;
+				break;
 			case "load_labyrinth":
 				code = CommandCode.LOAD_LABYRINTH;
 				break;
 			case "error_code":
-			default:
 				code = CommandCode.ERROR_CODE;
+				break;
 		}
 	}
 
@@ -72,4 +72,18 @@ public final class Message {
 		return parameters.getString(index);
 	}
 
+	public boolean contains(String value) {
+		for (var str : parameters)
+			if (str.toString().equals(value))
+				return true;
+		return false;
+	}
+
+	public String getPlayerName() {
+		return parameters.get(1).toString();
+	}
+
+	public void removeName() {
+		parameters.remove(1);
+	}
 }

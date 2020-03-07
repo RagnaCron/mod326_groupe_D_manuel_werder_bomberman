@@ -45,7 +45,7 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 				serverMessage = decode(new CustomJSONArray(received));
 				isRunning = stillRunning(serverMessage);
 				queue.add(serverMessage);
-				sleep(0, 10000);
+				sleep(0, 1000);
 //				System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 			}
 			System.out.format("%s: %s%n", Thread.currentThread().getName(), "Closing this Thread...");
@@ -57,10 +57,10 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 	}
 
 	private boolean stillRunning(Message message) {
-		if (message.getCode() == CommandCode.PLAYER_EXIT && (playerName.isEmpty() || playerName.equals(message.getValue(1)))) {
+		if (message.getCode() == CommandCode.PLAYER_GOODBYE && (playerName.isEmpty() || playerName.equals(message.getValue(1)))) {
 			return false;
 		}
-		else if (message.getCode() == CommandCode.PLAYER_LOGIN_SUCCESS) {
+		else if (message.getCode() == CommandCode.PLAYER_LOGIN_SUCCESS && !playerName.isEmpty()) {
 			playerName = message.getValue(1);
 			return true;
 		}

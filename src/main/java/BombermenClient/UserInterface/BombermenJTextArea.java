@@ -9,7 +9,7 @@ public final class BombermenJTextArea extends JTextArea {
 		super(5, 49);
 		setWrapStyleWord(true);
 		setLineWrap(true);
-		setFont(new Font("DialogInput", Font.PLAIN, 16));
+		setFont(new Font("DialogInput", Font.PLAIN, 14));
 		setEditable(false);
 		setTabSize(4);
 
@@ -21,13 +21,4 @@ public final class BombermenJTextArea extends JTextArea {
 		setCaretPosition(getDocument().getLength() -1);
 	}
 
-	public void appendSuccess(String message) {
-		setForeground(Color.GREEN);
-		super.append(message);
-	}
-
-	public void appendError(String message) {
-		setForeground(Color.RED);
-		super.append(message);
-	}
 }

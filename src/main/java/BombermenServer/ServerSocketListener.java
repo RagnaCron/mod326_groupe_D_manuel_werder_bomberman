@@ -17,7 +17,6 @@ public class ServerSocketListener extends AbstractSocketListener {
 	@Override
 	public void run() {
 		try {
-//			System.out.println("About to start " + Thread.currentThread().getName());
 			Message message;
 			String input;
 			while (true) {
@@ -33,6 +32,7 @@ public class ServerSocketListener extends AbstractSocketListener {
 				sleep(0, 1000);
 			}
 			client.close();
+			join();
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}

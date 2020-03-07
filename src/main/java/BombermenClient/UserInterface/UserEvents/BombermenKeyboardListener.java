@@ -6,8 +6,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static BombermenClient.Bombermen.Bombermen.GoodbyePlayer;
-
 public final class BombermenKeyboardListener extends KeyAdapter {
 	private static BombermenKeyboardListener keyboardListener;
 	private static ConcurrentLinkedQueue<Message> queue;
@@ -25,7 +23,7 @@ public final class BombermenKeyboardListener extends KeyAdapter {
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			queue.add(new Message("player_exit playerID saveGamePoints"));
-			GoodbyePlayer();
+//			GoodbyePlayer();
 		}
 	}
 }
