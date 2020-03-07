@@ -109,7 +109,7 @@ public class Animation extends JFrame{
 		// terminates and throws an
 		// InterruptedException when interrupted
 		// by the mouseExited method.
-		void display(int image,int delay)
+		void display(int image, int delay)
 				throws InterruptedException{
 			//Select and display an image.
 			label.setIcon(images[image]);
