@@ -5,11 +5,11 @@ import BombermenClient.Bombermen.GameConstants;
 import javax.swing.*;
 import java.awt.*;
 
-public class Labyrinth extends JPanel implements GameConstants {
+public final class Labyrinth extends JPanel implements GameConstants {
 
 	private Board labyrinth = Board.CreateDefaultBoard();
 
-
+//	private Player player1 = new Player();
 
 	public Labyrinth(final int width, final int height) {
 		Dimension size = new Dimension(width, height);

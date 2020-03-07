@@ -1,5 +1,6 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
+import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClient.UserInterface.BombermenJTextField;
 import BombermenClientServerInterfaces.Messaging.CommandCode;
@@ -20,7 +21,7 @@ public class ClientServerProxy extends Thread {
 
 	private Socket outputSocket;
 
-//	private Labyrinth labyrinth;
+	private Labyrinth labyrinth;
 	private BombermenJTextArea textArea;
 	private BombermenJTextField textField;
 	private JButton button;
@@ -28,13 +29,14 @@ public class ClientServerProxy extends Thread {
 
 	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
 	                         ConcurrentLinkedQueue<Message> outputQueue,
+	                         Labyrinth labyrinth,
 	                         BombermenJTextArea textArea,
 	                         BombermenJTextField textField,
 	                         JButton button)
 	{
 		this.inputQueue = inputQueue;
 		this.outputQueue = outputQueue;
-//		this.labyrinth = labyrinth;
+		this.labyrinth = labyrinth;
 		this.textArea = textArea;
 		this.textField = textField;
 		this.button = button;
@@ -60,7 +62,6 @@ public class ClientServerProxy extends Thread {
 				if(!inputQueue.isEmpty()) {
 					message = inputQueue.poll();
 					System.err.format("Ready to process Messages... %s%n", message.readFirst());
-//				CustomJSONArray array = message.getParameters();
 					switch (message.getCode()){
 						case MOVE:
 						case DROP_BOMB:
@@ -97,7 +98,8 @@ public class ClientServerProxy extends Thread {
 		playerName = message.getPlayerName();
 		append(message);
 //		textField.setVisible(false);
-		button.setVisible(false);
+//		button.setVisible(false);
+		button.setEnabled(false);
 		textField.setEditable(false);
 	}
 
