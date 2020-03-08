@@ -22,8 +22,8 @@ public final class Bombermen extends JFrame implements GameConstants {
 	private BombermenJTextArea textArea;
 	private Labyrinth labyrinth;
 
-	private ConcurrentLinkedQueue<Message> inputQueue = new ConcurrentLinkedQueue<>();
-	private ConcurrentLinkedQueue<Message> outputQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentLinkedQueue<Message> inputQueue;
+	private ConcurrentLinkedQueue<Message> outputQueue;
 
 	private ClientServerProxy serverConnection;
 
@@ -45,17 +45,27 @@ public final class Bombermen extends JFrame implements GameConstants {
 		loadServerLoggingTextArea();
 		loadLabyrinth();
 
-		connectToServer();
+//		connectToServer();
 
 		pack();
 		setVisible(true);
 	}
 
 	private void loadServerLogin() {
+		signInButton = new BombermenJButton();
+		signInButton.addActionListener((event) -> {
+			inputQueue = new ConcurrentLinkedQueue<>();
+			outputQueue = new ConcurrentLinkedQueue<>();
+			String name = textField.getText().trim();
+			if (!name.isEmpty()) {
+				connectToServer();
+				System.out.println("Ready to send message for login in....");
+				outputQueue.add(new Message("player_login " + name));
+			}
+		});
+		add(signInButton);
 		textField = new BombermenJTextField(outputQueue);
 		add(textField);
-		signInButton = new BombermenJButton(outputQueue, textField);
-		add(signInButton);
 	}
 
 	private void loadServerLoggingTextArea() {
@@ -70,9 +80,6 @@ public final class Bombermen extends JFrame implements GameConstants {
 
 	private void connectToServer() {
 		serverConnection = new ClientServerProxy(inputQueue, outputQueue, labyrinth, textArea, textField, signInButton);
-//		serverConnection.addPropertyChangeListener(event -> {
-//			System.err.format("Hello form the PropertyChangeListener: %s%n", event.getPropertyName());
-//		});
 		serverConnection.start();
 	}
 

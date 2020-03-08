@@ -1,7 +1,6 @@
 package BombermenClient.UserInterface;
 
 import BombermenClient.Bombermen.GameConstants;
-import BombermenClient.UserInterface.UserEvents.BombermenSignInEventListener;
 import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
@@ -15,6 +14,13 @@ public class BombermenJButton extends JButton implements GameConstants {
 		super("Sign In");
 //		this.outputQueue = outputQueue;
 		setBounds(SING_IN_BUTTON_POSITION);
-		addActionListener(new BombermenSignInEventListener(outputQueue, textField));
+//		addActionListener(new BombermenSignInEventListener(outputQueue, textField));
+	}
+
+	public BombermenJButton() {
+		super("Sign In");
+//		this.outputQueue = outputQueue;
+		setBounds(SING_IN_BUTTON_POSITION);
+//		addActionListener(new BombermenSignInEventListener(outputQueue, textField));
 	}
 }
