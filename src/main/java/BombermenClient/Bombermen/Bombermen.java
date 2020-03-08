@@ -96,7 +96,8 @@ public final class Bombermen extends JFrame implements GameConstants {
 	public void goodbyePlayer() {
 		new Thread(() -> {
 			try {
-				inputQueue.add(new Message("player_exit"));
+				if (inputQueue != null)
+					inputQueue.add(new Message("player_exit"));
 				sleep(2000);
 				System.exit(0);
 			} catch (Exception ignored) {}
