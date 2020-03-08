@@ -44,6 +44,9 @@ public final class Message {
 			case "error_code":
 				code = CommandCode.ERROR_CODE;
 				break;
+			case "server_full":
+				code = CommandCode.SERVER_FULL;
+				break;
 		}
 	}
 

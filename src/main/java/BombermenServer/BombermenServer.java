@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @SuppressWarnings("all")
@@ -22,7 +21,8 @@ public class BombermenServer extends Thread implements JSONEncode {
 	private ServerSocket inputServer;
 	private ServerSocket outputServer;
 
-	private Set<String> playerNames = new HashSet<>();
+//	private Set<String> playerNames = new HashSet<>();
+	private HashMap<String, Integer> playerNames = new HashMap<>(8);
 
 	public BombermenServer() {
 		setName("BombermenServer Main Thread");
@@ -79,15 +79,22 @@ public class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private Message playerExitMessage(Message message, String name) {
-		if (playerNames.remove(name))
+		if (playerNames.containsKey(name))
+			playerNames.remove(name);
 			message =  new Message(new String[]{"player_goodbye", name, "Goodbye " + name + "!"});
 		return message;
 	}
 
 	@NotNull
 	private Message loginMessage(Message message, String name) {
-		if (playerNames.add(name)) {
-			message = new Message(new String[]{"player_login_success", name, "Welcome " + name + "!"});
+
+		if (!playerNames.containsKey(name)) {
+			if (playerNames.size() < 1) {
+				playerNames.put(name, 0);
+				message = new Message(new String[]{"player_login_success", name, "Welcome " + name + "!"});
+			} else {
+				message = new Message(new String[]{"server_full", name, "Server is full, try later again..."});
+			}
 		} else {
 			message = new Message(new String[]{"player_login_error", "Player name is taken: " + name});
 		}
@@ -118,7 +125,6 @@ public class BombermenServer extends Thread implements JSONEncode {
 		new Thread(() -> {
 			while (true) {
 				try {
-//						sleep(1);
 					Socket inputClient = inputServer.accept();
 					(new Thread(new ServerSocketListener(inputClient, inputQueue))).start();
 				} catch (Exception exception) {

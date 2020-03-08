@@ -13,12 +13,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 
 	private final int INPUT_PORT;
-	private ConcurrentLinkedQueue<Message> queue;
+	private ConcurrentLinkedQueue<Message> inputQueue;
 	private String playerName = "";
 
 	public ClientMulticastUDPListener(int port, ConcurrentLinkedQueue<Message> queue) {
 		this.INPUT_PORT = port;
-		this.queue = queue;
+		this.inputQueue = queue;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 
 				serverMessage = decode(new CustomJSONArray(received));
 				isRunning = stillRunning(serverMessage);
-				queue.add(serverMessage);
+				inputQueue.add(serverMessage);
 				sleep(0, 1000);
 //				System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 			}
@@ -57,11 +57,14 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 	}
 
 	private boolean stillRunning(Message message) {
-		if (message.getCode() == CommandCode.PLAYER_GOODBYE && (playerName.isEmpty() || playerName.equals(message.getValue(1)))) {
+		if (message.getCode() == CommandCode.PLAYER_GOODBYE && (playerName.isEmpty() || playerName.equals(message.getPlayerName()))) {
+			return false;
+		}
+		else if (message.getCode() == CommandCode.SERVER_FULL && (playerName.isEmpty())) {
 			return false;
 		}
 		else if (message.getCode() == CommandCode.PLAYER_LOGIN_SUCCESS && !playerName.isEmpty()) {
-			playerName = message.getValue(1);
+			playerName = message.getPlayerName();
 			return true;
 		}
 		return true;

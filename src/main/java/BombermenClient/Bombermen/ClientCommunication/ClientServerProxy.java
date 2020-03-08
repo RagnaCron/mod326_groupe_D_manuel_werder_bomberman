@@ -85,13 +85,26 @@ public class ClientServerProxy extends Thread {
 							break;
 						case ERROR_CODE:
 							break;
+						case SERVER_FULL:
+							isRunning = serverIsFull(message);
+							break;
 					}
 					sleep(0, 1000);
 				}
 			}
 			outputSocket.close();
+			inputQueue = null;
+			outputQueue = null;
 			join();
 		} catch (Exception ignored) {}
+	}
+
+	private boolean serverIsFull(Message message) {
+//		button.setEnabled(true);
+//		textField.setEnabled(true);
+		outputQueue.add(new Message("server_full"));
+		append(message);
+		return false;
 	}
 
 	private void loginSuccess(Message message) {
