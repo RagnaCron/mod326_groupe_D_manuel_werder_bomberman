@@ -33,7 +33,6 @@ public final class Bombermen extends JFrame implements GameConstants {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setPreferredSize(BOMBERMEN_FRAME_SIZE);
 		setLayout(null);
-//		addWindowListener(new BombermenWindowListener());
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -54,13 +53,15 @@ public final class Bombermen extends JFrame implements GameConstants {
 	private void loadServerLogin() {
 		signInButton = new BombermenJButton();
 		signInButton.addActionListener((event) -> {
-			inputQueue = new ConcurrentLinkedQueue<>();
-			outputQueue = new ConcurrentLinkedQueue<>();
 			String name = textField.getText().trim();
 			if (!name.isEmpty()) {
+				inputQueue = new ConcurrentLinkedQueue<>();
+				outputQueue = new ConcurrentLinkedQueue<>();
 				connectToServer();
 				System.out.println("Ready to send message for login in....");
 				outputQueue.add(new Message("player_login " + name));
+			} else {
+				textArea.append("You have to enter a valid Name.\n");
 			}
 		});
 		add(signInButton);
@@ -96,7 +97,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 		new Thread(() -> {
 			try {
 				inputQueue.add(new Message("player_exit"));
-				sleep(2300);
+				sleep(2000);
 				System.exit(0);
 			} catch (Exception ignored) {}
 		}).start();

@@ -97,8 +97,6 @@ public class ClientServerProxy extends Thread {
 	private void loginSuccess(Message message) {
 		playerName = message.getPlayerName();
 		append(message);
-//		textField.setVisible(false);
-//		button.setVisible(false);
 		button.setEnabled(false);
 		textField.setEditable(false);
 	}
