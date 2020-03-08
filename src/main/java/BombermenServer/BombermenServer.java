@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -16,14 +17,14 @@ public final class BombermenServer extends Thread implements JSONEncode {
 
 	private static final int INPUT_PORT = 8764;
 	private static final int OUTPUT_PORT = 8768;
-	private static final int MAX_PLAYER_NUMBER = 1;
 	private ConcurrentLinkedQueue<Message> inputQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
 	private ServerSocket inputServer;
 	private ServerSocket outputServer;
 
-//	private Set<String> playerNames = new HashSet<>();
+	private static final int MAX_PLAYER_NUMBER = 1;
 	private HashMap<String, Integer> playerNames = new HashMap<>(8);
+	private boolean hasGameStarted = false;
 
 	public BombermenServer() {
 		setName("BombermenServer Main Thread");
@@ -40,12 +41,12 @@ public final class BombermenServer extends Thread implements JSONEncode {
 			(new Thread((new ServerMulticastUDPSender(group, OUTPUT_PORT, outputQueue)), "Output Thread")).start();
 			System.out.println("Hello, form the Bombermen Thread....");
 			 while (true) {
+				 startNewGame();
 				if (!inputQueue.isEmpty()) {
 					Message message = inputQueue.poll();
 					queryMessage(message);
-				} else {
-					sleep(1000);
 				}
+				sleep(1000);
 			 }
 		} catch (Exception exception) {
 			System.out.println("Error in the Run Method of the main thread.....");
@@ -73,9 +74,13 @@ public final class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private Message playerExitMessage(Message message, String name) {
-		if (playerNames.containsKey(name))
+		if (playerNames.containsKey(name)) {
 			playerNames.remove(name);
+			hasGameStarted = hasGameStarted && !playerNames.isEmpty() ? true : false;
 			message =  new Message(new String[]{"player_goodbye", name, "Goodbye " + name + "!"});
+		} else {
+			message =  new Message(new String[]{"player_goodbye", "Goodbye!"});
+		}
 		return message;
 	}
 
@@ -85,9 +90,6 @@ public final class BombermenServer extends Thread implements JSONEncode {
 			if (playerNames.size() < MAX_PLAYER_NUMBER) {
 				playerNames.put(name, playerNames.size());
 				message = new Message(new String[]{"player_login_success", name, "Welcome " + name + "!"});
-				if (playerNames.size() == MAX_PLAYER_NUMBER) {
-					startNewGame();
-				}
 			} else {
 				message = new Message(new String[]{"server_full", name, "Server is full, try later again..."});
 			}
@@ -98,10 +100,21 @@ public final class BombermenServer extends Thread implements JSONEncode {
 	}
 
 	private void startNewGame() {
-		outputQueue.add(new Message(new String[]{"load_labyrinth", DefaultBoard.toString()}));
-		for (var name : playerNames.keySet()) {
-			outputQueue.add(new Message(new String[]{"start_game", name, playerNames.get(name).toString()}));
+		if (!hasGameStarted && playerNames.size() == MAX_PLAYER_NUMBER) {
+			outputQueue.add(new Message(new String[]{"load_labyrinth",  Arrays.deepToString(DefaultBoard)}));
+			hasGameStarted = true;
+			(new Thread(() -> {
+				try {
+					sleep(2000);
+					for (var name : playerNames.keySet()) {
+						outputQueue.add(new Message(new String[]{"start_game", name, playerNames.get(name).toString()}));
+					}
+					join();
+				} catch (Exception ignored) {}
+			})).start();
 		}
+//		while (startGame.isAlive());
+//		startGame = null;
 	}
 
 	private void dropBomb(Message message) {

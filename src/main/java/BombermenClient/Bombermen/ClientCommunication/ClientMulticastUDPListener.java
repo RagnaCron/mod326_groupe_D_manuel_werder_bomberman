@@ -27,26 +27,20 @@ public class ClientMulticastUDPListener extends Thread implements JSONDecode {
 			MulticastSocket inputSocket = new MulticastSocket(INPUT_PORT);
 			InetAddress address = InetAddress.getByName("230.0.0.1");
 			inputSocket.joinGroup(address);
-
 			DatagramPacket packet;
 			byte[] buffer;
 			String received;
 			Message serverMessage;
-
 			boolean isRunning = true;
 			while (isRunning) {
-				buffer = new byte[256];
+				buffer = new byte[1024];
 				packet = new DatagramPacket(buffer, buffer.length);
 				inputSocket.receive(packet);
 				received = new String(packet.getData(), 0, packet.getLength());
-
-				System.out.println(received);
-
 				serverMessage = decode(new CustomJSONArray(received));
 				isRunning = stillRunning(serverMessage);
 				inputQueue.add(serverMessage);
 				sleep(0, 1000);
-//				System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 			}
 			System.out.format("%s: %s%n", Thread.currentThread().getName(), "Closing this Thread...");
 			inputSocket.leaveGroup(address);

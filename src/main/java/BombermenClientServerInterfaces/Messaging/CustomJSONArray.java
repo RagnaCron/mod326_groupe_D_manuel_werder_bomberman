@@ -26,4 +26,19 @@ public class CustomJSONArray extends JSONArray implements JSONString {
 		forEach(value -> builder.append(value).append(" "));
 		return builder.toString();
 	}
+
+//	@Override
+//	public CustomJSONArray get(int index) throws JSONException{
+//		return (CustomJSONArray) super.get(index);
+//	}
+//
+//	@Override
+//	public CustomJSONArray getJSONArray(int index) throws JSONException {
+//		return (CustomJSONArray) super.getJSONArray(index);
+//	}
+//
+//	@Override
+//	public int getInt(int index) throws JSONException {
+//		return super.getInt(index);
+//	}
 }

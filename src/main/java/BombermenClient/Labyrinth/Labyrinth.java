@@ -5,13 +5,16 @@ import BombermenClient.GameElements.Player.Player;
 import BombermenClient.GameElements.Player.Player.Direction;
 import BombermenClient.GameElements.Player.Player.PlayerVersion;
 import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
+import BombermenClientServerInterfaces.Messaging.Message;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public final class Labyrinth extends JPanel implements GameConstants {
 
-	private Board labyrinth = Board.CreateInitialGrassBoard();
+	private Board labyrinth;
 
 	private Player grayPlayer = new Player(PlayerVersion.GRAY, Direction.FACING_RIGHT, Player.RIGHT_UPPER_CORNER_POSITION);
 //	private Player greenPlayer = new Player();
@@ -27,18 +30,29 @@ public final class Labyrinth extends JPanel implements GameConstants {
 
 //		addKeyListener(new BombermenGameKeyboardInput());
 
-//		populateLabyrinth();
+
+		labyrinth = Board.CreateInitialGrassBoard();
+	}
+	public Labyrinth(CustomJSONArray array) {
+		Dimension size = new Dimension(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
+		setSize(size);
+		setPreferredSize(size);
+		setMaximumSize(size);
+		setMaximumSize(size);
+		loadPlayingBoard(array);
 	}
 
-	public void loadPlayingBoard(CustomJSONArray array) {
-		labyrinth.populateNewBoard(array);
-	}
-
-	                             @Override
+    @Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		paintBoard(g);
 //		g.drawImage(grayPlayer.getImage(), grayPlayer.getX(), grayPlayer.getY(), this);
+	}
+
+	@Override
+	public void update(Graphics g) {
+		super.update(g);
+		paintBoard(g);
 	}
 
 	private void paintBoard(Graphics g) {
@@ -51,5 +65,27 @@ public final class Labyrinth extends JPanel implements GameConstants {
 		}
 	}
 
+	public void loadPlayingBoard(CustomJSONArray array) {
+		System.err.println("Started to load new board");
+//		labyrinth.populateNewBoard(array);
+		labyrinth.setGenericBoard(array);
+	}
 
+	public void loadPlayers(Message message) {
+
+	}
+
+	public static class ChangeLister implements PropertyChangeListener {
+
+		private CustomJSONArray array;
+
+		public ChangeLister(CustomJSONArray array) {
+			this.array = array;
+		}
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			System.err.println(evt.getNewValue() == "DONE");
+		}
+	}
 }

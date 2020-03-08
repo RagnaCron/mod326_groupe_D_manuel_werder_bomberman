@@ -30,6 +30,8 @@ public class JsonExample implements JSONEncode {
             {"2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2"},
     };
 
+    private final static CustomJSONArray Board = new CustomJSONArray(DefaultBoard);
+
 
     public static void main(String[] args) {
 
@@ -38,10 +40,12 @@ public class JsonExample implements JSONEncode {
         System.err.println(array.toString());
         for (int i = 0; i < array.length(); i++) {
             for (int j = 0; j < array.getJSONArray(i).length(); j++) {
-                    System.err.print(array.getJSONArray(i).getInt(j));
+                    System.err.print(array.getJSONArray(i).getInt(j) + "  ");
             }
             System.err.println();
         }
+
+        System.err.println(Board.toString());
 
 //        Map<String, String> map = new HashMap<>();
 //        map.put("name", "jon doe");

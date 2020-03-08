@@ -1,5 +1,6 @@
 package BombermenClient.Bombermen.ClientCommunication;
 
+import BombermenClient.Bombermen.Bombermen;
 import BombermenClient.Labyrinth.Labyrinth;
 import BombermenClient.UserInterface.BombermenJTextArea;
 import BombermenClient.UserInterface.BombermenJTextField;
@@ -17,6 +18,7 @@ public class ClientServerProxy extends Thread {
 	private static final int OUTPUT_PORT = 8764;
 
 	private ConcurrentLinkedQueue<Message> inputQueue;
+//	private ConcurrentLinkedQueue<Message> deliveryQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
 
 	private Socket outputSocket;
@@ -27,14 +29,20 @@ public class ClientServerProxy extends Thread {
 	private JButton button;
 	private String playerName = "";
 
-	public ClientServerProxy(ConcurrentLinkedQueue<Message> inputQueue,
-	                         ConcurrentLinkedQueue<Message> outputQueue,
-	                         Labyrinth labyrinth,
-	                         BombermenJTextArea textArea,
-	                         BombermenJTextField textField,
-	                         JButton button)
+	private Bombermen bombermen;
+
+	public ClientServerProxy(Bombermen bombermen,
+	                         ConcurrentLinkedQueue<Message> inputQueue,
+//	                         ConcurrentLinkedQueue<Message> deliveryQueue,
+                             ConcurrentLinkedQueue<Message> outputQueue,
+                             Labyrinth labyrinth,
+                             BombermenJTextArea textArea,
+                             BombermenJTextField textField,
+                             JButton button)
 	{
+		this.bombermen = bombermen;
 		this.inputQueue = inputQueue;
+//		this.deliveryQueue = deliveryQueue;
 		this.outputQueue = outputQueue;
 		this.labyrinth = labyrinth;
 		this.textArea = textArea;
@@ -61,7 +69,7 @@ public class ClientServerProxy extends Thread {
 			while (isRunning) {
 				if(!inputQueue.isEmpty()) {
 					message = inputQueue.poll();
-					System.err.format("Ready to process Messages... %s%n", message.readFirst());
+					System.err.format("Ready to process Messages... %s%n", message.getParameters().toJSONString());
 					switch (message.getCode()){
 						case MOVE:
 						case DROP_BOMB:
@@ -82,6 +90,12 @@ public class ClientServerProxy extends Thread {
 							isRunning = isMyGoodbye(message);
 							break;
 						case LOAD_LABYRINTH:
+							System.out.println("Time to load the labyrinth...");
+							loadBoard(message);
+							break;
+						case START_GAME:
+							labyrinth.loadPlayers(message);
+							append(message);
 							break;
 						case ERROR_CODE:
 							break;
@@ -89,7 +103,7 @@ public class ClientServerProxy extends Thread {
 							isRunning = serverIsFull(message);
 							break;
 					}
-					sleep(0, 1000);
+					sleep(0, 10000);
 				}
 			}
 			outputSocket.close();
@@ -97,6 +111,34 @@ public class ClientServerProxy extends Thread {
 			outputQueue = null;
 			join();
 		} catch (Exception ignored) {}
+	}
+
+	private void loadBoard(Message message) {
+//		SwingWorker<CustomJSONArray, Message> worker = new SwingWorker<>() {
+//			@Override
+//			protected CustomJSONArray doInBackground() {
+//				return (CustomJSONArray) message.getParameters().getJSONArray(1);
+//			}
+//
+//
+//		};
+//
+//		worker.execute();
+//		worker.addPropertyChangeListener(new Labyrinth.ChangeLister(worker.get()));
+//		worker.firePropertyChange();
+//		worker.execute();
+
+//		(new Thread(() -> {
+//			try {
+//				labyrinth.loadPlayingBoard(new CustomJSONArray(message.getParameters().getInt(1)));
+////				labyrinth = new Labyrinth(new CustomJSONArray(message.getParameters().getInt(1)));
+//				labyrinth.setVisible(true);
+//				labyrinth.updateUI();
+//				sleep(1000);
+//				join();
+//				System.err.println("Should have meade update to labyrinth");
+//			} catch (Exception ignored) {}
+//		})).start();
 	}
 
 	private boolean serverIsFull(Message message) {

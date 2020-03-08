@@ -23,6 +23,7 @@ public final class Bombermen extends JFrame implements GameConstants {
 	private Labyrinth labyrinth;
 
 	private ConcurrentLinkedQueue<Message> inputQueue;
+//	private ConcurrentLinkedQueue<Message> deliveryQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
 
 	private ClientServerProxy serverConnection;
@@ -53,9 +54,9 @@ public final class Bombermen extends JFrame implements GameConstants {
 			String name = textField.getText().trim();
 			if (!name.isEmpty()) {
 				inputQueue = new ConcurrentLinkedQueue<>();
+//				deliveryQueue = new ConcurrentLinkedQueue<>();
 				outputQueue = new ConcurrentLinkedQueue<>();
 				connectToServer();
-				System.out.println("Ready to send message for login in....");
 				outputQueue.add(new Message("player_login " + name));
 			} else {
 				textArea.append("You have to enter a valid Name.\n");
@@ -77,13 +78,14 @@ public final class Bombermen extends JFrame implements GameConstants {
 	}
 
 	private void connectToServer() {
-		serverConnection = new ClientServerProxy(inputQueue, outputQueue, labyrinth, textArea, textField, signInButton);
+		serverConnection = new ClientServerProxy(this, inputQueue, outputQueue, labyrinth, textArea, textField, signInButton);
 		serverConnection.start();
 	}
 
 	private void loadLabyrinth() {
 		labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
+		labyrinth.setVisible(false);
 		add(labyrinth);
 	}
 
