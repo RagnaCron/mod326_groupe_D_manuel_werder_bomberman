@@ -41,6 +41,9 @@ public final class Message {
 			case "load_labyrinth":
 				code = CommandCode.LOAD_LABYRINTH;
 				break;
+			case "start_game":
+				code = CommandCode.START_GAME;
+				break;
 			case "error_code":
 				code = CommandCode.ERROR_CODE;
 				break;

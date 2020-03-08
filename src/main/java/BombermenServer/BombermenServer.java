@@ -12,10 +12,11 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @SuppressWarnings("all")
-public class BombermenServer extends Thread implements JSONEncode {
+public final class BombermenServer extends Thread implements JSONEncode {
 
 	private static final int INPUT_PORT = 8764;
 	private static final int OUTPUT_PORT = 8768;
+	private static final int MAX_PLAYER_NUMBER = 1;
 	private ConcurrentLinkedQueue<Message> inputQueue;
 	private ConcurrentLinkedQueue<Message> outputQueue;
 	private ServerSocket inputServer;
@@ -35,21 +36,14 @@ public class BombermenServer extends Thread implements JSONEncode {
 		try {
 			inputServer = new ServerSocket(INPUT_PORT);
 			InetAddress group = InetAddress.getByName("230.0.0.1");
-
 			acceptNewPlayers();
-
 			(new Thread((new ServerMulticastUDPSender(group, OUTPUT_PORT, outputQueue)), "Output Thread")).start();
-
 			System.out.println("Hello, form the Bombermen Thread....");
-//			outputQueue.add(new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."}));
 			 while (true) {
-//				 outputQueue.add(new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."}));
 				if (!inputQueue.isEmpty()) {
-//					System.out.format("%s\n", Thread.currentThread().getName());
 					Message message = inputQueue.poll();
 					queryMessage(message);
 				} else {
-//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
 					sleep(1000);
 				}
 			 }
@@ -87,11 +81,13 @@ public class BombermenServer extends Thread implements JSONEncode {
 
 	@NotNull
 	private Message loginMessage(Message message, String name) {
-
 		if (!playerNames.containsKey(name)) {
-			if (playerNames.size() < 1) {
-				playerNames.put(name, 0);
+			if (playerNames.size() < MAX_PLAYER_NUMBER) {
+				playerNames.put(name, playerNames.size());
 				message = new Message(new String[]{"player_login_success", name, "Welcome " + name + "!"});
+				if (playerNames.size() == MAX_PLAYER_NUMBER) {
+					startNewGame();
+				}
 			} else {
 				message = new Message(new String[]{"server_full", name, "Server is full, try later again..."});
 			}
@@ -101,6 +97,13 @@ public class BombermenServer extends Thread implements JSONEncode {
 		return message;
 	}
 
+	private void startNewGame() {
+		outputQueue.add(new Message(new String[]{"load_labyrinth", DefaultBoard.toString()}));
+		for (var name : playerNames.keySet()) {
+			outputQueue.add(new Message(new String[]{"start_game", name, playerNames.get(name).toString()}));
+		}
+	}
+
 	private void dropBomb(Message message) {
 		Message finalMessage = message;
 		new Thread(() -> {
@@ -108,17 +111,14 @@ public class BombermenServer extends Thread implements JSONEncode {
 			m.setValue(0, "bomb_explode");
 			m.setCode(CommandCode.BOMB_EXPLODE);
 			try {
-//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1991 milliseconds...");
 				sleep(1991);
 				outputQueue.add(m);
-//						System.err.format("%s: %s%n", Thread.currentThread().getName(), "is going to join");
 				join();
 			} catch (Exception e) {
 				System.out.println("Error in the queryMessage Method.....");
 				e.printStackTrace();
 			}
 		}, "bomb_explode").start();
-		return;
 	}
 
 	private void acceptNewPlayers() {
@@ -133,4 +133,23 @@ public class BombermenServer extends Thread implements JSONEncode {
 			}
 		}, "Accept new User input Thread").start();
 	}
+
+	private final static String[][] DefaultBoard = {
+			{"1","2","2","2","2","2","2","2","2","2","2","2","2","2","2","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","3","3","3","3","3","3","3","3","3","3","3","3","3","3","1"},
+			{"1","3","3","3","3","3","3","3","3","3","3","3","3","3","3","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"1","0","2","0","2","0","2","3","3","2","0","2","0","2","0","1"},
+			{"1","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1"},
+			{"2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2"},
+	};
 }

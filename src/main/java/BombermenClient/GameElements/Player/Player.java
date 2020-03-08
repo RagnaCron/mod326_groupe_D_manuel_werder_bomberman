@@ -36,12 +36,12 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 		this(version, facingDirection, PLAYER_DIMENSION , position);
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D graphics2D = (Graphics2D) g;
-		graphics2D.drawImage(image, getX(), getY(), this);
-	}
+//	@Override
+//	protected void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//		Graphics2D graphics2D = (Graphics2D) g;
+//		graphics2D.drawImage(image, getX(), getY(), this);
+//	}
 
 	public void moving(int direction, int x, int y) {
 		Rectangle rect = new Rectangle(x,y, getWidth(), getHeight());

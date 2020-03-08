@@ -43,9 +43,6 @@ public final class Bombermen extends JFrame implements GameConstants {
 		loadServerLogin();
 		loadServerLoggingTextArea();
 		loadLabyrinth();
-
-//		connectToServer();
-
 		pack();
 		setVisible(true);
 	}
@@ -87,7 +84,6 @@ public final class Bombermen extends JFrame implements GameConstants {
 	private void loadLabyrinth() {
 		labyrinth = new Labyrinth(LABYRINTH_WIDTH, LABYRINTH_HEIGHT);
 		labyrinth.setBounds(LABYRINTH_POSITION);
-//		labyrinth.addKeyListener(new UserGameKeyboardInput());
 		add(labyrinth);
 	}
 
