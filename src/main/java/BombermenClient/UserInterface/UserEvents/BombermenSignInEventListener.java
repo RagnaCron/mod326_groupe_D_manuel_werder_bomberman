@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public final class UserSignInEventListener implements ActionListener {
+public final class BombermenSignInEventListener implements ActionListener {
 
 	private ConcurrentLinkedQueue<Message> outputQueue;
 	private BombermenJTextField textField;
 
-	public UserSignInEventListener(ConcurrentLinkedQueue<Message> outputQueue, BombermenJTextField textField) {
+	public BombermenSignInEventListener(ConcurrentLinkedQueue<Message> outputQueue, BombermenJTextField textField) {
 		this.outputQueue = outputQueue;
 		this.textField = textField;
 	}

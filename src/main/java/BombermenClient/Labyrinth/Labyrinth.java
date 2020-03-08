@@ -2,8 +2,9 @@ package BombermenClient.Labyrinth;
 
 import BombermenClient.Bombermen.GameConstants;
 import BombermenClient.GameElements.Player.Player;
-import BombermenClient.GameElements.Player.Player.PlayerVersion;
 import BombermenClient.GameElements.Player.Player.Direction;
+import BombermenClient.GameElements.Player.Player.PlayerVersion;
+import BombermenClient.UserInterface.UserEvents.BombermenGameKeyboardInput;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,8 @@ public final class Labyrinth extends JPanel implements GameConstants {
 		setPreferredSize(size);
 		setMaximumSize(size);
 		setMaximumSize(size);
+
+		addKeyListener(new BombermenGameKeyboardInput());
 
 //		populateLabyrinth();
 	}
@@ -64,4 +67,6 @@ public final class Labyrinth extends JPanel implements GameConstants {
 			}
 		}
 	}
+
+
 }

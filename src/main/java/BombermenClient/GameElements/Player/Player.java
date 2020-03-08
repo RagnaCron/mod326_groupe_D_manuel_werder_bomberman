@@ -39,8 +39,8 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-//		Graphics2D graphics2D = (Graphics2D) g;
-//		graphics2D.drawImage();
+		Graphics2D graphics2D = (Graphics2D) g;
+		graphics2D.drawImage(image, getX(), getY(), this);
 	}
 
 	public void moving(int direction, int x, int y) {
