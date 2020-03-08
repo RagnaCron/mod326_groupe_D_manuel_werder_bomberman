@@ -1,6 +1,5 @@
 package BombermenClient.GameElements.Tiles;
 
-import BombermenClient.Bombermen.GameConstants;
 import BombermenClient.GameElements.Collide;
 
 import java.awt.*;
@@ -12,7 +11,7 @@ public class DestructibleTile extends Tile implements Collide {
 	}
 
 	public GrassTile destroyTile() {
-		return new GrassTile(GameConstants.GRASS_TILE, getSize(), getBounds());
+		return new GrassTile(GRASS_TILE, getSize(), getBounds());
 	}
 
 	@Override

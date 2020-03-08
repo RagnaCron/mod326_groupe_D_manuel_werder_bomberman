@@ -6,9 +6,7 @@ import lombok.Getter;
 import java.awt.*;
 
 @Getter
-public abstract class Tile extends GameElement {
-// Todo: refactor tile to hold 2 images. background grass and front tile if set is another tile...
-	protected Image image;
+public abstract class Tile extends GameElement implements TilesConstants {
 
 	public Tile(String imagePath, Dimension size, Rectangle position) {
 		super();

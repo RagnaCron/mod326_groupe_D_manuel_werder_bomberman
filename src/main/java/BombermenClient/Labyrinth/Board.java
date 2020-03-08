@@ -1,12 +1,11 @@
 package BombermenClient.Labyrinth;
 
-import BombermenClient.Bombermen.GameConstants;
 import BombermenClient.GameElements.Tiles.*;
 import BombermenClient.GameElements.Tiles.FactoryKit.TileFactory;
 
 import java.awt.*;
 
-public class Board implements GameConstants {
+public class Board implements TilesConstants {
 	private Tile[][] board = new Tile[GRID_SIZE][GRID_SIZE];
 	private TileFactory factory;
 

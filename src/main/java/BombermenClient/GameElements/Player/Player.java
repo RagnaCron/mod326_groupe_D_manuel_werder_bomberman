@@ -2,7 +2,6 @@ package BombermenClient.GameElements.Player;
 
 import BombermenClient.GameElements.Collide;
 import BombermenClient.GameElements.GameElement;
-import lombok.Getter;
 
 import java.awt.*;
 
@@ -13,8 +12,6 @@ public final class Player extends GameElement implements PlayerConstants, Collid
 	private Direction facingDirection;
 	private Moving moving = null;
 	private final PlayerVersion version;
-	@Getter
-	private Image image;
 
 	private Image[] movingUp;
 	private Image[] movingRight;
