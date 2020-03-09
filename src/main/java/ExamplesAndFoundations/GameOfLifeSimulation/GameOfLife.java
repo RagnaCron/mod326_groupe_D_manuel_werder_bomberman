@@ -14,7 +14,7 @@ public class GameOfLife {
     }
 
     public GameOfLife() {
-        new GameOfLife(12, 12);
+        this(12, 12);
     }
 
     boolean[][] initRandomPopulatedWorld() {

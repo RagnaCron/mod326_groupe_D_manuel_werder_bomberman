@@ -43,9 +43,9 @@ public class SimulationView extends JFrame {
 
         fieldView = new FieldView(rowSize, columnSize);
 
-        Container container = getContentPane();
-        container.add(fieldView, BorderLayout.CENTER);
-
+//        Container container = getContentPane();
+//        container.add(fieldView, BorderLayout.CENTER);
+        add(fieldView);
         pack();
         setVisible(true);
     }
