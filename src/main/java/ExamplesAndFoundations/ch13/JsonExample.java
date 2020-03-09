@@ -1,8 +1,8 @@
 package ExamplesAndFoundations.ch13;
 
-import BombermenClientServerInterfaces.Messaging.CustomJSONArray;
-import BombermenClientServerInterfaces.Messaging.JSONEncode;
-import BombermenClientServerInterfaces.Messaging.Message;
+import Old.BombermenClientServerInterfaces.Messaging.CustomJSONArray;
+import Old.BombermenClientServerInterfaces.Messaging.JSONEncode;
+import Old.BombermenClientServerInterfaces.Messaging.Message;
 
 import java.util.Arrays;
 
