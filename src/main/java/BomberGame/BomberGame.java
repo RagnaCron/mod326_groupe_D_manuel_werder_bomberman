@@ -1,6 +1,7 @@
 package BomberGame;
 
 import BomberGame.Constants.BomberGameConstants;
+import BomberGame.GameEntities.Player.PlayerStartPosition;
 import BomberGame.Labyrinth.BomberLabyrinth;
 import BomberGame.UIEntities.BomberJButton;
 import BomberGame.UIEntities.BomberJTextArea;
@@ -26,9 +27,6 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setLocation(INITIAL_LOCATION);
 
 		loadLogin();
-		createStartGameButton();
-		loadLoggingTextArea();
-		loadLabyrinth();
 
 		pack();
 		setVisible(true);
@@ -37,6 +35,9 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 	private void loadLogin() {
 		createSignInButton();
 		createTextField();
+		createStartGameButton();
+		createLoggingTextArea();
+		createLabyrinth();
 	}
 
 	private void createSignInButton() {
@@ -67,18 +68,21 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		startGameButton = new BomberJButton("Start Game", START_GAME_BUTTON_POSITION);
 		startGameButton.setVisible(false);
 		startGameButton.addActionListener(event -> {
-			labyrinth.populateNewBoard(BomberLabyrinth.DefaultBoard);
-			labyrinth.repaint(labyrinth.getBounds());
+			labyrinth.startGame();
+			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
+			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
+			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
+			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
 		});
 		add(startGameButton);
 	}
 
-	private void loadLabyrinth() {
+	private void createLabyrinth() {
 		labyrinth = new BomberLabyrinth(LABYRINTH_SIZE, LABYRINTH_POSITION);
 		add(labyrinth);
 	}
 
-	private void loadLoggingTextArea() {
+	private void createLoggingTextArea() {
 		textArea = new BomberJTextArea();
 		JScrollPane pane  = new JScrollPane(
 				textArea,

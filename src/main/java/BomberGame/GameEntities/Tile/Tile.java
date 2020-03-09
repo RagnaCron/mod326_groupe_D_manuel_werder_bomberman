@@ -10,9 +10,4 @@ public abstract class Tile extends Entity {
 		super(pathToIcon, size, position);
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage((Image) getIcon(), getX(), getY(), this);
-	}
 }

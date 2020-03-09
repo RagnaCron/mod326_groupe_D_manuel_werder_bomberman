@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * Functional interface, an example of the factory-kit design pattern.
  * <br>Instance created locally gives an opportunity to strictly define
  * which objects types the instance of a factory will be able to create.
- * <br>Factory is a placeholder for {@link Builder}s
+ * <br>Factory is a placeholder for {@link TileBuilder}s
  * with {@link TileFactory#create(TileType, String, Dimension, Rectangle)} method to initialize new objects.
  */
 public interface TileFactory {
@@ -28,14 +28,14 @@ public interface TileFactory {
 	Tile create(TileType name, String path, Dimension size, Rectangle position);
 
 	/**
-	 * Creates factory - placeholder for specified {@link Builder}s.
+	 * Creates factory - placeholder for specified {@link TileBuilder}s.
 	 *
 	 * @param consumer for the new builder to the factory.
-	 * @return factory with specified {@link Builder}s
+	 * @return factory with specified {@link TileBuilder}s
 	 */
-	static TileFactory factory(Consumer<Builder> consumer)
+	static TileFactory factory(Consumer<TileBuilder> consumer)
 	{
-		var map = new HashMap<TileType, FactoryFunction>();
+		var map = new HashMap<TileType, TileFactoryFunction>();
 		consumer.accept(map::put);
 		return (type, path, size, position) -> map.get(type).execute(path, size, position);
 	}

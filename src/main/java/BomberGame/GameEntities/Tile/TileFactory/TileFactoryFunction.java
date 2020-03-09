@@ -6,6 +6,6 @@ import BomberGame.GameEntities.Tile.Tile;
 import java.awt.*;
 
 @FunctionalInterface
-public interface FactoryFunction {
+public interface TileFactoryFunction {
 	Tile execute(String imagePath, Dimension size, Rectangle position);
 }

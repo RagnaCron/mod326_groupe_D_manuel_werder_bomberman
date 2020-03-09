@@ -62,11 +62,29 @@ public interface BomberGameConstants {
 	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_destroyable.png";
 	String EMPTY_TILE = "src/main/resources/GameArt/Tiles/tile_empty.png";
 
-	int PLAYER_SIZE = 28;
+	int PLAYER_SIZE = 24;
 	Dimension PLAYER_DIMENSION = new Dimension(PLAYER_SIZE, PLAYER_SIZE);
-	Rectangle RIGHT_UPPER_CORNER_POSITION = new Rectangle(
+	Rectangle LEFT_UPPER_CORNER_POSITION = new Rectangle(
 			(FRAME_WIDTH - LABYRINTH_WIDTH) / 6 - 8,
 			(FRAME_HEIGHT - LABYRINTH_HEIGHT - Y_OFFSET) / 6 - 8,
+			PLAYER_SIZE,
+			PLAYER_SIZE
+	);
+	Rectangle RIGHT_UPPER_CORNER_POSITION = new Rectangle(
+			LABYRINTH_WIDTH - 2 * LABYRINTH_TILE_SIZE + 4,
+			(FRAME_HEIGHT - LABYRINTH_HEIGHT - Y_OFFSET) / 6 - 8,
+			PLAYER_SIZE,
+			PLAYER_SIZE
+	);
+	Rectangle RIGHT_BOTTOM_CORNER_POSITION = new Rectangle(
+			LABYRINTH_WIDTH - 2 * LABYRINTH_TILE_SIZE + 2,
+			LABYRINTH_HEIGHT - (2 * LABYRINTH_TILE_SIZE) + 2,
+			PLAYER_SIZE,
+			PLAYER_SIZE
+	);
+	Rectangle LEFT_BOTTOM_CORNER_POSITION = new Rectangle(
+			(FRAME_WIDTH - LABYRINTH_WIDTH) / 6 - 8,
+			LABYRINTH_HEIGHT - (2 * LABYRINTH_TILE_SIZE) + 2,
 			PLAYER_SIZE,
 			PLAYER_SIZE
 	);
