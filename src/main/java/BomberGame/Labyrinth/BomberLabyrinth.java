@@ -34,6 +34,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		setPreferredSize(size);
 		setBounds(position);
 		populateNewBoard(InitialGrassBoard);
+
 	}
 
 	public void set(int row, int column, Tile tile) {

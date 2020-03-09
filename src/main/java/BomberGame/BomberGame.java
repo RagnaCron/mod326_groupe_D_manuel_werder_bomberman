@@ -25,7 +25,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(BOMBER_FRAME_SIZE);
 		setLocation(INITIAL_LOCATION);
-
+		setFocusable(false);
 		loadLogin();
 
 		pack();
@@ -42,6 +42,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 
 	private void createSignInButton() {
 		signInButton =  new BomberJButton("Sign In", SING_IN_BUTTON_POSITION);
+		signInButton.setFocusable(false);
 		signInButton.addActionListener(event -> {
 			if (!textField.getText().trim().isEmpty()) {
 				playerName = textField.getText().trim();
@@ -56,40 +57,48 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 				textArea.append("You have to enter a valid Name.\n");
 			}
 		});
-		add(signInButton);
+		getContentPane().add(signInButton);
 	}
 
 	private void createTextField() {
 		textField = new BomberJTextField();
-		add(textField);
+		getContentPane().add(textField);
 	}
 
 	private void createStartGameButton() {
 		startGameButton = new BomberJButton("Start Game", START_GAME_BUTTON_POSITION);
 		startGameButton.setVisible(false);
+		startGameButton.setFocusable(false);
 		startGameButton.addActionListener(event -> {
 			labyrinth.startGame();
 			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
-			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
-			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
-			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
+//			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
+//			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
+//			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
+
+
+			startGameButton.setEnabled(false);
+
 		});
-		add(startGameButton);
+		getContentPane().add(startGameButton);
 	}
 
 	private void createLabyrinth() {
 		labyrinth = new BomberLabyrinth(LABYRINTH_SIZE, LABYRINTH_POSITION);
-		add(labyrinth);
+		labyrinth.setFocusable(true);
+		getContentPane().add(labyrinth);
 	}
 
 	private void createLoggingTextArea() {
 		textArea = new BomberJTextArea();
+//		textArea.setFocusable(false);
 		JScrollPane pane  = new JScrollPane(
 				textArea,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pane.setBounds(LOGGING_TEXTAREA_POSITION);
-		add(pane);
+		pane.setFocusable(false);
+		getContentPane().add(pane);
 	}
 
 }

@@ -42,15 +42,16 @@ import java.awt.event.MouseMotionListener;
  * LayeredPaneDemo.java requires
  * images/dukeWaveRed.gif.
  */
+@SuppressWarnings("ALL")
 public class LayeredPaneDemo extends JPanel
 		implements ActionListener,
 		MouseMotionListener {
-	private String[] layerStrings = { "Yellow (0)", "Magenta (1)",
-			"Cyan (2)",   "Red (3)",
-			"Green (4)" };
-	private Color[] layerColors = { Color.yellow, Color.magenta,
-			Color.cyan,   Color.red,
-			Color.green };
+	private String[] layerStrings = {"Yellow (0)", "Magenta (1)",
+			"Cyan (2)", "Red (3)",
+			"Green (4)"};
+	private Color[] layerColors = {Color.yellow, Color.magenta,
+			Color.cyan, Color.red,
+			Color.green};
 
 	private JLayeredPane layeredPane;
 	private JLabel dukeLabel;
@@ -65,11 +66,11 @@ public class LayeredPaneDemo extends JPanel
 	private static final int XFUDGE = 40;
 	private static final int YFUDGE = 57;
 
-	public LayeredPaneDemo()    {
+	public LayeredPaneDemo() {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		//Create and load the duke icon.
-		final ImageIcon icon = createImageIcon("images/dukeWaveRed.gif");
+		final ImageIcon icon = createImageIcon();
 
 		//Create and set up the layered pane.
 		layeredPane = new JLayeredPane();
@@ -89,7 +90,7 @@ public class LayeredPaneDemo extends JPanel
 		for (int i = 0; i < layerStrings.length; i++) {
 			JLabel label = createColoredLabel(layerStrings[i],
 					layerColors[i], origin);
-			layeredPane.add(label, new Integer(i));
+			layeredPane.add(label, i);
 			origin.x += offset;
 			origin.y += offset;
 		}
@@ -115,13 +116,15 @@ public class LayeredPaneDemo extends JPanel
 		add(layeredPane);
 	}
 
-	/** Returns an ImageIcon, or null if the path was invalid. */
-	protected static ImageIcon createImageIcon(String path) {
-		java.net.URL imgURL = LayeredPaneDemo.class.getResource(path);
+	/**
+	 * Returns an ImageIcon, or null if the path was invalid.
+	 */
+	protected static ImageIcon createImageIcon() {
+		java.net.URL imgURL = LayeredPaneDemo.class.getResource("images/dukeWaveRed.gif");
 		if (imgURL != null) {
 			return new ImageIcon(imgURL);
 		} else {
-			System.err.println("Couldn't find file: " + path);
+			System.err.println("Couldn't find file: " + "images/dukeWaveRed.gif");
 			return null;
 		}
 	}
@@ -163,9 +166,11 @@ public class LayeredPaneDemo extends JPanel
 
 	//Make Duke follow the cursor.
 	public void mouseMoved(MouseEvent e) {
-		dukeLabel.setLocation(e.getX()-XFUDGE, e.getY()-YFUDGE);
+		dukeLabel.setLocation(e.getX() - XFUDGE, e.getY() - YFUDGE);
 	}
-	public void mouseDragged(MouseEvent e) {} //do nothing
+
+	public void mouseDragged(MouseEvent e) {
+	} //do nothing
 
 	//Handle user interaction with the check box and combo box.
 	public void actionPerformed(ActionEvent e) {
