@@ -21,6 +21,7 @@ public final class Player extends Entity implements Collide {
 	public Player(Dimension size, Rectangle position, PlayerStartPosition startPosition) {
 		super(PlayerStartPosition.PlayerVersion(startPosition), size, position);
 		this.facingDirection = PlayerStartPosition.FacingDirection(startPosition);
+		loadPlayer(startPosition);
 	}
 
 	@Override
@@ -31,23 +32,31 @@ public final class Player extends Entity implements Collide {
 	public void move(Direction direction) {
 		switch (direction) {
 			case FACING_UP:
+				facingDirection = Direction.FACING_UP;
+				image = movingUp[0];
 				setBounds(getX(), getY()-PLAYER_MOVING_VALUE, getWidth(), getHeight());
 				break;
 			case FACING_RIGHT:
+				facingDirection = Direction.FACING_RIGHT;
+				image = movingRight[0];
 				setBounds(getX()+PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
 				break;
 			case FACING_DOWN:
+				facingDirection = Direction.FACING_DOWN;
+				image = movingDown[0];
 				setBounds(getX(), getY()+PLAYER_MOVING_VALUE, getWidth(), getHeight());
 				break;
 			case FACING_LEFT:
+				facingDirection = Direction.FACING_LEFT;
+				image = movingLeft[0];
 				setBounds(getX()-PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
 				break;
 		}
 	}
 
-	private void loadPlayer(PlayerVersion version) {
+	private void loadPlayer(PlayerStartPosition version) {
 		switch (version) {
-			case GRAY:
+			case LEFT_UPPER_CORNER:
 				movingUp = new Image[] {
 						loadImage(GRAY_PLAYER_UP, PLAYER_SIZE, PLAYER_SIZE),
 						loadImage(GRAY_PLAYER_UP_W_1, PLAYER_SIZE, PLAYER_SIZE),
@@ -73,7 +82,7 @@ public final class Player extends Entity implements Collide {
 						loadImage(GRAY_PLAYER_LEFT_W_3, PLAYER_SIZE, PLAYER_SIZE)
 				};
 				break;
-			case GREEN:
+			case RIGHT_UPPER_CORNER:
 				movingUp = new Image[] {
 						loadImage(GREEN_PLAYER_UP, PLAYER_SIZE, PLAYER_SIZE),
 						loadImage(GREEN_PLAYER_UP_W_1, PLAYER_SIZE, PLAYER_SIZE),
@@ -99,7 +108,7 @@ public final class Player extends Entity implements Collide {
 						loadImage(GREEN_PLAYER_LEFT_W_3, PLAYER_SIZE, PLAYER_SIZE)
 				};
 				break;
-			case PURPLE:
+			case RIGHT_BOTTOM_CORNER:
 				movingUp = new Image[] {
 						loadImage(PURPLE_PLAYER_UP, PLAYER_SIZE, PLAYER_SIZE),
 						loadImage(PURPLE_PLAYER_UP_W_1, PLAYER_SIZE, PLAYER_SIZE),
@@ -125,7 +134,7 @@ public final class Player extends Entity implements Collide {
 						loadImage(PURPLE_PLAYER_LEFT_W_3, PLAYER_SIZE, PLAYER_SIZE)
 				};
 				break;
-			case YELLOW:
+			case LEFT_BOTTOM_CORNER:
 				movingUp = new Image[] {
 						loadImage(YELLOW_PLAYER_UP, PLAYER_SIZE, PLAYER_SIZE),
 						loadImage(YELLOW_PLAYER_UP_W_1, PLAYER_SIZE, PLAYER_SIZE),

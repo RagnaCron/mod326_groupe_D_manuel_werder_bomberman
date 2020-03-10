@@ -119,23 +119,23 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 //					break;
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-					System.out.println("Go up...");
+//					System.out.println("Go up...");
 					labyrinth.movePlayer(playerName, Direction.FACING_UP);
 					break;
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
 					labyrinth.movePlayer(playerName, Direction.FACING_RIGHT);
-					System.out.println("Go right...");
+//					System.out.println("Go right...");
 					break;
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
 					labyrinth.movePlayer(playerName, Direction.FACING_DOWN);
-					System.out.println("Go down...");
+//					System.out.println("Go down...");
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
 					labyrinth.movePlayer(playerName, Direction.FACING_LEFT);
-					System.out.println("Go left...");
+//					System.out.println("Go left...");
 					break;
 				default:
 					break;

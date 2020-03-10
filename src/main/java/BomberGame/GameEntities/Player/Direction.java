@@ -5,8 +5,4 @@ public enum Direction {
 	FACING_RIGHT,
 	FACING_DOWN,
 	FACING_LEFT;
-
-//		Direction newDirection(Direction direction) {
-//			return direction;
-//		}
 }
