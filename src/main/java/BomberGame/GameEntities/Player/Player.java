@@ -19,6 +19,9 @@ public final class Player extends Entity implements Collide {
 	private Image[] movingDown;
 	private Image[] movingLeft;
 
+	private int oldX;
+	private int oldY;
+
 	public Player(Dimension size, Rectangle position, PlayerStartPosition startPosition) {
 		super(PlayerStartPosition.PlayerVersion(startPosition), size, position);
 		this.facingDirection = PlayerStartPosition.FacingDirection(startPosition);
@@ -30,7 +33,17 @@ public final class Player extends Entity implements Collide {
 		return canCollide && getBounds().intersects(rect);
 	}
 
+	public int getOldX() {
+		return oldX;
+	}
+
+	public int getOldY() {
+		return oldY;
+	}
+
 	public void move(Direction direction) {
+		oldX = getX();
+		oldY = getY();
 		switch (direction) {
 			case FACING_UP:
 				facingDirection = Direction.FACING_UP;
