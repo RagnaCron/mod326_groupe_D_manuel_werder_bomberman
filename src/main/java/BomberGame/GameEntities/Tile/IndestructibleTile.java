@@ -11,4 +11,9 @@ public final class IndestructibleTile extends Tile implements Collide {
 		canCollide = true;
 	}
 
+	@Override
+	public boolean isGrass() {
+		return false;
+	}
+
 }

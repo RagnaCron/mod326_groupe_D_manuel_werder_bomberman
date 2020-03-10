@@ -22,4 +22,12 @@ public abstract class Entity extends JLabel implements BomberGameConstants, Imag
 		this.image = image;
 		repaint(getBounds());
 	}
+
+	public int getPositionX() {
+		return getX() / LABYRINTH_TILE_SIZE;
+	}
+
+	public int getPositionY() {
+		return getY() / LABYRINTH_TILE_SIZE;
+	}
 }

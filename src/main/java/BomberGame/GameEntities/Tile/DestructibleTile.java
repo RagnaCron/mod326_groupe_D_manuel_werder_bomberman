@@ -9,6 +9,12 @@ public final class DestructibleTile extends Tile implements Collide {
 	public DestructibleTile(String imagePath, Dimension size, Rectangle position) {
 		super(imagePath, size, position);
 		canCollide = true;
+		isDestroyable = true;
+	}
+
+	@Override
+	public boolean isGrass() {
+		return false;
 	}
 
 	public GrassTile destroyTile() {

@@ -8,4 +8,9 @@ public final class GrassTile extends Tile {
 		super(pathToIcon, size, position);
 	}
 
+	@Override
+	public boolean isGrass() {
+		return true;
+	}
+
 }

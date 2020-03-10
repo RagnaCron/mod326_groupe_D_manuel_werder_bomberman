@@ -8,10 +8,14 @@ import lombok.Setter;
 
 import java.awt.*;
 
+import static java.lang.Thread.sleep;
+
 public final class Player extends Entity implements Collide {
 
-	private boolean canCollide = true;
 	@Getter @Setter
+	private boolean isALife = true;
+	private boolean canCollide = true;
+//	@Getter @Setter
 	private Direction facingDirection;
 
 	private Image[] movingUp;
@@ -19,7 +23,11 @@ public final class Player extends Entity implements Collide {
 	private Image[] movingDown;
 	private Image[] movingLeft;
 
+	private Thread animation;
+
+	@Getter
 	private int oldX;
+	@Getter
 	private int oldY;
 
 	public Player(Dimension size, Rectangle position, PlayerStartPosition startPosition) {
@@ -33,52 +41,89 @@ public final class Player extends Entity implements Collide {
 		return canCollide && getBounds().intersects(rect);
 	}
 
-	public int getOldX() {
-		return oldX;
-	}
-
-	public int getOldY() {
-		return oldY;
-	}
-
-
-
 	public void move(Direction direction) {
 		oldX = getX();
 		oldY = getY();
+//		System.err.println("[x: " + getPositionX() + ", y: " + getPositionY() + "]");
+		if (animation != null && !(facingDirection == direction))
+			animation.interrupt();
 		switch (direction) {
 			case FACING_UP:
 				facingDirection = Direction.FACING_UP;
+//				moveAnimation(getBounds(), movingUp);
 				image = movingUp[0];
 				setBounds(getX(), getY()-PLAYER_MOVING_VALUE, getWidth(), getHeight());
 				break;
 			case FACING_RIGHT:
 				facingDirection = Direction.FACING_RIGHT;
+//				moveAnimation(getBounds(), movingRight);
 				image = movingRight[0];
 				setBounds(getX()+PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
 				break;
 			case FACING_DOWN:
 				facingDirection = Direction.FACING_DOWN;
+//				moveAnimation(getBounds(), movingDown);
 				image = movingDown[0];
 				setBounds(getX(), getY()+PLAYER_MOVING_VALUE, getWidth(), getHeight());
 				break;
 			case FACING_LEFT:
 				facingDirection = Direction.FACING_LEFT;
+//				moveAnimation(getBounds(), movingLeft);
 				image = movingLeft[0];
 				setBounds(getX()-PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
 				break;
 		}
 	}
 
+	private void moveAnimation(Rectangle rect, Image[] images) {
+		int index = 0;
+		while (true) {
+			display(facingDirection, images[index], rect);
+			index = (index + 1) % movingUp.length;
+		}
+
+	}
+
+	private void display(Direction direction, Image image, Rectangle rect) {
+		animation = new Thread(() -> {
+			this.image = image;
+			setBounds(rect);
+			repaint(rect);
+			try {
+				sleep(1);
+			} catch (InterruptedException ignored) {
+				setInitialDirection(direction);
+			}
+		});
+		animation.start();
+	}
+
 	public Bomb dropBomb(int x, int y) {
 		if (facingDirection == Direction.FACING_UP)
-			return new Bomb(new Rectangle(x, y - BOMB_SIZE, BOMB_SIZE,BOMB_SIZE));
+			return new Bomb(new Rectangle(x, y , BOMB_SIZE,BOMB_SIZE));
 		else if (facingDirection == Direction.FACING_RIGHT)
-			return new Bomb(new Rectangle(x + BOMB_SIZE, y, BOMB_SIZE,BOMB_SIZE));
+			return new Bomb(new Rectangle(x, y, BOMB_SIZE,BOMB_SIZE));
 		else if (facingDirection == Direction.FACING_DOWN)
-			return new Bomb(new Rectangle(x, y + BOMB_SIZE, BOMB_SIZE,BOMB_SIZE));
+			return new Bomb(new Rectangle(x, y, BOMB_SIZE,BOMB_SIZE));
 		else
-			return new Bomb(new Rectangle(x - BOMB_SIZE, y, BOMB_SIZE,BOMB_SIZE));
+			return new Bomb(new Rectangle(x, y, BOMB_SIZE,BOMB_SIZE));
+	}
+
+	private void setInitialDirection(Direction direction) {
+		switch (direction) {
+			case FACING_UP:
+				image = movingUp[0];
+				break;
+			case FACING_RIGHT:
+				image = movingRight[0];
+				break;
+			case FACING_DOWN:
+				image = movingDown[0];
+				break;
+			case FACING_LEFT:
+				image = movingLeft[0];
+				break;
+		}
 	}
 
 	private void loadPlayer(PlayerStartPosition version) {

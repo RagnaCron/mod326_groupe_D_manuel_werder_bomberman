@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class BomberLabyrinth extends JPanel implements BomberGameConstants {
@@ -35,6 +36,11 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	private HashMap<String, Player> players = new HashMap<>(4);
 	private HashMap<String, Bomb> bombs = new HashMap<>(20);
 
+	private Timer timer = new Timer(16, event -> {
+//			System.err.println(e.getActionCommand());
+		repaint();
+	});
+
 	public BomberLabyrinth(Dimension size, Rectangle position) {
 		super();
 		setPreferredSize(size);
@@ -47,13 +53,108 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	}
 
 	public Tile get(int row, int column) {
-		return board[row][column];
+		try {
+			return board[row][column];
+		} catch (Exception ignored) {
+			return null;
+		}
 	}
 
 	@Override
 	protected void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
+		updateGameState();
 		paintGame(graphics);
+	}
+
+
+	private void updateGameState() {
+		ArrayList<String> bombNames = new ArrayList<>(30);
+		for (var bombName : bombs.keySet()) {
+			var bomb = bombs.get(bombName);
+			if (bomb.isExploded())
+				bombNames.add(bombName);
+			for (var pn : players.keySet()) {
+				Player player = players.get(pn);
+				if (bomb.isExploded()) {
+					checkForDestruction(bomb, player);
+				}
+			}
+			killPlayers();
+		}
+		removeExplodedBombs(bombNames);
+	}
+
+	@SuppressWarnings("ALL")
+	private void checkForDestruction(Bomb bomb, Player player) {
+//		Tile bombSitingTile = board[bomb.getPositionX()][bomb.getPositionY()];
+		Tile verticalTileUPOne = get(bomb.getPositionX(), bomb.getPositionY() - 1);
+		Tile verticalTileUPTwo = get(bomb.getPositionX(),bomb.getPositionY() - 2);
+		Tile verticalTileDownOne = get(bomb.getPositionX(), bomb.getPositionY() + 1);
+		Tile verticalTileDownTwo = get(bomb.getPositionX(), bomb.getPositionY() + 2);
+		Tile horizontalTileRightOne = get(bomb.getPositionX() + 1, bomb.getPositionY());
+		Tile horizontalTileRightTwo = get(bomb.getPositionX() + 2, bomb.getPositionY());
+		Tile horizontalTileLeftOne = get(bomb.getPositionX() - 1, bomb.getPositionY());
+		Tile horizontalTileLeftTwo = get(bomb.getPositionX() - 2, bomb.getPositionY());
+
+		boolean verticalPlayerHitUPOne = bomb.getPositionY() - 1 == player.getPositionY();
+		boolean verticalPlayerHitUPTwo = bomb.getPositionY() - 2 == player.getPositionY();
+		boolean verticalPlayerHitDownOne = bomb.getPositionY() + 1 == player.getPositionY();
+		boolean verticalPlayerHitDownTwo = bomb.getPositionY() + 2 == player.getPositionY();
+		boolean horizontalPlayerHitRightOne = bomb.getPositionX() + 1 == player.getPositionX();
+		boolean horizontalPlayerHitRightTwo = bomb.getPositionX() + 2 == player.getPositionX();
+		boolean horizontalPlayerHitLeftOne = bomb.getPositionX() - 1 == player.getPositionX();
+		boolean horizontalPlayerHitLeftTwo = bomb.getPositionX() - 2 == player.getPositionX();
+
+		destroy(verticalTileUPOne, verticalTileUPTwo, player,
+				verticalPlayerHitUPOne, verticalPlayerHitUPTwo);
+		destroy(verticalTileDownOne, verticalTileDownTwo, player,
+				verticalPlayerHitDownOne, verticalPlayerHitDownTwo);
+		destroy(horizontalTileRightOne, horizontalTileRightTwo, player,
+				horizontalPlayerHitRightOne, horizontalPlayerHitRightTwo);
+		destroy(horizontalTileLeftOne, horizontalTileLeftTwo, player,
+				horizontalPlayerHitLeftOne, horizontalPlayerHitLeftTwo);
+	}
+
+	private void removeExplodedBombs(ArrayList<String> bombNames) {
+		bombNames.forEach(n -> bombs.remove(n));
+	}
+
+	private void killPlayers() {
+		ArrayList<String> pn = new ArrayList<>(4);
+		for (var n : players.keySet()){
+			if (!players.get(n).isALife())
+				pn.add(n);
+		}
+		pn.forEach(n -> players.remove(n));
+	}
+
+	@SuppressWarnings("ALL")
+	private void destroy(Tile tile1, Tile tile2, Player player, boolean playerHit1, boolean playerHit2) {
+		if (!tile1.isGrass() && tile1 != null) {
+			if (tile1.isDestroyable()) {
+				destroyTile(tile1);
+				return;
+			}
+		} else {
+			if (playerHit1) {
+				player.setALife(false);
+				return;
+			}
+			if (!tile2.isGrass() && tile2 != null) {
+				if (tile2.isDestroyable()) {
+					destroyTile(tile2);
+				}
+			} else {
+				if (playerHit2)
+					player.setALife(false);
+			}
+		}
+	}
+
+	private void destroyTile(Tile tile) {
+		DestructibleTile dTile = (DestructibleTile) tile;
+		set(dTile.getPositionX(), dTile.getPositionY(), ((DestructibleTile) tile).destroyTile());
 	}
 
 	private void paintGame(Graphics graphics) {
@@ -71,9 +172,8 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 
 	private void paintPlayers(Graphics graphics, Tile tile) {
 		for (var player : players.values()) {
-			if (tile.isCollidingWith(player.getBounds())) {
+			if (tile.isCollidingWith(player.getBounds()))
 				player.setBounds(player.getOldX(), player.getOldY(), player.getWidth(), player.getHeight());
-			}
 			graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
 		}
 	}
@@ -87,6 +187,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		this.playerName = playerName;
 		this.addKeyListener(new GameKeyboardListener());
 		populateNewBoard(DefaultBoard);
+		timer.start();
 		repaint();
 	}
 
@@ -117,10 +218,6 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			repaint();
 		}
 	}
-	
-//	public int getPlayerCount() {
-//		return players.size();
-//	}
 
 	private void populateNewBoard(String[][] labyrinthFile) {
 		for (int row = 0; row < GRID_SIZE; row++) {
