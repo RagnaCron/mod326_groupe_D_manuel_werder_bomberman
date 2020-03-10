@@ -15,6 +15,7 @@ public final class Bomb extends Entity {
 
 	public Bomb(Rectangle position) {
 		super(BOMB_1, BOMB_DIMENSION, position);
+		loadBombs();
 	}
 
 	private void loadBombs() {
