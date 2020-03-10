@@ -1,6 +1,7 @@
 package BomberGame;
 
 import BomberGame.Constants.BomberGameConstants;
+import BomberGame.GameEntities.Player.Direction;
 import BomberGame.GameEntities.Player.PlayerStartPosition;
 import BomberGame.Labyrinth.BomberLabyrinth;
 import BomberGame.UIEntities.BomberJButton;
@@ -78,7 +79,8 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		startGameButton.setFocusable(false);
 		startGameButton.addActionListener(event -> {
 			labyrinth.startGame();
-			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
+			labyrinth.setNewPlayer(playerName, PlayerStartPosition.LEFT_UPPER_CORNER);
+
 //			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
 //			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
 //			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
@@ -98,7 +100,6 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 
 	private void createLoggingTextArea() {
 		textArea = new BomberJTextArea();
-//		textArea.setFocusable(false);
 		JScrollPane pane  = new JScrollPane(
 				textArea,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -119,17 +120,21 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
 					System.out.println("Go up...");
+					labyrinth.movePlayer(playerName, Direction.FACING_UP);
 					break;
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
+					labyrinth.movePlayer(playerName, Direction.FACING_RIGHT);
 					System.out.println("Go right...");
 					break;
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
+					labyrinth.movePlayer(playerName, Direction.FACING_DOWN);
 					System.out.println("Go down...");
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
+					labyrinth.movePlayer(playerName, Direction.FACING_LEFT);
 					System.out.println("Go left...");
 					break;
 				default:

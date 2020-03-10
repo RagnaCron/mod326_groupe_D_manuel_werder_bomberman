@@ -28,6 +28,23 @@ public final class Player extends Entity implements Collide {
 		return canCollide && getBounds().intersects(rect);
 	}
 
+	public void move(Direction direction) {
+		switch (direction) {
+			case FACING_UP:
+				setBounds(getX(), getY()-PLAYER_MOVING_VALUE, getWidth(), getHeight());
+				break;
+			case FACING_RIGHT:
+				setBounds(getX()+PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
+				break;
+			case FACING_DOWN:
+				setBounds(getX(), getY()+PLAYER_MOVING_VALUE, getWidth(), getHeight());
+				break;
+			case FACING_LEFT:
+				setBounds(getX()-PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
+				break;
+		}
+	}
+
 	private void loadPlayer(PlayerVersion version) {
 		switch (version) {
 			case GRAY:

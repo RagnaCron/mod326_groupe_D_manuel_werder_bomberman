@@ -61,6 +61,7 @@ public interface BomberGameConstants {
 	String GRASS_TILE = "src/main/resources/GameArt/Tiles/tile_grass.png";
 	String DESTROYABLE_TILE = "src/main/resources/GameArt/Tiles/tile_destroyable.png";
 
+	int PLAYER_MOVING_VALUE = 3;
 	int PLAYER_SIZE = 24;
 	Dimension PLAYER_DIMENSION = new Dimension(PLAYER_SIZE, PLAYER_SIZE);
 	Rectangle LEFT_UPPER_CORNER_POSITION = new Rectangle(

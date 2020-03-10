@@ -1,6 +1,7 @@
 package BomberGame.Labyrinth;
 
 import BomberGame.Constants.BomberGameConstants;
+import BomberGame.GameEntities.Player.Direction;
 import BomberGame.GameEntities.Player.Player;
 import BomberGame.GameEntities.Player.PlayerFactory.PlayerFactory;
 import BomberGame.GameEntities.Player.PlayerStartPosition;
@@ -9,7 +10,7 @@ import BomberGame.GameEntities.Tile.TileFactory.TileFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class BomberLabyrinth extends JPanel implements BomberGameConstants {
 
@@ -27,7 +28,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		playerBuilder.add(PlayerStartPosition.RIGHT_BOTTOM_CORNER, Player::new);
 	});
 
-	private ArrayList<Player> players = new ArrayList<>();
+	private HashMap<String, Player> players = new HashMap<>();
 
 	public BomberLabyrinth(Dimension size, Rectangle position) {
 		super();
@@ -63,7 +64,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 
 	private void paintPlayers(Graphics g) {
 		if (players.size() > 0)
-			for (Player player : players) {
+			for (var player : players.values()) {
 				g.drawImage(player.getImage(), player.getX(), player.getY(), this);
 			}
 	}
@@ -73,15 +74,27 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		repaint(getBounds());
 	}
 
-	public void setNewPlayer(PlayerStartPosition facingDirection) {
+	public void setNewPlayer(String playerName, PlayerStartPosition facingDirection) {
 		if (facingDirection == PlayerStartPosition.LEFT_UPPER_CORNER)
-			players.add(playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_UPPER_CORNER_POSITION, facingDirection));
+			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_UPPER_CORNER_POSITION, facingDirection));
 		else if (facingDirection == PlayerStartPosition.RIGHT_UPPER_CORNER)
-			players.add(playerFactory.create(facingDirection, PLAYER_DIMENSION, RIGHT_UPPER_CORNER_POSITION, facingDirection));
+			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, RIGHT_UPPER_CORNER_POSITION, facingDirection));
 		else if (facingDirection == PlayerStartPosition.LEFT_BOTTOM_CORNER)
-			players.add(playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_BOTTOM_CORNER_POSITION, facingDirection));
+			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_BOTTOM_CORNER_POSITION, facingDirection));
 		else if (facingDirection == PlayerStartPosition.RIGHT_BOTTOM_CORNER)
-			players.add(playerFactory.create(facingDirection, PLAYER_DIMENSION, RIGHT_BOTTOM_CORNER_POSITION, facingDirection));
+			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, RIGHT_BOTTOM_CORNER_POSITION, facingDirection));
+	}
+
+	public void movePlayer(String playerName, Direction direction) {
+		if (players.containsKey(playerName)) {
+			Player player = players.get(playerName);
+			player.move(direction);
+			repaint();
+		}
+	}
+	
+	public int getPlayerCount() {
+		return players.size();
 	}
 
 	private void populateNewBoard(String[][] labyrinthFile) {
