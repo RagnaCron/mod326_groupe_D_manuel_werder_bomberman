@@ -50,54 +50,35 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	@Override
 	protected void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
+		paintGame(graphics);
+	}
+
+	private void paintGame(Graphics graphics) {
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
 				int y = (row * LABYRINTH_TILE_SIZE);
 				int x = (col * LABYRINTH_TILE_SIZE);
-				graphics.drawImage(board[row][col].getImage(), x, y, this);
-
-				for (var bomb : bombs.values()) {
-					graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
-				}
 				Tile tile = board[row][col];
-				for (var player : players.values()) {
-					if (tile.isCollidingWith(player.getBounds())) {
-						player.setBounds(player.getOldX(), player.getOldY(), player.getWidth(), player.getHeight());
-					}
-					graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
-				}
+				graphics.drawImage(board[row][col].getImage(), x, y, this);
+				paintBombs(graphics);
+				paintPlayers(graphics, tile);
 			}
 		}
-//		paintBoard(graphics);
-//		paintBombs(graphics);
-//		paintPlayers(graphics);
 	}
 
-//	private void paintBoard(Graphics graphics) {
-//		for (int row = 0; row < GRID_SIZE; row++) {
-//			for (int col = 0; col < GRID_SIZE; col++) {
-//				int y = (row * LABYRINTH_TILE_SIZE);
-//				int x = (col * LABYRINTH_TILE_SIZE);
-//				graphics.drawImage(board[row][col].getImage(), x, y, this);
-//				for (var bomb : bombs.values())
-//					graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
-//				for (var player : players.values()) {
-//					graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
-//				}
-//			}
-//		}
-//	}
-//
-//	private void paintPlayers(Graphics graphics) {
-//			for (var player : players.values()) {
-//				graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
-//			}
-//	}
-//
-//	private void paintBombs(Graphics graphics) {
-//		for (var bomb : bombs.values())
-//			graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
-//	}
+	private void paintPlayers(Graphics graphics, Tile tile) {
+		for (var player : players.values()) {
+			if (tile.isCollidingWith(player.getBounds())) {
+				player.setBounds(player.getOldX(), player.getOldY(), player.getWidth(), player.getHeight());
+			}
+			graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
+		}
+	}
+
+	private void paintBombs(Graphics graphics) {
+		for (var bomb : bombs.values())
+			graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
+	}
 
 	public void startGame() {
 		populateNewBoard(DefaultBoard);
