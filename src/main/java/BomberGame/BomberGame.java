@@ -1,7 +1,6 @@
 package BomberGame;
 
 import BomberGame.Constants.BomberGameConstants;
-import BomberGame.GameEntities.Player.Direction;
 import BomberGame.GameEntities.Player.PlayerStartPosition;
 import BomberGame.Labyrinth.BomberLabyrinth;
 import BomberGame.UIEntities.BomberJButton;
@@ -9,8 +8,6 @@ import BomberGame.UIEntities.BomberJTextArea;
 import BomberGame.UIEntities.BomberJTextField;
 
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public final class BomberGame extends JFrame implements BomberGameConstants {
 
@@ -21,7 +18,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 	private BomberJTextArea textArea;
 	private BomberLabyrinth labyrinth;
 
-	private GameKeyboardListener keyboard;
+//	private GameKeyboardListener keyboard;
 
 	public BomberGame() {
 		super("Bombermen Game");
@@ -32,7 +29,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setLocation(INITIAL_LOCATION);
 		setFocusable(true);
 
-		keyboard = new GameKeyboardListener();
+//		keyboard = new GameKeyboardListener();
 //		addKeyListener(keyboard);
 
 		loadLogin();
@@ -79,16 +76,16 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		startGameButton.setVisible(false);
 		startGameButton.setFocusable(false);
 		startGameButton.addActionListener(event -> {
-			labyrinth.startGame();
-			labyrinth.setNewPlayer(playerName, PlayerStartPosition.LEFT_UPPER_CORNER);
+			labyrinth.startGame(playerName);
+			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
 
 //			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
 //			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
 //			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
 
 			startGameButton.setEnabled(false);
-			addKeyListener(keyboard);
-			labyrinth.addKeyListener(keyboard);
+//			addKeyListener(keyboard);
+//			labyrinth.addKeyListener(keyboard);
 
 		});
 		getContentPane().add(startGameButton);
@@ -110,42 +107,5 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		pane.setFocusable(false);
 		getContentPane().add(pane);
 	}
-
-	private class GameKeyboardListener extends KeyAdapter {
-		private long timeNow = System.currentTimeMillis();
-		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_W:
-				case KeyEvent.VK_UP:
-					labyrinth.movePlayer(playerName, Direction.FACING_UP);
-					break;
-				case KeyEvent.VK_D:
-				case KeyEvent.VK_RIGHT:
-					labyrinth.movePlayer(playerName, Direction.FACING_RIGHT);
-					break;
-				case KeyEvent.VK_S:
-				case KeyEvent.VK_DOWN:
-					labyrinth.movePlayer(playerName, Direction.FACING_DOWN);
-					break;
-				case KeyEvent.VK_A:
-				case KeyEvent.VK_LEFT:
-					labyrinth.movePlayer(playerName, Direction.FACING_LEFT);
-					break;
-				case KeyEvent.VK_SPACE:
-					long timeNew = System.currentTimeMillis();
-					long deltaTime = timeNew - timeNow;
-					if (deltaTime > 1000) {
-						timeNow = timeNew;
-						labyrinth.dropBomb(playerName);
-					}
-					break;
-				default:
-					break;
-			}
-		}
-	}
-
-
 
 }

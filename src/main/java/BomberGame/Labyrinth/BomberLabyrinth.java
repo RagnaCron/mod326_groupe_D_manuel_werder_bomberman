@@ -11,6 +11,8 @@ import BomberGame.GameEntities.Tile.TileFactory.TileFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public final class BomberLabyrinth extends JPanel implements BomberGameConstants {
@@ -29,6 +31,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		playerBuilder.add(PlayerStartPosition.RIGHT_BOTTOM_CORNER, Player::new);
 	});
 
+	private String playerName;
 	private HashMap<String, Player> players = new HashMap<>(4);
 	private HashMap<String, Bomb> bombs = new HashMap<>(20);
 
@@ -80,12 +83,14 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
 	}
 
-	public void startGame() {
+	public void startGame(String playerName) {
+		this.playerName = playerName;
+		this.addKeyListener(new GameKeyboardListener());
 		populateNewBoard(DefaultBoard);
 		repaint();
 	}
 
-	public void setNewPlayer(String playerName, PlayerStartPosition facingDirection) {
+	public void setNewPlayer(PlayerStartPosition facingDirection) {
 		if (facingDirection == PlayerStartPosition.LEFT_UPPER_CORNER)
 			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_UPPER_CORNER_POSITION, facingDirection));
 		else if (facingDirection == PlayerStartPosition.RIGHT_UPPER_CORNER)
@@ -194,6 +199,42 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			{"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
 			{"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
 	};
+
+
+	private class GameKeyboardListener extends KeyAdapter {
+		private long timeNow = System.currentTimeMillis();
+		@Override
+		public void keyPressed(KeyEvent e) {
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_W:
+				case KeyEvent.VK_UP:
+					movePlayer(playerName, Direction.FACING_UP);
+					break;
+				case KeyEvent.VK_D:
+				case KeyEvent.VK_RIGHT:
+					movePlayer(playerName, Direction.FACING_RIGHT);
+					break;
+				case KeyEvent.VK_S:
+				case KeyEvent.VK_DOWN:
+					movePlayer(playerName, Direction.FACING_DOWN);
+					break;
+				case KeyEvent.VK_A:
+				case KeyEvent.VK_LEFT:
+					movePlayer(playerName, Direction.FACING_LEFT);
+					break;
+				case KeyEvent.VK_SPACE:
+					long timeNew = System.currentTimeMillis();
+					long deltaTime = timeNew - timeNow;
+					if (deltaTime > 1000) {
+						timeNow = timeNew;
+						dropBomb(playerName);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
 //	@Override
 //	public void keyTyped(KeyEvent e) {

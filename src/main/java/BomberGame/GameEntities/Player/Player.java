@@ -41,6 +41,8 @@ public final class Player extends Entity implements Collide {
 		return oldY;
 	}
 
+
+
 	public void move(Direction direction) {
 		oldX = getX();
 		oldY = getY();
