@@ -30,6 +30,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(BOMBER_FRAME_SIZE);
 		setLocation(INITIAL_LOCATION);
+		setFocusable(true);
 
 		keyboard = new GameKeyboardListener();
 //		addKeyListener(keyboard);
@@ -86,6 +87,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 //			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
 
 			startGameButton.setEnabled(false);
+			addKeyListener(keyboard);
 			labyrinth.addKeyListener(keyboard);
 
 		});
@@ -110,42 +112,36 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 	}
 
 	private class GameKeyboardListener extends KeyAdapter {
+		private long timeNow = System.currentTimeMillis();
 		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
-//				case KeyEvent.VK_ESCAPE:
-//					System.out.println("Exiting Bombermen Game...");
-//					System.exit(0);
-//					break;
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-//					System.out.println("Go up...");
 					labyrinth.movePlayer(playerName, Direction.FACING_UP);
 					break;
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
 					labyrinth.movePlayer(playerName, Direction.FACING_RIGHT);
-//					System.out.println("Go right...");
 					break;
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
 					labyrinth.movePlayer(playerName, Direction.FACING_DOWN);
-//					System.out.println("Go down...");
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
 					labyrinth.movePlayer(playerName, Direction.FACING_LEFT);
-//					System.out.println("Go left...");
+					break;
+				case KeyEvent.VK_SPACE:
+					long timeNew = System.currentTimeMillis();
+					long deltaTime = timeNew - timeNow;
+					if (deltaTime > 1000) {
+						timeNow = timeNew;
+						labyrinth.dropBomb(playerName);
+					}
 					break;
 				default:
 					break;
-			}
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				System.out.println("Drop bomb...");
 			}
 		}
 	}

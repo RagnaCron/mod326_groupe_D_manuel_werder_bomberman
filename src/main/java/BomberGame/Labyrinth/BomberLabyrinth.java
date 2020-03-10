@@ -1,6 +1,7 @@
 package BomberGame.Labyrinth;
 
 import BomberGame.Constants.BomberGameConstants;
+import BomberGame.GameEntities.Bomb.Bomb;
 import BomberGame.GameEntities.Player.Direction;
 import BomberGame.GameEntities.Player.Player;
 import BomberGame.GameEntities.Player.PlayerFactory.PlayerFactory;
@@ -28,7 +29,8 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		playerBuilder.add(PlayerStartPosition.RIGHT_BOTTOM_CORNER, Player::new);
 	});
 
-	private HashMap<String, Player> players = new HashMap<>();
+	private HashMap<String, Player> players = new HashMap<>(4);
+	private HashMap<String, Bomb> bombs = new HashMap<>(20);
 
 	public BomberLabyrinth(Dimension size, Rectangle position) {
 		super();
@@ -46,32 +48,39 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		paintBoard(g);
-		paintPlayers(g);
+	protected void paintComponent(Graphics graphics) {
+		super.paintComponent(graphics);
+		paintBoard(graphics);
+		paintBombs(graphics);
+		paintPlayers(graphics);
 	}
 
-	private void paintBoard(Graphics g) {
+	private void paintBoard(Graphics graphics) {
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
 				int y = (row * LABYRINTH_TILE_SIZE);
-				int x= (col * LABYRINTH_TILE_SIZE);
-				g.drawImage(board[row][col].getImage(), x, y, this);
+				int x = (col * LABYRINTH_TILE_SIZE);
+				graphics.drawImage(board[row][col].getImage(), x, y, this);
 			}
 		}
 	}
 
-	private void paintPlayers(Graphics g) {
+	private void paintPlayers(Graphics graphics) {
 		if (players.size() > 0)
 			for (var player : players.values()) {
-				g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+				graphics.drawImage(player.getImage(), player.getX(), player.getY(), this);
 			}
+	}
+
+	private void paintBombs(Graphics graphics) {
+		if (bombs.size() > 0) {
+			bombs.forEach((s, bomb) -> graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this));
+		}
 	}
 
 	public void startGame() {
 		populateNewBoard(DefaultBoard);
-		repaint(getBounds());
+		repaint();
 	}
 
 	public void setNewPlayer(String playerName, PlayerStartPosition facingDirection) {
@@ -92,10 +101,19 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			repaint();
 		}
 	}
-	
-	public int getPlayerCount() {
-		return players.size();
+
+	public void dropBomb(String playerName) {
+		if (players.containsKey(playerName)) {
+			Player player = players.get(playerName);
+			Bomb bomb = player.dropBomb(player.getX(), player.getY());
+			bombs.put(playerName + Bomb.getBombID(), bomb);
+			repaint();
+		}
 	}
+	
+//	public int getPlayerCount() {
+//		return players.size();
+//	}
 
 	private void populateNewBoard(String[][] labyrinthFile) {
 		for (int row = 0; row < GRID_SIZE; row++) {

@@ -148,4 +148,10 @@ public interface BomberGameConstants {
 	String YELLOW_PLAYER_LEFT_W_1 =   "src/main/resources/GameArt/YellowPlayer/player_y_left_w_1.png";
 	String YELLOW_PLAYER_LEFT_W_2 =   "src/main/resources/GameArt/YellowPlayer/player_y_left_w_2.png";
 	String YELLOW_PLAYER_LEFT_W_3 =   "src/main/resources/GameArt/YellowPlayer/player_y_left_w_3.png";
+
+	int BOMB_SIZE = 24;
+	Dimension BOMB_DIMENSION = new Dimension(BOMB_SIZE, BOMB_SIZE);
+	String BOMB_1 = "src/main/resources/GameArt/Bomb/bomb_1.png";
+	String BOMB_2 = "src/main/resources/GameArt/Bomb/bomb_2.png";
+	String BOMB_3 = "src/main/resources/GameArt/Bomb/bomb_3.png";
 }

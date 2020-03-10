@@ -1,5 +1,6 @@
 package BomberGame.GameEntities.Player;
 
+import BomberGame.GameEntities.Bomb.Bomb;
 import BomberGame.GameEntities.Collide;
 import BomberGame.GameEntities.Entity;
 import lombok.Getter;
@@ -52,6 +53,17 @@ public final class Player extends Entity implements Collide {
 				setBounds(getX()-PLAYER_MOVING_VALUE, getY(), getWidth(), getHeight());
 				break;
 		}
+	}
+
+	public Bomb dropBomb(int x, int y) {
+		if (facingDirection == Direction.FACING_UP)
+			return new Bomb(new Rectangle(x, y - BOMB_SIZE, BOMB_SIZE,BOMB_SIZE));
+		else if (facingDirection == Direction.FACING_RIGHT)
+			return new Bomb(new Rectangle(x + BOMB_SIZE, y, BOMB_SIZE,BOMB_SIZE));
+		else if (facingDirection == Direction.FACING_DOWN)
+			return new Bomb(new Rectangle(x, y + BOMB_SIZE, BOMB_SIZE,BOMB_SIZE));
+		else
+			return new Bomb(new Rectangle(x - BOMB_SIZE, y, BOMB_SIZE,BOMB_SIZE));
 	}
 
 	private void loadPlayer(PlayerStartPosition version) {
