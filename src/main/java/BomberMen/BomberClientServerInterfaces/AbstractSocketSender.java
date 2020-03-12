@@ -10,12 +10,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class AbstractSocketSender extends Thread implements JSONEncode {
 	protected Socket client;
-	protected ConcurrentLinkedQueue<Message> queue;
+	protected ConcurrentLinkedQueue<Message> outputQueue;
 	protected PrintWriter out;
 
-	public AbstractSocketSender(Socket client, ConcurrentLinkedQueue<Message> queue) {
+	public AbstractSocketSender(Socket client, ConcurrentLinkedQueue<Message> outputQueue) {
 		this.client = client;
-		this.queue = queue;
+		this.outputQueue = outputQueue;
 		try {
 			out = new PrintWriter(client.getOutputStream(), true);
 		} catch (IOException exception) {
@@ -30,14 +30,11 @@ public abstract class AbstractSocketSender extends Thread implements JSONEncode 
 			Message m = new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."});
 			out.println(encode(m));
 			while (true) {
-				if (!queue.isEmpty()) {
-					Message message = queue.poll();
+				if (!outputQueue.isEmpty()) {
+					Message message = outputQueue.poll();
 					out.println(encode(message));
-					sleep(0, 10000);
-				} else {
-//					System.out.format("%s: %s%n", Thread.currentThread().getName(), "Sleeps for 1 milliseconds...");
-					sleep(1);
 				}
+				sleep(0, 1000);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();

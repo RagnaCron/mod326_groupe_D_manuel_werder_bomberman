@@ -68,6 +68,13 @@ public final class Message {
 		return parameters.getString(0);
 	}
 
+	public int size() {
+		var count = 0;
+		for (var ignored : parameters)
+			++count;
+		return count;
+	}
+
 	public boolean setValue(int index, String value) {
 		try {
 			parameters.put(index, value);

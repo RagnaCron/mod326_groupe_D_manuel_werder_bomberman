@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BomberServerSocketListener extends AbstractSocketListener {
-	public BomberServerSocketListener(Socket client, ConcurrentLinkedQueue<Message> queue) {
-		super(client, queue);
+	public BomberServerSocketListener(Socket client, ConcurrentLinkedQueue<Message> inputQueue) {
+		super(client, inputQueue);
 	}
 }
