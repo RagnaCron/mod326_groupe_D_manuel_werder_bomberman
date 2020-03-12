@@ -41,8 +41,9 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 
 	private ConcurrentLinkedQueue<Message> inputQueue;
 
-	private Timer timer = new Timer(16, event -> {
+	private Timer timer = new Timer(1, event -> {
 //			System.err.println(e.getActionCommand());
+
 		repaint();
 	});
 
