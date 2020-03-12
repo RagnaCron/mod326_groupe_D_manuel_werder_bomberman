@@ -103,7 +103,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 						}
 						textArea.append(message.getParameters().toJSONString());
 					}
-					sleep(0, 100000);
+					sleep(0, 1000);
 				}
 			} catch (Exception ignored) {}
 		})).start();
@@ -148,15 +148,16 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 								}
 							}
 							textArea.append(message.getParameters().toJSONString());
+							sleep(0, 50000);
 							continue;
 						}
 						if (message.getCode()  == CommandCode.START_GAME) {
 							isRunning = false;
-							labyrinth.startGame();
-							textArea.append(message.getParameters().toJSONString());
+							labyrinth.startGame(inputQueue);
 						}
+						textArea.append(message.getParameters().toJSONString());
 					}
-					sleep(0, 50000);
+					sleep(1);
 				}
 			} catch (Exception ignored) {}
 		})).start();

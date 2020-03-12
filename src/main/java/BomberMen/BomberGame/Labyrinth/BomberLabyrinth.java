@@ -190,12 +190,13 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	public void loadGame(String playerName) {
 		this.playerName = playerName;
 		populateNewBoard(DefaultBoard);
+		repaint();
 	}
 
-	public void startGame() {
+	public void startGame(ConcurrentLinkedQueue<Message> inputQueue) {
+		this.inputQueue = inputQueue;
 		this.addKeyListener(new GameKeyboardListener());
 		timer.start();
-//		repaint();
 	}
 
 	public void setNewPlayer(PlayerStartPosition facingDirection) {
@@ -207,6 +208,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, LEFT_BOTTOM_CORNER_POSITION, facingDirection));
 		else if (facingDirection == PlayerStartPosition.RIGHT_BOTTOM_CORNER)
 			players.put(playerName, playerFactory.create(facingDirection, PLAYER_DIMENSION, RIGHT_BOTTOM_CORNER_POSITION, facingDirection));
+		repaint();
 	}
 
 	public void movePlayer(String playerName, Direction direction) {

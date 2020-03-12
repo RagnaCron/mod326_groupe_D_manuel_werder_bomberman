@@ -112,14 +112,13 @@ public final class BomberServer extends Thread {
 				try {
 					sleep(2000);
 					for (var name : playerNames.keySet()) {
-						outputQueue.add(new Message(new String[]{"start_game", name, playerNames.get(name).toString()}));
+						outputQueue.add(new Message(new String[]{"player_position", name, playerNames.get(name).toString()}));
 					}
+					outputQueue.add(new Message("start_game"));
 					join();
 				} catch (Exception ignored) {}
 			})).start();
 		}
-//		while (startGame.isAlive());
-//		startGame = null;
 	}
 
 	private void dropBomb(Message message) {
