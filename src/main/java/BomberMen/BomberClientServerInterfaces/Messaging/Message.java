@@ -38,6 +38,9 @@ public final class Message {
 			case "player_goodbye":
 				code = CommandCode.PLAYER_GOODBYE;
 				break;
+			case "player_position":
+				code = CommandCode.PLAYER_POSITION;
+				break;
 			case "load_labyrinth":
 				code = CommandCode.LOAD_LABYRINTH;
 				break;
@@ -93,6 +96,10 @@ public final class Message {
 			if (str.toString().equals(value))
 				return true;
 		return false;
+	}
+
+	public void remove(int index) {
+		parameters.remove(index);
 	}
 
 	public String getPlayerName() {

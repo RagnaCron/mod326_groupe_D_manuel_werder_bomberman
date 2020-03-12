@@ -1,5 +1,6 @@
 package BomberMen.BomberGame.Labyrinth;
 
+import BomberMen.BomberClientServerInterfaces.Messaging.Message;
 import BomberMen.BomberGame.Constants.BomberGameConstants;
 import BomberMen.BomberGame.GameEntities.Bomb.Bomb;
 import BomberMen.BomberGame.GameEntities.Player.Direction;
@@ -15,6 +16,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class BomberLabyrinth extends JPanel implements BomberGameConstants {
 
@@ -35,6 +37,8 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 	private String playerName;
 	private HashMap<String, Player> players = new HashMap<>(4);
 	private HashMap<String, Bomb> bombs = new HashMap<>(20);
+
+	private ConcurrentLinkedQueue<Message> inputQueue;
 
 	private Timer timer = new Timer(16, event -> {
 //			System.err.println(e.getActionCommand());
@@ -183,12 +187,15 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
 	}
 
-	public void startGame(String playerName) {
+	public void loadGame(String playerName) {
 		this.playerName = playerName;
-		this.addKeyListener(new GameKeyboardListener());
 		populateNewBoard(DefaultBoard);
+	}
+
+	public void startGame() {
+		this.addKeyListener(new GameKeyboardListener());
 		timer.start();
-		repaint();
+//		repaint();
 	}
 
 	public void setNewPlayer(PlayerStartPosition facingDirection) {

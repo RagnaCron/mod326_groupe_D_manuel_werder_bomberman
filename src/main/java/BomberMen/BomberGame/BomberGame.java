@@ -1,13 +1,22 @@
 package BomberMen.BomberGame;
 
+import BomberMen.BomberClientServerInterfaces.Messaging.CommandCode;
+import BomberMen.BomberClientServerInterfaces.Messaging.Message;
 import BomberMen.BomberGame.Constants.BomberGameConstants;
 import BomberMen.BomberGame.GameEntities.Player.PlayerStartPosition;
 import BomberMen.BomberGame.Labyrinth.BomberLabyrinth;
+import BomberMen.BomberGame.ServerConnection.BomberClientMulticastUDPListener;
+import BomberMen.BomberGame.ServerConnection.BomberSocketSender;
 import BomberMen.BomberGame.UIEntities.BomberJButton;
 import BomberMen.BomberGame.UIEntities.BomberJTextArea;
 import BomberMen.BomberGame.UIEntities.BomberJTextField;
 
 import javax.swing.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static java.lang.Thread.sleep;
 
 public final class BomberGame extends JFrame implements BomberGameConstants {
 
@@ -18,7 +27,12 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 	private BomberJTextArea textArea;
 	private BomberLabyrinth labyrinth;
 
-//	private GameKeyboardListener keyboard;
+	private static final String GROUP = "230.0.0.1";
+	private static final int INPUT_PORT = 8768;
+	private static final int OUTPUT_PORT = 8764;
+	private ConcurrentLinkedQueue<Message> inputQueue;
+	private ConcurrentLinkedQueue<Message> outputQueue;
+	private Socket outputSocket;
 
 	public BomberGame() {
 		super("Bombermen Game");
@@ -28,12 +42,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setPreferredSize(BOMBER_FRAME_SIZE);
 		setLocation(INITIAL_LOCATION);
 		setFocusable(true);
-
-//		keyboard = new GameKeyboardListener();
-//		addKeyListener(keyboard);
-
 		loadLogin();
-
 		pack();
 		setVisible(true);
 	}
@@ -54,16 +63,50 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 				playerName = textField.getText().trim();
 				textArea.append("Welcome " + playerName + "\n");
 				textArea.append("You can now start a game, you will have to wait if a game is running...\n");
-
-				textField.setEnabled(false);
-				signInButton.setEnabled(false);
-
-				startGameButton.setVisible(true);
+				connectToServer();
 			} else {
 				textArea.append("You have to enter a valid Name.\n");
 			}
 		});
 		getContentPane().add(signInButton);
+	}
+
+	private void connectToServer() {
+		try {
+			this.inputQueue = new ConcurrentLinkedQueue<>();
+			this.outputQueue = new ConcurrentLinkedQueue<>();
+			this.outputSocket = new Socket(InetAddress.getLocalHost().getHostName(), OUTPUT_PORT);
+			(new BomberSocketSender(outputSocket, outputQueue)).start();
+			(new BomberClientMulticastUDPListener(INPUT_PORT, GROUP, inputQueue)).start();
+			outputQueue.add(new Message(new String[]{"player_login", playerName}));
+			validateConnection();
+		} catch (Exception ignored1) {
+			textArea.append("You cannot connect to the server... try later again\n");
+			try {
+				outputSocket.close();
+			} catch (Exception ignored2) {}
+		}
+	}
+
+	private void validateConnection() {
+		(new Thread(() -> {
+			try {
+				boolean isRunning = true;
+				while (isRunning) {
+					if (!inputQueue.isEmpty()) {
+						Message message = inputQueue.poll();
+						if (message.getCode() == CommandCode.PLAYER_LOGIN_SUCCESS) {
+							textField.setEnabled(false);
+							signInButton.setEnabled(false);
+							startGameButton.setVisible(true);
+							isRunning = false;
+						}
+						textArea.append(message.getParameters().toJSONString());
+					}
+					sleep(0, 100000);
+				}
+			} catch (Exception ignored) {}
+		})).start();
 	}
 
 	private void createTextField() {
@@ -76,19 +119,47 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		startGameButton.setVisible(false);
 		startGameButton.setFocusable(false);
 		startGameButton.addActionListener(event -> {
-			labyrinth.startGame(playerName);
-			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
+			labyrinth.loadGame(playerName);
 
-//			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
-//			labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
-//			labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
+			listenForGameStart();
 
 			startGameButton.setEnabled(false);
-//			addKeyListener(keyboard);
-//			labyrinth.addKeyListener(keyboard);
-
 		});
 		getContentPane().add(startGameButton);
+	}
+
+	private void listenForGameStart() {
+		(new Thread(() -> {
+			try {
+				boolean isRunning = true;
+				while (isRunning) {
+					if (!inputQueue.isEmpty()) {
+						Message message = inputQueue.poll();
+						if (message.getCode() == CommandCode.PLAYER_POSITION) {
+							if (message.getPlayerName().equals(playerName)) {
+								if (message.getValue(2).equals("0")) {
+									labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
+								} else if (message.getValue(2).equals("1")) {
+									labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_UPPER_CORNER);
+								} else if (message.getValue(2).equals("2")) {
+									labyrinth.setNewPlayer(PlayerStartPosition.LEFT_BOTTOM_CORNER);
+								} else if (message.getValue(2).equals("3")) {
+									labyrinth.setNewPlayer(PlayerStartPosition.RIGHT_BOTTOM_CORNER);
+								}
+							}
+							textArea.append(message.getParameters().toJSONString());
+							continue;
+						}
+						if (message.getCode()  == CommandCode.START_GAME) {
+							isRunning = false;
+							labyrinth.startGame();
+							textArea.append(message.getParameters().toJSONString());
+						}
+					}
+					sleep(0, 50000);
+				}
+			} catch (Exception ignored) {}
+		})).start();
 	}
 
 	private void createLabyrinth() {

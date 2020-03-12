@@ -21,7 +21,7 @@ public final class BomberServer extends Thread {
 	private ServerSocket inputServer;
 
 	private static final int MAX_PLAYER_NUMBER = 1;
-	private HashMap<String, Integer> playerNames = new HashMap<>(8);
+	private HashMap<String, Integer> playerNames = new HashMap<>(4);
 	private boolean hasGameStarted = false;
 
 	public BomberServer() {

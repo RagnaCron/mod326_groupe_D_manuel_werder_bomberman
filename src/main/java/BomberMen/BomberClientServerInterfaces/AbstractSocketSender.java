@@ -27,8 +27,6 @@ public abstract class AbstractSocketSender extends Thread implements JSONEncode 
 	@Override
 	public void run() {
 		try {
-			Message m = new Message(new String[]{"Hello, world! Welcome to the Bombermen Server."});
-			out.println(encode(m));
 			while (true) {
 				if (!outputQueue.isEmpty()) {
 					Message message = outputQueue.poll();
