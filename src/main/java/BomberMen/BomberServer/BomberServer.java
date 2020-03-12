@@ -58,25 +58,26 @@ public final class BomberServer extends Thread {
 	}
 
 	private void queryMessage(Message message) {
-		String name = "";
+		String name;
 		switch (message.getCode()) {
 			case DROP_BOMB:
 				dropBomb(message);
 				break;
 			case PLAYER_LOGIN:
 				name = message.getPlayerName();
-				outputQueue.add(loginMessage(message, name));
+				outputQueue.add(loginMessage(name));
 				break;
 			case PLAYER_EXIT:
 				name = message.getPlayerName();
-				outputQueue.add(playerExitMessage(message, name));
+				outputQueue.add(playerExitMessage(name));
 				break;
 			default:
 				outputQueue.add(message);
 		}
 	}
 
-	private Message playerExitMessage(Message message, String name) {
+	private Message playerExitMessage(String name) {
+		Message message;
 		if (playerNames.containsKey(name)) {
 			playerNames.remove(name);
 			hasGameStarted = hasGameStarted && !playerNames.isEmpty();
@@ -88,7 +89,8 @@ public final class BomberServer extends Thread {
 	}
 
 	@NotNull
-	private Message loginMessage(Message message, String name) {
+	private Message loginMessage(String name) {
+		Message message;
 		if (!playerNames.containsKey(name)) {
 			if (playerNames.size() < MAX_PLAYER_NUMBER) {
 				playerNames.put(name, playerNames.size());
@@ -121,9 +123,8 @@ public final class BomberServer extends Thread {
 	}
 
 	private void dropBomb(Message message) {
-		Message finalMessage = message;
 		new Thread(() -> {
-			Message m = finalMessage;
+			Message m = message;
 			m.setValue(0, "bomb_explode");
 			m.setCode(CommandCode.BOMB_EXPLODE);
 			try {
@@ -139,7 +140,7 @@ public final class BomberServer extends Thread {
 
 	private void acceptNewPlayers() {
 		new Thread(() -> {
-			while (true) {
+			while (playerNames.size() < 4) {
 				try {
 					Socket inputClient = inputServer.accept();
 					(new Thread(new BomberServerSocketListener(inputClient, inputQueue))).start();
