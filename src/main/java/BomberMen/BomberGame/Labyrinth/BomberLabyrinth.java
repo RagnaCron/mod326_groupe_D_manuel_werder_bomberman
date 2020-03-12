@@ -1,5 +1,6 @@
 package BomberMen.BomberGame.Labyrinth;
 
+import BomberMen.BomberClientServerInterfaces.Messaging.CustomJSONArray;
 import BomberMen.BomberClientServerInterfaces.Messaging.Message;
 import BomberMen.BomberGame.Constants.BomberGameConstants;
 import BomberMen.BomberGame.GameEntities.Bomb.Bomb;
@@ -49,7 +50,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		super();
 		setPreferredSize(size);
 		setBounds(position);
-		populateNewBoard(InitialGrassBoard);
+		populateNewBoard(new CustomJSONArray(InitialGrassBoard));
 	}
 
 	public void set(int row, int column, Tile tile) {
@@ -187,9 +188,9 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 			graphics.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
 	}
 
-	public void loadGame(String playerName) {
+	public void loadGame(String playerName, CustomJSONArray board) {
 		this.playerName = playerName;
-		populateNewBoard(DefaultBoard);
+		populateNewBoard(board);
 		repaint();
 	}
 
@@ -228,28 +229,28 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 		}
 	}
 
-	private void populateNewBoard(String[][] labyrinthFile) {
+	private void populateNewBoard(CustomJSONArray labyrinthFile) {
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
 				int y = (row * LABYRINTH_TILE_SIZE);
 				int x = (col * LABYRINTH_TILE_SIZE);
-				String tile = labyrinthFile[row][col];
+				int tile = labyrinthFile.getJSONArray(row).getInt(col);
 				switch (tile) {
-					case "1":
+					case 1:
 						set(row, col, tileFactory.create(
 								TileType.INDESTRUCTIBLE_TILE_ONE,
 								INDESTRUCTIBLE_TILE_1,
 								TILE_DIMENSION,
 								new Rectangle(x, y, LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE)));
 						break;
-					case "2":
+					case 2:
 						set(row, col, tileFactory.create(
 								TileType.INDESTRUCTIBLE_TILE_TWO,
 								INDESTRUCTIBLE_TILE_2,
 								TILE_DIMENSION,
 								new Rectangle(x, y, LABYRINTH_TILE_SIZE, LABYRINTH_TILE_SIZE)));
 						break;
-					case "3":
+					case 3:
 						set(row, col, tileFactory.create(
 								TileType.DESTRUCTIBLE_TILE,
 								DESTROYABLE_TILE,

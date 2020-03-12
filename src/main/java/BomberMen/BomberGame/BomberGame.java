@@ -1,6 +1,7 @@
 package BomberMen.BomberGame;
 
 import BomberMen.BomberClientServerInterfaces.Messaging.CommandCode;
+import BomberMen.BomberClientServerInterfaces.Messaging.CustomJSONArray;
 import BomberMen.BomberClientServerInterfaces.Messaging.Message;
 import BomberMen.BomberGame.Constants.BomberGameConstants;
 import BomberMen.BomberGame.GameEntities.Player.PlayerStartPosition;
@@ -119,10 +120,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		startGameButton.setVisible(false);
 		startGameButton.setFocusable(false);
 		startGameButton.addActionListener(event -> {
-			labyrinth.loadGame(playerName);
-
 			listenForGameStart();
-
 			startGameButton.setEnabled(false);
 		});
 		getContentPane().add(startGameButton);
@@ -135,7 +133,10 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 				while (isRunning) {
 					if (!inputQueue.isEmpty()) {
 						Message message = inputQueue.poll();
-						if (message.getCode() == CommandCode.PLAYER_POSITION) {
+						if (message.getCode() == CommandCode.LOAD_LABYRINTH) {
+							labyrinth.loadGame(playerName, new CustomJSONArray(message.getParameters().getString(1)));
+						}
+						else if (message.getCode() == CommandCode.PLAYER_POSITION) {
 							if (message.getPlayerName().equals(playerName)) {
 								if (message.getValue(2).equals("0")) {
 									labyrinth.setNewPlayer(PlayerStartPosition.LEFT_UPPER_CORNER);
