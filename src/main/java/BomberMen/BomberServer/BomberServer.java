@@ -80,7 +80,7 @@ public final class BomberServer extends Thread {
 		Message message;
 		if (playerNames.containsKey(name)) {
 			playerNames.remove(name);
-			hasGameStarted = hasGameStarted && !playerNames.isEmpty();
+			hasGameStarted = playerNames.size() > 0 &&  hasGameStarted;
 			message =  new Message(new String[]{"player_goodbye", name, "Goodbye " + name + "!"});
 		} else {
 			message =  new Message(new String[]{"player_goodbye", "Goodbye!"});

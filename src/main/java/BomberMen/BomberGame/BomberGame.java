@@ -13,6 +13,8 @@ import BomberMen.BomberGame.UIEntities.BomberJTextArea;
 import BomberMen.BomberGame.UIEntities.BomberJTextField;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -43,6 +45,20 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 		setPreferredSize(BOMBER_FRAME_SIZE);
 		setLocation(INITIAL_LOCATION);
 		setFocusable(true);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				if (outputQueue != null) {
+					outputQueue.add(new Message("player_exit " + playerName));
+					try {
+						sleep(1000);
+						outputSocket.close();
+					} catch (Exception ignored) {}
+				}
+				System.exit(0);
+			}
+		});
 		loadLogin();
 		pack();
 		setVisible(true);
