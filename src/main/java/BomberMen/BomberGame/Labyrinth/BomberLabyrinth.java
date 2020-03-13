@@ -43,7 +43,7 @@ public final class BomberLabyrinth extends JPanel implements BomberGameConstants
 
 	private Timer timer = new Timer(1, event -> {
 //			System.err.println(e.getActionCommand());
-
+		
 		repaint();
 	});
 
