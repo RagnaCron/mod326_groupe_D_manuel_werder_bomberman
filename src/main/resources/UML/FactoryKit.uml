@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>BombermenClient.GameElements.Tiles.FactoryKit.Builder</OriginalElement>
+  <nodes>
+    <node x="246.25" y="0.0">java.lang.FunctionalInterface</node>
+    <node x="258.0" y="180.0">BombermenClient.GameElements.Tiles.FactoryKit.TileFactory</node>
+    <node x="0.0" y="79.0">BombermenClient.GameElements.Tiles.FactoryKit.FactoryFunction</node>
+    <node x="358.0" y="79.0">BombermenClient.GameElements.Tiles.FactoryKit.Builder</node>
+    <node x="0.0" y="180.0">BombermenClient.GameElements.Tiles.TileType</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="BombermenClient.GameElements.Tiles.FactoryKit.FactoryFunction" target="java.lang.FunctionalInterface">
+      <point x="0.0" y="-28.0" />
+      <point x="169.0" y="54.0" />
+      <point x="291.5" y="54.0" />
+      <point x="-45.25" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.GameElements.Tiles.FactoryKit.Builder" target="java.lang.FunctionalInterface">
+      <point x="0.0" y="-28.0" />
+      <point x="504.5" y="54.0" />
+      <point x="382.0" y="54.0" />
+      <point x="45.25" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="286.0" y="223.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

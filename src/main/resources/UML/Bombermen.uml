@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>BombermenClient.Bombermen.Bombermen</OriginalElement>
+  <nodes>
+    <node x="274.08375000000007" y="99.0">BombermenClient.UserInterface.BombermenJTextField</node>
+    <node x="449.55249999999995" y="515.0">BombermenClient.UserInterface.UserEvents.BombermenKeyboardListener</node>
+    <node x="505.5525" y="436.0">BombermenClient.Bombermen.Bombermen</node>
+    <node x="0.0" y="277.0">BombermenClient.Bombermen.ClientCommunication.ClientServerProxy</node>
+    <node x="204.75958333333347" y="198.0">BombermenClient.UserInterface.UserEvents.UserSignInEventListener</node>
+    <node x="989.5525" y="277.0">javax.swing.JFrame</node>
+    <node x="739.5525" y="277.0">BombermenClient.UserInterface.UserEvents.BombermenWindowListener</node>
+    <node x="187.0" y="277.0">BombermenClient.UserInterface.BombermenJButton</node>
+    <node x="475.08375000000007" y="99.0">BombermenClient.Labyrinth.Labyrinth</node>
+    <node x="409.7500000000001" y="0.0">BombermenClient.Bombermen.GameConstants</node>
+    <node x="544.5525" y="277.0">BombermenClient.UserInterface.BombermenJTextArea</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="BombermenClient.UserInterface.UserEvents.UserSignInEventListener" target="BombermenClient.UserInterface.BombermenJTextField">
+      <point x="52.25" y="-14.5" />
+      <point x="361.50958333333347" y="178.0" />
+      <point x="328.3837500000001" y="178.0" />
+      <point x="-36.19999999999999" y="14.5" />
+    </edge>
+    <edge source="javax.swing.JFrame" target="javax.swing.JFrame">
+      <point x="-30.0" y="14.5" />
+      <point x="1004.5525" y="326.0" />
+      <point x="969.5525" y="326.0" />
+      <point x="969.5525" y="291.5" />
+      <point x="-45.0" y="-0.0" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.Labyrinth.Labyrinth">
+      <point x="-10.406249999999943" y="-14.5" />
+      <point x="550.64625" y="356.0" />
+      <point x="527.115" y="356.0" />
+      <point x="527.115" y="178.0" />
+      <point x="502.83375000000007" y="178.0" />
+      <point x="-27.75" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.UserInterface.UserEvents.BombermenWindowListener">
+      <point x="24.281250000000057" y="-14.5" />
+      <point x="585.33375" y="376.0" />
+      <point x="791.8025" y="376.0" />
+      <point x="-52.25" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.BombermenJButton" target="BombermenClient.UserInterface.BombermenJTextField">
+      <point x="60.0" y="-14.5" />
+      <point x="327.0" y="257.0" />
+      <point x="424.25958333333347" y="257.0" />
+      <point x="424.25958333333347" y="168.0" />
+      <point x="364.58375000000007" y="168.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.Bombermen.GameConstants">
+      <point x="38.15625000000006" y="-14.5" />
+      <point x="599.20875" y="396.0" />
+      <point x="959.0525" y="396.0" />
+      <point x="959.0525" y="49.0" />
+      <point x="540.0625000000001" y="49.0" />
+      <point x="60.8125" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.UserEvents.BombermenKeyboardListener" target="BombermenClient.Bombermen.Bombermen">
+      <point x="5.6843418860808015E-14" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.UserEvents.BombermenWindowListener" target="BombermenClient.Bombermen.Bombermen">
+      <point x="52.25" y="14.5" />
+      <point x="896.3025" y="386.0" />
+      <point x="592.27125" y="386.0" />
+      <point x="31.218750000000057" y="-14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.UserInterface.BombermenJButton">
+      <point x="-38.15624999999994" y="-14.5" />
+      <point x="522.89625" y="396.0" />
+      <point x="227.0" y="396.0" />
+      <point x="-40.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="javax.swing.JFrame">
+      <point x="52.03125000000006" y="-14.5" />
+      <point x="613.08375" y="416.0" />
+      <point x="1064.5525" y="416.0" />
+      <point x="30.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.UserInterface.BombermenJTextField">
+      <point x="-24.281249999999943" y="-14.5" />
+      <point x="536.77125" y="376.0" />
+      <point x="474.30645833333335" y="376.0" />
+      <point x="474.30645833333335" y="158.0" />
+      <point x="400.78375000000005" y="158.0" />
+      <point x="36.19999999999999" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.Bombermen.ClientCommunication.ClientServerProxy">
+      <point x="-52.03124999999994" y="-14.5" />
+      <point x="509.02125000000007" y="416.0" />
+      <point x="41.75" y="416.0" />
+      <point x="-41.75" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.BombermenJButton" target="BombermenClient.UserInterface.UserEvents.UserSignInEventListener">
+      <point x="20.0" y="-14.5" />
+      <point x="287.0" y="257.0" />
+      <point x="309.25958333333347" y="257.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Bombermen.Bombermen" target="BombermenClient.UserInterface.BombermenJTextArea">
+      <point x="3.468750000000057" y="-14.5" />
+      <point x="564.52125" y="346.0" />
+      <point x="588.0525" y="346.0" />
+      <point x="-43.5" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.Labyrinth.Labyrinth" target="BombermenClient.Bombermen.GameConstants">
+      <point x="27.750000000000057" y="-14.5" />
+      <point x="558.3337500000001" y="69.0" />
+      <point x="505.3125000000001" y="69.0" />
+      <point x="26.0625" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.BombermenJButton" target="BombermenClient.Bombermen.GameConstants">
+      <point x="-60.0" y="-14.5" />
+      <point x="207.0" y="257.0" />
+      <point x="183.25958333333347" y="257.0" />
+      <point x="183.25958333333347" y="49.0" />
+      <point x="418.4375000000001" y="49.0" />
+      <point x="-60.8125" y="14.5" />
+    </edge>
+    <edge source="BombermenClient.UserInterface.BombermenJTextField" target="BombermenClient.Bombermen.GameConstants">
+      <point x="45.25" y="-14.5" />
+      <point x="409.83375000000007" y="79.0" />
+      <point x="470.5625000000001" y="79.0" />
+      <point x="-8.6875" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="540.0" y="309.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
