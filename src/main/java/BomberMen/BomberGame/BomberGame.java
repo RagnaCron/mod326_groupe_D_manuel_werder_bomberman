@@ -19,6 +19,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 public final class BomberGame extends JFrame implements BomberGameConstants {
@@ -122,6 +123,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 					}
 					sleep(0, 1000);
 				}
+				currentThread().join();
 			} catch (Exception ignored) {}
 		})).start();
 	}
@@ -176,6 +178,7 @@ public final class BomberGame extends JFrame implements BomberGameConstants {
 					}
 					sleep(1);
 				}
+				currentThread().join();
 			} catch (Exception ignored) {}
 		})).start();
 	}
